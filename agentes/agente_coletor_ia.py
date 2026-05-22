@@ -3,12 +3,16 @@ import json
 import feedparser
 from datetime import datetime
 
-# Feeds focados na Guerra dos Chips, IA e Mercado
+# Feeds focados na Guerra dos Chips, IA e Mercado Asiático
 FEEDS_MERCADO = {
     "Nvidia": "https://finance.yahoo.com/rss/headline?s=NVDA",
     "TSMC": "https://finance.yahoo.com/rss/headline?s=TSM",
-    "Tech_AI": "https://techcrunch.com/category/artificial-intelligence/feed/"
+    "Tech_AI": "https://techcrunch.com/category/artificial-intelligence/feed/",
+    "China_Tech": "https://www.scmp.com/rss/318198/XML" # SCMP Tech
 }
+
+# Palavras-chave de alto valor para o diferencial do portal
+KEYWORDS_CHINESAS = ["Kimi", "Moonshot", "Alibaba", "DeepSeek", "Qwen", "Baidu", "Ernie", "Tencent"]
 
 def coletar_noticias():
     """Coleta as últimas notícias (Top 3) dos feeds RSS estratégicos."""
@@ -16,14 +20,22 @@ def coletar_noticias():
     for categoria, url in FEEDS_MERCADO.items():
         print(f"[*] Coletando feed: {categoria}")
         feed = feedparser.parse(url)
-        for entry in feed.entries[:3]:
+        for entry in feed.entries[:5]: # Busca mais fundo para achar as chinesas
+            titulo = entry.title
+            
+            # Prioridade para notícias sobre modelos chineses (Diferencial do site)
+            is_china_ai = any(kw.lower() in titulo.lower() for kw in KEYWORDS_CHINESAS)
+            if categoria == "China_Tech" and not is_china_ai:
+                continue # Filtra o feed chinês só para IA
+                
             noticias.append({
                 "categoria": categoria,
-                "titulo": entry.title,
+                "titulo": titulo,
                 "link": entry.link,
-                "data": getattr(entry, 'published', datetime.now().isoformat())
+                "data": getattr(entry, 'published', datetime.now().isoformat()),
+                "foco_chines": is_china_ai
             })
-    return noticias
+    return noticias[:10] # Limita o total
 
 def simular_redacao_ia(noticia):
     """

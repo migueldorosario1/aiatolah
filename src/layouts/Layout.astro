@@ -19,6 +19,11 @@ const { title, description } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		
+		<!-- SEO & Internacionalização (Googlebot e Programática) -->
+		<link rel="alternate" hreflang="pt-br" href="https://aiatolah.com/pt" />
+		<link rel="alternate" hreflang="en" href="https://aiatolah.com/en" />
+		<link rel="alternate" hreflang="x-default" href="https://aiatolah.com/en" />
+
 		<!-- Open Graph / Social -->
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={title} />
