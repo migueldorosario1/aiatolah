@@ -1,11 +1,150 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout 
+	title="O Futuro da Inteligência Artificial" 
+	description="Aiatolá - O principal portal bilíngue sobre IA, Guerra dos Chips e Mercado de Tecnologia."
+>
+	<main class="container">
+		<header class="header animate-fade-in delay-1">
+			<div class="logo-container">
+				<div class="logo-glow"></div>
+				<h1 class="logo gradient-text">Aiatolá</h1>
+			</div>
+			<nav class="lang-switch">
+				<a href="#" class="active">PT</a>
+				<a href="#">EN</a>
+			</nav>
+		</header>
+
+		<section class="hero glass-panel animate-fade-in delay-2">
+			<h2 class="gradient-text">O Eixo Geopolítico da Inteligência Artificial</h2>
+			<p>
+				Acompanhe as análises mais profundas sobre a Guerra dos Chips, 
+				o mercado de semicondutores (Nvidia, TSMC) e as inovações que moldam o futuro.
+			</p>
+			
+			<div class="action-buttons">
+				<a href="#" class="btn-neon">Assine o Boletim</a>
+				<a href="#" class="btn-outline">Explorar Análises</a>
+			</div>
+		</section>
+
+		<section class="market-ticker animate-fade-in delay-3">
+			<div class="glass-panel ticker-box">
+				<h3>Nvidia (NVDA)</h3>
+				<span class="price-up">▲ Monitoramento Ativo</span>
+			</div>
+			<div class="glass-panel ticker-box">
+				<h3>Guerra dos Chips</h3>
+				<span class="status">Radar Geopolítico</span>
+			</div>
+		</section>
+	</main>
 </Layout>
+
+<style>
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 2rem 0;
+		margin-bottom: 3rem;
+	}
+
+	.logo-container {
+		position: relative;
+	}
+
+	.logo {
+		font-size: 2.5rem;
+		letter-spacing: -1px;
+	}
+
+	.lang-switch a {
+		color: var(--text-muted);
+		text-decoration: none;
+		margin-left: 1rem;
+		font-weight: 600;
+		transition: color 0.3s;
+	}
+
+	.lang-switch a.active, .lang-switch a:hover {
+		color: var(--accent-primary);
+	}
+
+	.hero {
+		text-align: center;
+		padding: 4rem 2rem;
+		margin-bottom: 4rem;
+	}
+
+	.hero h2 {
+		font-size: 3.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.hero p {
+		font-size: 1.25rem;
+		color: var(--text-muted);
+		max-width: 800px;
+		margin: 0 auto 3rem;
+	}
+
+	.action-buttons {
+		display: flex;
+		gap: 1.5rem;
+		justify-content: center;
+	}
+
+	.btn-outline {
+		display: inline-block;
+		color: var(--text-main);
+		font-weight: 600;
+		padding: 0.75rem 1.5rem;
+		border: 1px solid var(--border-glass);
+		border-radius: 8px;
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.btn-outline:hover {
+		border-color: var(--accent-secondary);
+		background: rgba(112, 0, 255, 0.1);
+	}
+
+	.market-ticker {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.ticker-box {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.ticker-box h3 {
+		font-size: 1.25rem;
+		color: var(--text-muted);
+	}
+
+	.price-up {
+		color: var(--accent-primary);
+		font-weight: 800;
+		font-size: 1.5rem;
+	}
+
+	.status {
+		color: var(--accent-secondary);
+		font-weight: 800;
+		font-size: 1.5rem;
+	}
+
+	@media (max-width: 768px) {
+		.hero h2 { font-size: 2.5rem; }
+		.action-buttons { flex-direction: column; }
+	}
+</style>
