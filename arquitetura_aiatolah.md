@@ -1,7 +1,7 @@
-# Projeto Aiatolá - Arquitetura de Alto Nível
+# Projeto Aiatolah - Arquitetura de Alto Nível
 
 ## 1. Visão Geral do Projeto
-O **Aiatolá** será um portal bilíngue (Português/Inglês) especializado em Inteligência Artificial, focado em geopolítica (Guerra dos Chips), mercado de empresas de tecnologia (ex: Nvidia), inovações e tutoriais. Inspirado no sucesso do *Coffee Business*, o Aiatolá buscará ir além do limite nacional, atingindo uma audiência internacional.
+O **Aiatolah** será um portal bilíngue (Português/Inglês) especializado em Inteligência Artificial, focado em geopolítica (Guerra dos Chips), mercado de empresas de tecnologia (ex: Nvidia), inovações e tutoriais. Inspirado no sucesso do *Coffee Business*, o Aiatolah buscará ir além do limite nacional, atingindo uma audiência internacional.
 
 **Premissas:**
 - **Internacionalização desde a raiz:** Bilíngue nativo.
