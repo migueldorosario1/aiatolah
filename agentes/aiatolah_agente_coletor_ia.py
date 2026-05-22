@@ -1,7 +1,17 @@
 import os
 import json
+import sys
 import feedparser
 from datetime import datetime
+
+# Conectar ao roteador da Trindade (Padrão Ouro Isolado)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Projeto Cafezinho Agentes', 'root')))
+try:
+    from agente_roteador_llm import gerar_texto
+except ImportError:
+    print("[Erro] Não foi possível importar o roteador LLM. Rodando com mock.")
+    def gerar_texto(sys_prompt, prompt, agente_nome="aiatolah", tema="ia", temperature=0.6):
+        return f"[MOCK] Análise gerada pela IA sobre: {prompt[:50]}..."
 
 # Feeds focados na Guerra dos Chips, IA e Mercado Asiático
 FEEDS_MERCADO = {
@@ -35,51 +45,81 @@ def coletar_noticias():
                 "data": getattr(entry, 'published', datetime.now().isoformat()),
                 "foco_chines": is_china_ai
             })
-    return noticias[:10] # Limita o total
+    return noticias[:3] # Limita o total a 3 por rodada para não estourar custos
 
 def simular_redacao_ia(noticia):
     """
-    Espaço reservado para a integração com a Trindade (Claude/Gemini).
-    Aqui a LLM vai receber o link/título, ler o conteúdo, e escrever dois
-    artigos profundos (um em PT e um em EN).
+    Chama a LLM para ler o título e gerar um texto rico focado no mercado e na tecnologia.
+    Gera as duas versões: Inglês (principal) e Português.
     """
-    slug = "".join([c if c.isalnum() else "-" for c in noticia['titulo'].lower()])[:50]
+    slug = "".join([c if c.isalnum() else "-" for c in noticia['titulo'].lower()])[:50].strip('-')
     data_hoje = datetime.now().strftime("%Y-%m-%d")
     
-    # Template Markdown (MDX/MD) que o Astro lê para gerar as páginas
-    conteudo_md = f"""---
-title: "{noticia['titulo']}"
+    print(f"[LLM] Gerando análise para: {noticia['titulo']}")
+    
+    sys_prompt = "Você é um analista experiente focado no mercado global de Inteligência Artificial, semicondutores (Nvidia, TSMC) e modelos da China (DeepSeek, Kimi). Escreva uma análise breve e assertiva sobre o impacto do tema abaixo. Retorne APENAS o texto do artigo em formato Markdown limpo, sem tags markdown ao redor."
+    prompt_en = f"Escreva em Inglês a análise sobre a seguinte notícia: {noticia['titulo']} (Categoria: {noticia['categoria']})."
+    prompt_pt = f"Escreva em Português a análise sobre a seguinte notícia: {noticia['titulo']} (Categoria: {noticia['categoria']})."
+    
+    # Chama a LLM via Trindade
+    texto_en = gerar_texto(sys_prompt, prompt_en, agente_nome="aiatolah_en", tema="tecnologia")
+    texto_pt = gerar_texto(sys_prompt, prompt_pt, agente_nome="aiatolah_pt", tema="tecnologia")
+    
+    # Template Markdown para Astro (Inglês)
+    conteudo_md_en = f"""---
+title: "{noticia['titulo']} - Analysis"
 date: {data_hoje}
 category: "{noticia['categoria']}"
-lang: "pt-br"
+lang: "en"
+source: "{noticia['link']}"
 ---
 
 # {noticia['titulo']}
 
-**Fonte:** {noticia['link']}
-
-Este é um artigo gerado automaticamente pelos agentes Aiatolah focados no mercado de {noticia['categoria']}.
-A integração final com a LLM (Trindade) injetará a análise geopolítica profunda aqui.
+{texto_en}
 """
-    return slug, conteudo_md
 
-def salvar_artigo_astro(slug, conteudo):
-    """Salva o .md direto no repositório Headless."""
-    pasta_destino = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'pages', 'posts'))
-    os.makedirs(pasta_destino, exist_ok=True)
+    # Template Markdown para Astro (Português)
+    conteudo_md_pt = f"""---
+title: "{noticia['titulo']} - Análise"
+date: {data_hoje}
+category: "{noticia['categoria']}"
+lang: "pt-br"
+source: "{noticia['link']}"
+---
+
+# {noticia['titulo']}
+
+{texto_pt}
+"""
+    return slug, conteudo_md_en, conteudo_md_pt
+
+def salvar_artigo_astro(slug, conteudo_en, conteudo_pt):
+    """Salva os .md diretos no repositório Headless nas pastas de idioma."""
+    pasta_base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'pages'))
+    pasta_en = os.path.join(pasta_base, 'en', 'posts')
+    pasta_pt = os.path.join(pasta_base, 'pt', 'posts')
     
-    caminho = os.path.join(pasta_destino, f"{slug}.md")
-    with open(caminho, 'w', encoding='utf-8') as f:
-        f.write(conteudo)
-    print(f"[+] Artigo salvo: src/pages/posts/{slug}.md")
+    os.makedirs(pasta_en, exist_ok=True)
+    os.makedirs(pasta_pt, exist_ok=True)
+    
+    caminho_en = os.path.join(pasta_en, f"{slug}.md")
+    caminho_pt = os.path.join(pasta_pt, f"{slug}.md")
+    
+    with open(caminho_en, 'w', encoding='utf-8') as f:
+        f.write(conteudo_en)
+    with open(caminho_pt, 'w', encoding='utf-8') as f:
+        f.write(conteudo_pt)
+        
+    print(f"[+] Artigos salvos em:\n   - {caminho_en}\n   - {caminho_pt}")
 
 def main():
-    print("=== Iniciando Agente Coletor Aiatolah ===")
+    print("=== Iniciando Aiatolah Agente Coletor ===")
     noticias = coletar_noticias()
     
     for noti in noticias:
-        slug, md = simular_redacao_ia(noti)
-        salvar_artigo_astro(slug, md)
+        slug, md_en, md_pt = simular_redacao_ia(noti)
+        salvar_artigo_astro(slug, md_en, md_pt)
         
     print("=== Coleta concluída. Próximo passo: git push para deploy na Vercel! ===")
 
