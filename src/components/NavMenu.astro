@@ -198,14 +198,15 @@
     opacity: 0;
     position: absolute;
     top: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) translateY(8px);
+    left: 0;
+    transform: translateY(8px);
     background: rgba(12, 12, 28, 0.98);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     padding: 1rem;
     min-width: 480px;
+    max-width: min(520px, calc(100vw - 2rem));
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem 1.5rem;
@@ -216,7 +217,7 @@
     .dropdown:hover .dropdown-content {
       visibility: visible;
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0);
     }
   }
 
