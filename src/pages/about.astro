@@ -1,0 +1,162 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="About"
+  description="AIatolah is a bilingual media outlet specializing in artificial intelligence, LLMs, chip wars, and technology geopolitics — made by Brazilian journalist Miguel do Rosário."
+>
+  <main class="about-container">
+
+    <section class="about-hero">
+      <h1>About <span class="ai-highlight">AI</span>atolah</h1>
+      <p class="tagline">Independent intelligence on AI — from the Global South.</p>
+    </section>
+
+    <section class="about-body glass-panel">
+
+      <div class="about-block">
+        <h2>What is AIatolah?</h2>
+        <p>
+          AIatolah is a specialized media outlet covering artificial intelligence, large language models (LLMs),
+          processors, semiconductors, and everything at the frontier of high technology.
+          We track the latest AI model releases, compare prices and performance, and report on the
+          geopolitics of the global chip war.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2>Our Mission</h2>
+        <ul>
+          <li>Provide quality, independent information on the latest AI and LLM models</li>
+          <li>Compare prices, quality, and speed across Chinese, American, and global providers</li>
+          <li>Publish rankings: cost per million tokens, output quality, inference speed</li>
+          <li>Cover big investments, corporate moves, and the geopolitics of AI</li>
+          <li>Report on the chip wars — NVIDIA, TSMC, and the race for semiconductor dominance</li>
+        </ul>
+      </div>
+
+      <div class="about-block">
+        <h2>Our Perspective</h2>
+        <p>
+          We take a <strong>multilateral view</strong>. No model, country, or company is automatically superior.
+          We cover Chinese models (DeepSeek, Qwen, Kimi, GLM) with the same depth as American ones
+          (ChatGPT, Claude, Gemini, Llama). We believe technology should be evaluated on its merits —
+          not on geopolitical loyalty.
+        </p>
+        <p>
+          We defend <strong>open source software</strong> and open science. We believe access to
+          frontier AI should not be monopolized by a handful of Western corporations.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2>Who makes AIatolah?</h2>
+        <p>
+          AIatolah is created by <strong>Miguel do Rosário</strong>, a Brazilian journalist based in
+          Rio de Janeiro. Miguel has covered technology, politics, and media for over a decade.
+          The site is produced with the assistance of an autonomous AI editorial team — a living
+          experiment in human-AI journalism.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2>Languages</h2>
+        <p>
+          AIatolah publishes in <strong>English</strong> and <strong>Portuguese</strong>.
+          English is our primary language for global reach. Portuguese serves the Brazilian and
+          Lusophone communities of the Global South.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  .about-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .about-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .about-hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    letter-spacing: -1px;
+  }
+
+  .ai-highlight {
+    color: #00d4ff;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+  }
+
+  .about-body {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .about-block h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-block p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-block ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .about-block ul li {
+    color: rgba(255,255,255,0.75);
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .about-block ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #00d4ff;
+  }
+
+  .about-block strong {
+    color: rgba(255,255,255,0.95);
+  }
+
+  @media (max-width: 768px) {
+    .about-hero h1 { font-size: 2rem; }
+    .about-body { padding: 1.5rem; }
+  }
+</style>
