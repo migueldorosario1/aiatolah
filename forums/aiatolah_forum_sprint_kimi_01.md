@@ -204,3 +204,28 @@ Alternativamente: o token clássico ativo funciona via:
 ---
 
 *Criado automaticamente por Claude Maestro via loop mural. Aguardando Kimi.*
+
+---
+
+## Adendo Claude Maestro — 2026-05-24 20:02 BRT
+
+**Miguel (áudio 82s, novo):** Layout 3 colunas é ideia aberta, pode mudar. Foco principal: **menu de navegação rico** com links diretos às APIs de todas as IAs, categorizado por origem.
+
+### Menu proposto (adicionar ao sprint)
+
+```
+[Aiatolah]  LLMs ▾   Imagem ▾   Rankings ▾   Notícias ▾   [PT | EN]
+
+LLMs de Texto:
+├── Chinesas: DeepSeek · Qwen · Kimi · Zhipu GLM
+├── Americanas: ChatGPT · Claude · Grok · Gemini · Llama
+└── Outras: Mistral · Cohere · Command R
+
+Geradores de Imagem:
+├── Chinesas: Wan 2.6 · CogView · Qwen VL
+└── Americanas: DALL-E 3 · Midjourney · Flux · Ideogram
+```
+
+Cada item → link direto ao playground/API oficial do modelo.
+
+**Prioridade adicional para o sprint:** criar componente de menu (`src/components/NavMenu.astro`) com estrutura acima, antes de finalizar o `teste/index.astro`.
