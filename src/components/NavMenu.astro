@@ -1,21 +1,21 @@
 ---
-// NavMenu.astro — Aiatolah navigation
+// NavMenu.astro — Aiatolah navigation (English)
 // Inspired by Rio Carta premium header — dropdown hover, mobile toggle, dark theme
 ---
 
 <nav class="aiatolah-nav">
   <div class="nav-inner">
 
-    <a href="/" class="nav-logo">Aiatolah</a>
+    <a href="/" class="nav-logo"><span class="logo-ai">AI</span>atolah</a>
 
     <div class="nav-links">
 
-      <!-- LLMs de Texto -->
+      <!-- Text LLMs -->
       <div class="nav-item dropdown">
         <button class="dropbtn">LLMs <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="dropdown-content">
           <div class="dropdown-section">
-            <span class="section-title">🇨🇳 Chinesas</span>
+            <span class="section-title">🇨🇳 Chinese</span>
             <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">DeepSeek</a>
             <a href="https://chat.qwen.ai/" target="_blank" rel="noopener">Qwen (Alibaba)</a>
             <a href="https://platform.moonshot.cn/" target="_blank" rel="noopener">Kimi (Moonshot)</a>
@@ -23,7 +23,7 @@
             <a href="https://cloud.baidu.com/product/wenxinworkshop" target="_blank" rel="noopener">Baidu Ernie</a>
           </div>
           <div class="dropdown-section">
-            <span class="section-title">🇺🇸 Americanas</span>
+            <span class="section-title">🇺🇸 American</span>
             <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT (OpenAI)</a>
             <a href="https://claude.ai/" target="_blank" rel="noopener">Claude (Anthropic)</a>
             <a href="https://x.ai/grok" target="_blank" rel="noopener">Grok (xAI)</a>
@@ -31,26 +31,26 @@
             <a href="https://llama.meta.com/" target="_blank" rel="noopener">Llama (Meta)</a>
           </div>
           <div class="dropdown-section">
-            <span class="section-title">🌍 Outras</span>
-            <a href="https://mistral.ai/" target="_blank" rel="noopener">Mistral (França)</a>
-            <a href="https://cohere.com/" target="_blank" rel="noopener">Cohere (Canadá)</a>
-            <a href="https://ai.yandex.com/" target="_blank" rel="noopener">YandexGPT (Rússia)</a>
+            <span class="section-title">🌍 Others</span>
+            <a href="https://mistral.ai/" target="_blank" rel="noopener">Mistral (France)</a>
+            <a href="https://cohere.com/" target="_blank" rel="noopener">Cohere (Canada)</a>
+            <a href="https://ai.yandex.com/" target="_blank" rel="noopener">YandexGPT (Russia)</a>
           </div>
         </div>
       </div>
 
-      <!-- Geradores de Imagem -->
+      <!-- Image Generators -->
       <div class="nav-item dropdown">
-        <button class="dropbtn">Imagem <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button class="dropbtn">Image <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="dropdown-content">
           <div class="dropdown-section">
-            <span class="section-title">🇨🇳 Chinesas</span>
+            <span class="section-title">🇨🇳 Chinese</span>
             <a href="https://wanx.aliyun.com/" target="_blank" rel="noopener">Wan 2.6 (Alibaba)</a>
             <a href="https://open.bigmodel.cn/dev/api/image-model/cogview" target="_blank" rel="noopener">CogView (Zhipu)</a>
             <a href="https://tongyi.aliyun.com/" target="_blank" rel="noopener">Tongyi Wanxiang</a>
           </div>
           <div class="dropdown-section">
-            <span class="section-title">🇺🇸 Americanas</span>
+            <span class="section-title">🇺🇸 American</span>
             <a href="https://openai.com/dall-e-3" target="_blank" rel="noopener">DALL-E 3 (OpenAI)</a>
             <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Midjourney</a>
             <a href="https://flux1.ai/" target="_blank" rel="noopener">Flux (Black Forest)</a>
@@ -64,22 +64,16 @@
         <a href="/rankings" class="direct-link">Rankings</a>
       </div>
 
-      <!-- Notícias -->
+      <!-- News -->
       <div class="nav-item">
-        <a href="/noticias" class="direct-link">Notícias</a>
+        <a href="/news" class="direct-link">News</a>
       </div>
 
-      <!-- Sobre -->
+      <!-- About -->
       <div class="nav-item">
-        <a href="/sobre" class="direct-link">Sobre</a>
+        <a href="/about" class="direct-link">About</a>
       </div>
 
-    </div>
-
-    <!-- Lang switch -->
-    <div class="lang-switch">
-      <a href="/" class="lang-btn active" title="English">EN</a>
-      <a href="/pt" class="lang-btn" title="Português">PT</a>
     </div>
 
   </div>
@@ -111,13 +105,17 @@
     font-family: 'Outfit', sans-serif;
     font-size: 1.4rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: rgba(255,255,255,0.9);
     text-decoration: none;
     letter-spacing: -0.5px;
     flex-shrink: 0;
+  }
+
+  .logo-ai {
+    color: #00d4ff;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    margin-right: 1px;
   }
 
   .nav-links {
@@ -125,32 +123,6 @@
     align-items: center;
     gap: 1.5rem;
     flex: 1;
-  }
-
-  .lang-switch {
-    display: flex;
-    gap: 0.4rem;
-    flex-shrink: 0;
-  }
-
-  .lang-btn {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
-    text-decoration: none;
-    color: rgba(255,255,255,0.5);
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-
-  .lang-btn.active,
-  .lang-btn:hover {
-    color: #fff;
-    border-color: rgba(0, 212, 255, 0.5);
-    background: rgba(0, 212, 255, 0.1);
   }
 
   /* Dropdown */
