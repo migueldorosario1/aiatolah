@@ -1,24 +1,24 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout
-  title="AI Rankings & News"
-  description="AIatolah — Independent rankings, prices, and news on AI models and LLMs. China vs USA. From a Global South perspective."
+  title="Rankings e Notícias de IA"
+  description="AIatolah — Rankings independentes, preços e notícias sobre modelos de IA e LLMs. China vs EUA. Perspectiva do Sul Global."
 >
   <main class="container">
 
     <section class="hero glass-panel animate-fade-in">
-      <h1 class="hero-title">The <span class="ai-cyan">AI</span> ranking that<br/>doesn't take sides.</h1>
+      <h1 class="hero-title">O ranking de <span class="ai-cyan">IA</span> que não<br/>toma partido.</h1>
       <p class="hero-sub">
-        Compare Chinese and American LLMs on quality, price, and speed.
-        Geopolitics of chips, big investments, and frontier models —
-        from a multilateral, Global South perspective.
+        Compare LLMs chineses e americanos em qualidade, preço e velocidade.
+        Geopolítica dos chips, grandes investimentos e modelos de fronteira —
+        numa perspectiva multilateral, do Sul Global.
       </p>
       <div class="action-buttons">
         <a href="/rankings" class="btn-neon">Rankings</a>
-        <a href="/news" class="btn-outline">Latest News</a>
-        <a href="/about" class="btn-outline">About</a>
+        <a href="/news" class="btn-outline">Últimas Notícias</a>
+        <a href="/about" class="btn-outline">Sobre</a>
       </div>
     </section>
 
@@ -29,7 +29,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="model-list">
           <div class="model-item">
             <span class="model-name">DeepSeek V3</span>
-            <span class="model-tag best-value">Best value</span>
+            <span class="model-tag best-value">Melhor custo</span>
           </div>
           <div class="model-item">
             <span class="model-name">Qwen 3 Max</span>
@@ -44,20 +44,20 @@ import Layout from '../layouts/Layout.astro';
             <span class="model-tag">Zhipu</span>
           </div>
         </div>
-        <a href="/rankings" class="col-cta">Full ranking →</a>
+        <a href="/rankings" class="col-cta">Ranking completo →</a>
       </div>
 
       <div class="col col-center glass-panel">
-        <h2 class="col-title news-title">📡 Latest</h2>
+        <h2 class="col-title news-title">📡 Últimas</h2>
         <div class="news-placeholder">
-          <p class="news-item">AI news updated every 3 hours.</p>
-          <p class="news-item muted">Rankings, model releases, chip wars, geopolitics.</p>
-          <a href="/news" class="col-cta">Browse news →</a>
+          <p class="news-item">Notícias de IA atualizadas a cada 3 horas.</p>
+          <p class="news-item muted">Rankings, lançamentos, guerra dos chips, geopolítica.</p>
+          <a href="/news" class="col-cta">Ver notícias →</a>
         </div>
       </div>
 
       <div class="col glass-panel">
-        <h2 class="col-title usa">🇺🇸 USA</h2>
+        <h2 class="col-title usa">🇺🇸 EUA</h2>
         <div class="model-list">
           <div class="model-item">
             <span class="model-name">Claude Sonnet</span>
@@ -76,7 +76,7 @@ import Layout from '../layouts/Layout.astro';
             <span class="model-tag best-open">Open source</span>
           </div>
         </div>
-        <a href="/rankings" class="col-cta">Full ranking →</a>
+        <a href="/rankings" class="col-cta">Ranking completo →</a>
       </div>
 
     </section>
@@ -109,9 +109,7 @@ import Layout from '../layouts/Layout.astro';
     letter-spacing: -1.5px;
   }
 
-  .ai-cyan {
-    color: #00d4ff;
-  }
+  .ai-cyan { color: #00d4ff; }
 
   .hero-sub {
     font-size: 1.1rem;
@@ -174,11 +172,7 @@ import Layout from '../layouts/Layout.astro';
   .usa   { color: #4da6ff; }
   .news-title { color: #00d4ff; }
 
-  .model-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
+  .model-list { display: flex; flex-direction: column; gap: 0.6rem; }
 
   .model-item {
     display: flex;
@@ -220,15 +214,9 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .col-cta:hover { color: #00d4ff; }
-
   .col-center { align-items: flex-start; }
 
-  .news-placeholder {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    flex: 1;
-  }
+  .news-placeholder { display: flex; flex-direction: column; gap: 0.75rem; flex: 1; }
 
   .news-item {
     font-size: 0.92rem;
