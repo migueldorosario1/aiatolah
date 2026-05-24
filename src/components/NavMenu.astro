@@ -1,0 +1,328 @@
+---
+// NavMenu.astro — Aiatolah navigation
+// Inspired by Rio Carta premium header — dropdown hover, mobile toggle, dark theme
+---
+
+<nav class="aiatolah-nav">
+  <div class="nav-inner">
+
+    <a href="/" class="nav-logo">Aiatolah</a>
+
+    <div class="nav-links">
+
+      <!-- LLMs de Texto -->
+      <div class="nav-item dropdown">
+        <button class="dropbtn">LLMs <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="dropdown-content">
+          <div class="dropdown-section">
+            <span class="section-title">🇨🇳 Chinesas</span>
+            <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">DeepSeek</a>
+            <a href="https://chat.qwen.ai/" target="_blank" rel="noopener">Qwen (Alibaba)</a>
+            <a href="https://platform.moonshot.cn/" target="_blank" rel="noopener">Kimi (Moonshot)</a>
+            <a href="https://open.bigmodel.cn/" target="_blank" rel="noopener">Zhipu GLM</a>
+            <a href="https://cloud.baidu.com/product/wenxinworkshop" target="_blank" rel="noopener">Baidu Ernie</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="section-title">🇺🇸 Americanas</span>
+            <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT (OpenAI)</a>
+            <a href="https://claude.ai/" target="_blank" rel="noopener">Claude (Anthropic)</a>
+            <a href="https://x.ai/grok" target="_blank" rel="noopener">Grok (xAI)</a>
+            <a href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini (Google)</a>
+            <a href="https://llama.meta.com/" target="_blank" rel="noopener">Llama (Meta)</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="section-title">🌍 Outras</span>
+            <a href="https://mistral.ai/" target="_blank" rel="noopener">Mistral (França)</a>
+            <a href="https://cohere.com/" target="_blank" rel="noopener">Cohere (Canadá)</a>
+            <a href="https://ai.yandex.com/" target="_blank" rel="noopener">YandexGPT (Rússia)</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Geradores de Imagem -->
+      <div class="nav-item dropdown">
+        <button class="dropbtn">Imagem <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="dropdown-content">
+          <div class="dropdown-section">
+            <span class="section-title">🇨🇳 Chinesas</span>
+            <a href="https://wanx.aliyun.com/" target="_blank" rel="noopener">Wan 2.6 (Alibaba)</a>
+            <a href="https://open.bigmodel.cn/dev/api/image-model/cogview" target="_blank" rel="noopener">CogView (Zhipu)</a>
+            <a href="https://tongyi.aliyun.com/" target="_blank" rel="noopener">Tongyi Wanxiang</a>
+          </div>
+          <div class="dropdown-section">
+            <span class="section-title">🇺🇸 Americanas</span>
+            <a href="https://openai.com/dall-e-3" target="_blank" rel="noopener">DALL-E 3 (OpenAI)</a>
+            <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Midjourney</a>
+            <a href="https://flux1.ai/" target="_blank" rel="noopener">Flux (Black Forest)</a>
+            <a href="https://ideogram.ai/" target="_blank" rel="noopener">Ideogram</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rankings -->
+      <div class="nav-item">
+        <a href="/rankings" class="direct-link">Rankings</a>
+      </div>
+
+      <!-- Notícias -->
+      <div class="nav-item">
+        <a href="/noticias" class="direct-link">Notícias</a>
+      </div>
+
+      <!-- Sobre -->
+      <div class="nav-item">
+        <a href="/sobre" class="direct-link">Sobre</a>
+      </div>
+
+    </div>
+
+    <!-- Lang switch -->
+    <div class="lang-switch">
+      <a href="/" class="lang-btn active" title="English">EN</a>
+      <a href="/pt" class="lang-btn" title="Português">PT</a>
+    </div>
+
+  </div>
+</nav>
+
+<style>
+  .aiatolah-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(8, 8, 20, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+  }
+
+  .lang-switch {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .lang-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .lang-btn.active,
+  .lang-btn:hover {
+    color: #fff;
+    border-color: rgba(0, 212, 255, 0.5);
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  /* Dropdown */
+  .nav-item {
+    position: relative;
+  }
+
+  .dropbtn {
+    font-family: 'Outfit', sans-serif;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .dropbtn:hover {
+    color: #00d4ff;
+  }
+
+  .direct-link {
+    font-family: 'Outfit', sans-serif;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: color 0.2s;
+    white-space: nowrap;
+  }
+
+  .direct-link:hover {
+    color: #00d4ff;
+  }
+
+  .dropdown-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(12, 12, 28, 0.98);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    padding: 1rem;
+    min-width: 480px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem 1.5rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (min-width: 769px) {
+    .dropdown:hover .dropdown-content {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .dropdown-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    margin-bottom: 0.3rem;
+  }
+
+  .dropdown-content a {
+    font-family: 'Outfit', sans-serif;
+    display: block;
+    padding: 0.45rem 0.6rem;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .dropdown-content a:hover {
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+    padding-left: 0.9rem;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .nav-inner {
+      padding: 0 1rem;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: rgba(8, 8, 20, 0.98);
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1rem;
+      gap: 0.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .nav-links.is-open {
+      display: flex;
+    }
+
+    .dropdown-content {
+      position: static;
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      min-width: 100%;
+      grid-template-columns: 1fr;
+      box-shadow: none;
+      border: none;
+      border-left: 2px solid rgba(0,212,255,0.3);
+      border-radius: 0;
+      padding: 0.5rem 0 0.5rem 1rem;
+      background: transparent;
+      display: none;
+    }
+
+    .dropdown.is-open .dropdown-content {
+      display: grid;
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  const mobileToggle = document.querySelector('.mobile-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (mobileToggle && navLinks) {
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('is-open');
+    });
+  }
+
+  // Mobile dropdown toggle
+  if (window.innerWidth <= 768) {
+    document.querySelectorAll('.dropbtn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const dropdown = btn.closest('.dropdown');
+        dropdown?.classList.toggle('is-open');
+      });
+    });
+  }
+</script>
