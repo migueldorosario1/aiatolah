@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const modules = import.meta.glob('./en/posts/*.md', { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, mod]: [string, any]) => {
+    const fm = mod.frontmatter ?? {};
+    const slug = path.replace('./en/posts/', '').replace('.md', '');
+    return {
+      title:    fm.title ?? slug,
+      date:     fm.date ?? '2026-01-01',
+      category: fm.category ?? 'AI',
+      excerpt:  fm.excerpt ?? '',
+      url:      `/en/posts/${slug}`,
+    };
+  })
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const categoryColor: Record<string, string> = {
+  'Rankings':   'cat-cyan',
+  'China AI':   'cat-orange',
+  'Open Source':'cat-purple',
+  'Chip Wars':  'cat-red',
+  'Nvidia':     'cat-green',
+};
+---
+
+<Layout
+  title="AI News | AIatolah"
+  description="Latest news on artificial intelligence, LLMs, chip wars and AI geopolitics — from a Global South perspective. Updated every 3 hours."
+>
+  <main class="container">
+
+    <section class="news-hero animate-fade-in">
+      <h1 class="news-title">AI <span class="hi">News</span></h1>
+      <p class="news-sub">
+        Chip wars · LLM releases · Big investments · Geopolitics of AI<br/>
+        <span class="update-badge">⟳ Updated every 3 hours</span>
+      </p>
+    </section>
+
+    <section class="news-grid animate-fade-in">
+      {posts.map((post, i) => (
+        <a href={post.url} class={`news-card glass-panel ${i === 0 ? 'card-featured' : ''}`}>
+          <div class="card-top">
+            <span class={`cat-tag ${categoryColor[post.category] ?? 'cat-default'}`}>
+              {post.category}
+            </span>
+            <span class="card-date">
+              {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </span>
+          </div>
+          <h2 class="card-title">{post.title}</h2>
+          {post.excerpt && <p class="card-excerpt">{post.excerpt}</p>}
+          <span class="card-cta">Read more →</span>
+        </a>
+      ))}
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Hero */
+  .news-hero { text-align: center; }
+
+  .news-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 0.6rem;
+  }
+
+  .hi { color: #00d4ff; }
+
+  .news-sub {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .update-badge {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    color: rgba(0,212,255,0.7);
+    background: rgba(0,212,255,0.07);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 20px;
+    padding: 0.2rem 0.75rem;
+  }
+
+  /* Grid */
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  /* Cards */
+  .news-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 12px;
+  }
+
+  .news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+
+  .card-featured {
+    grid-column: span 2;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  /* Category tags */
+  .cat-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .cat-cyan   { background: rgba(0,212,255,0.12);   color: #00d4ff;  }
+  .cat-orange { background: rgba(255,107,53,0.12);  color: #ff6b35;  }
+  .cat-purple { background: rgba(123,47,247,0.12);  color: #a78bfa;  }
+  .cat-red    { background: rgba(255,60,60,0.12);   color: #ff6060;  }
+  .cat-green  { background: rgba(80,220,120,0.12);  color: #4ade80;  }
+  .cat-default{ background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.5); }
+
+  .card-date {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .card-featured .card-title {
+    font-size: 1.25rem;
+  }
+
+  .card-excerpt {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-cta {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(0,212,255,0.6);
+    font-family: 'Outfit', sans-serif;
+    margin-top: auto;
+    transition: color 0.2s;
+  }
+
+  .news-card:hover .card-cta { color: #00d4ff; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .news-grid { grid-template-columns: 1fr 1fr; }
+    .card-featured { grid-column: span 2; }
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 2rem 1rem; }
+    .news-title { font-size: 2rem; }
+    .news-grid { grid-template-columns: 1fr; }
+    .card-featured { grid-column: span 1; }
+  }
+</style>
