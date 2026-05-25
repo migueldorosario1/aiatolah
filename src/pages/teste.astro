@@ -1,0 +1,390 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ranking from '../data/ranking.json';
+
+const { models, usd_brl, updated_at, note } = ranking;
+
+const sorted = [...models].sort((a, b) => a.input_usd - b.input_usd);
+
+function brl(usd: number) {
+  return (usd * usd_brl).toFixed(2).replace('.', ',');
+}
+
+function usdFmt(n: number) {
+  return n < 1 ? `$${n.toFixed(2)}` : `$${n.toFixed(2)}`;
+}
+
+const qualityLabel: Record<string, string> = {
+  S: 'Frontier',
+  A: 'Excellent',
+  B: 'Capable',
+};
+
+const qualityClass: Record<string, string> = {
+  S: 'q-s',
+  A: 'q-a',
+  B: 'q-b',
+};
+
+const countryClass: Record<string, string> = {
+  CN: 'row-cn',
+  US: 'row-us',
+  FR: 'row-fr',
+};
+---
+
+<Layout
+  title="LLM Rankings — Price & Quality"
+  description="Compare LLM prices in USD and BRL per million tokens. DeepSeek, Qwen, Claude, GPT-4o, Gemini and more — sorted cheapest first."
+>
+  <main class="container">
+
+    <section class="rank-hero animate-fade-in">
+      <h1 class="rank-title">LLM Rankings</h1>
+      <p class="rank-sub">Price per million tokens — sorted cheapest first</p>
+      <div class="rank-meta">
+        <span class="meta-badge">Updated {updated_at}</span>
+        <span class="meta-badge">USD → BRL: R$ {usd_brl.toFixed(2)}</span>
+        <span class="meta-badge muted">{note}</span>
+      </div>
+    </section>
+
+    <section class="legend animate-fade-in">
+      <div class="legend-items">
+        <span class="leg"><span class="dot cn"></span> China</span>
+        <span class="leg"><span class="dot us"></span> USA</span>
+        <span class="leg"><span class="dot fr"></span> Europe</span>
+        <span class="leg"><span class="q-s badge-leg">S</span> Frontier</span>
+        <span class="leg"><span class="q-a badge-leg">A</span> Excellent</span>
+        <span class="leg"><span class="q-b badge-leg">B</span> Capable</span>
+        <span class="leg open-badge">⊙ Open source</span>
+      </div>
+    </section>
+
+    <section class="table-wrap glass-panel animate-fade-in">
+      <table class="rank-table">
+        <thead>
+          <tr>
+            <th class="th-rank">#</th>
+            <th class="th-model">Model</th>
+            <th class="th-price">Input / M tokens</th>
+            <th class="th-price">Output / M tokens</th>
+            <th class="th-qual">Quality</th>
+            <th class="th-speed">Speed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((m, i) => (
+            <tr class={`rank-row ${countryClass[m.country] ?? ''}`}>
+              <td class="td-rank">{i + 1}</td>
+              <td class="td-model">
+                <div class="model-info">
+                  <span class="model-flag">{m.flag}</span>
+                  <div class="model-name-wrap">
+                    <span class="model-name">
+                      {m.name}
+                      {m.open_source && <span class="oss-dot" title="Open source">⊙</span>}
+                    </span>
+                    <span class="model-provider">{m.provider}</span>
+                  </div>
+                </div>
+                <div class="model-tags">
+                  {m.tags.slice(0, 2).map(t => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+              </td>
+              <td class="td-price">
+                <span class="price-usd">{usdFmt(m.input_usd)}</span>
+                <span class="price-brl">R$ {brl(m.input_usd)}</span>
+              </td>
+              <td class="td-price">
+                <span class="price-usd">{usdFmt(m.output_usd)}</span>
+                <span class="price-brl">R$ {brl(m.output_usd)}</span>
+              </td>
+              <td class="td-qual">
+                <span class={`quality-badge ${qualityClass[m.quality]}`}>
+                  {m.quality} · {qualityLabel[m.quality]}
+                </span>
+              </td>
+              <td class="td-speed">
+                <span class="speed-label">{m.speed}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <p class="disclaimer animate-fade-in">
+      Prices are indicative and subject to change. Always verify with the provider.
+      <a href="/about" class="disc-link">About AIatolah →</a>
+    </p>
+
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  /* Hero */
+  .rank-hero { text-align: center; }
+
+  .rank-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+  }
+
+  .rank-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .rank-meta {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .meta-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 0.25rem 0.8rem;
+    color: rgba(255,255,255,0.65);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .meta-badge.muted {
+    color: rgba(255,255,255,0.35);
+    max-width: 380px;
+    text-align: center;
+  }
+
+  /* Legend */
+  .legend-items {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .dot.cn { background: rgba(255, 107, 53, 0.6); }
+  .dot.us { background: rgba(77, 166, 255, 0.6); }
+  .dot.fr { background: rgba(100, 220, 150, 0.6); }
+
+  .badge-leg {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .open-badge { color: rgba(0,212,255,0.7); }
+
+  /* Table */
+  .table-wrap {
+    overflow-x: auto;
+    padding: 0;
+  }
+
+  .rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .rank-table thead tr {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .rank-table th {
+    padding: 0.9rem 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .th-rank { width: 40px; text-align: center; }
+  .th-price { text-align: right; }
+  .th-qual, .th-speed { text-align: center; }
+
+  /* Rows */
+  .rank-row {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+  }
+
+  .rank-row:hover { background: rgba(255,255,255,0.03); }
+
+  .rank-row.row-cn { border-left: 2px solid rgba(255,107,53,0.25); }
+  .rank-row.row-us { border-left: 2px solid rgba(77,166,255,0.25); }
+  .rank-row.row-fr { border-left: 2px solid rgba(100,220,150,0.25); }
+
+  /* Cells */
+  .rank-table td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+  }
+
+  .td-rank {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.2);
+    text-align: center;
+    width: 40px;
+  }
+
+  /* Model cell */
+  .td-model { min-width: 200px; }
+
+  .model-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .model-flag { font-size: 1.1rem; line-height: 1; }
+
+  .model-name-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .model-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .oss-dot {
+    font-size: 0.75rem;
+    color: #00d4ff;
+    font-weight: 400;
+  }
+
+  .model-provider {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .model-tags {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.66rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    color: rgba(255,255,255,0.35);
+    text-transform: lowercase;
+  }
+
+  /* Price */
+  .td-price { text-align: right; white-space: nowrap; }
+
+  .price-usd {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .price-brl {
+    display: block;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.1rem;
+  }
+
+  /* Quality */
+  .td-qual { text-align: center; }
+
+  .quality-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .q-s { background: rgba(0,212,255,0.12); color: #00d4ff; border: 1px solid rgba(0,212,255,0.25); }
+  .q-a { background: rgba(123,47,247,0.12); color: #a78bfa; border: 1px solid rgba(123,47,247,0.25); }
+  .q-b { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.1); }
+
+  /* Speed */
+  .td-speed { text-align: center; }
+
+  .speed-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.25);
+    text-align: center;
+  }
+
+  .disc-link {
+    color: rgba(0,212,255,0.5);
+    text-decoration: none;
+    margin-left: 0.5rem;
+  }
+
+  .disc-link:hover { color: #00d4ff; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .container { padding: 2rem 1rem; }
+    .rank-title { font-size: 2rem; }
+    .th-speed, .td-speed { display: none; }
+    .rank-table th, .rank-table td { padding: 0.7rem 0.6rem; }
+  }
+</style>
