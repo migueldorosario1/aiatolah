@@ -6,7 +6,18 @@
 <nav class="aiatolah-nav">
   <div class="nav-inner">
 
-    <a href="/" class="nav-logo"><span class="logo-ai">AI</span>atolah</a>
+    <a href="/" class="nav-logo">
+      <svg class="logo-crescent" width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <mask id="crescent-mask">
+            <circle cx="11" cy="11" r="9" fill="white"/>
+            <circle cx="15.2" cy="10" r="7.2" fill="black"/>
+          </mask>
+        </defs>
+        <circle cx="11" cy="11" r="9" fill="#e8b84b" mask="url(#crescent-mask)"/>
+      </svg>
+      <span class="logo-ai">AI</span>atolah
+    </a>
 
     <div class="nav-links">
 
@@ -115,6 +126,19 @@
     text-decoration: none;
     letter-spacing: -0.5px;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .logo-crescent {
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(232, 184, 75, 0.4));
+    transition: filter 0.2s;
+  }
+
+  .nav-logo:hover .logo-crescent {
+    filter: drop-shadow(0 0 10px rgba(232, 184, 75, 0.7));
   }
 
   .logo-ai {
