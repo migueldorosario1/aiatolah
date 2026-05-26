@@ -1,0 +1,457 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ranking from '../data/ranking.json';
+
+const { models, usd_brl, updated_at } = ranking;
+
+const cnModels = models.filter(m => m.country === 'CN');
+const usModels = models.filter(m => m.country === 'US' || m.country === 'FR');
+
+function brl(usd: number) {
+  return (usd * usd_brl).toFixed(2).replace('.', ',');
+}
+---
+
+<Layout
+  title="AIatolah Beta Test — Bilingual AI Hub"
+  description="Beta testing for AIatolah 3-column dynamic layout comparing Chinese and American LLM prices in BRL."
+>
+  <main class="container">
+
+    <header class="page-header glass-panel animate-fade-in">
+      <div class="header-left">
+        <h1 class="page-title">Aiatolah <span class="badge">Beta Test</span></h1>
+        <p class="page-sub">Dynamic multilateral intelligence comparison — prices in BRL per million tokens.</p>
+        <div class="meta-row">
+          <span class="meta-tag">Updated: {updated_at}</span>
+          <span class="meta-tag">USD/BRL Rate: R$ {usd_brl.toFixed(2)}</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <!-- YouTube Video Embed (Jensen Huang Interview Placeholder) -->
+        <div class="video-container">
+          <iframe 
+            src="https://www.youtube.com/embed/l2A6d_Z8o2Y" 
+            title="Jensen Huang AI Interview" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </header>
+
+    <div class="columns animate-fade-in">
+
+      <!-- Left Column: China -->
+      <section class="col col-china glass-panel">
+        <h2 class="col-title china"><span class="flag">🇨🇳</span> Chinese LLMs</h2>
+        <div class="model-cards">
+          {cnModels.map(m => (
+            <div class="model-card border-cn">
+              <div class="card-header">
+                <span class="m-name">{m.name}</span>
+                <span class="m-provider">{m.provider}</span>
+              </div>
+              <div class="pricing-row">
+                <div class="price-box">
+                  <span class="label">Input</span>
+                  <span class="value">R$ {brl(m.input_usd)}</span>
+                  <span class="sub-label">${m.input_usd.toFixed(2)} USD</span>
+                </div>
+                <div class="price-box">
+                  <span class="label">Output</span>
+                  <span class="value">R$ {brl(m.output_usd)}</span>
+                  <span class="sub-label">${m.output_usd.toFixed(2)} USD</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="badge-tag">{m.quality} · {m.speed}</span>
+                {m.open_source && <span class="oss-tag">⊙ Open Source</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Center Column: Latest AI News -->
+      <section class="col col-news glass-panel">
+        <h2 class="col-title news"><span class="pulse-dot"></span> Latest AI Feed</h2>
+        <div class="news-list">
+          <article class="news-card">
+            <span class="news-date">2 hours ago</span>
+            <h3>DeepSeek V3 Benchmarks Displace GPT-4o on Multi-turn Code Tasks</h3>
+            <p>Independent analysis shows the new mixture-of-experts model from China achieves high-quality outputs at 1/10th the inference cost of American models.</p>
+            <a href="/news" class="read-more">Read analysis →</a>
+          </article>
+
+          <article class="news-card">
+            <span class="news-date">5 hours ago</span>
+            <h3>US Chip Restrictions Trigger Mass Migration to Domestic Chinese Accelerators</h3>
+            <p>Chinese firms are rapidly adopting domestic chips from Huawei and Biren, accelerating sovereignty in hardware and software ecosystems.</p>
+            <a href="/news" class="read-more">Read full story →</a>
+          </article>
+
+          <article class="news-card">
+            <span class="news-date">1 day ago</span>
+            <h3>Alibaba Releases Qwen3 Max to the Global Public</h3>
+            <p>The new Alibaba flagship demonstrates exceptional multimodal capability, outperforming Gemini 1.5 Pro in complex reasoning tasks.</p>
+            <a href="/news" class="read-more">Read full story →</a>
+          </article>
+        </div>
+      </section>
+
+      <!-- Right Column: USA & Others -->
+      <section class="col col-usa glass-panel">
+        <h2 class="col-title usa"><span class="flag">🇺🇸</span> US & European LLMs</h2>
+        <div class="model-cards">
+          {usModels.map(m => (
+            <div class="model-card border-us">
+              <div class="card-header">
+                <span class="m-name">{m.name}</span>
+                <span class="m-provider">{m.provider} {m.country === 'FR' ? '🇫🇷' : ''}</span>
+              </div>
+              <div class="pricing-row">
+                <div class="price-box">
+                  <span class="label">Input</span>
+                  <span class="value">R$ {brl(m.input_usd)}</span>
+                  <span class="sub-label">${m.input_usd.toFixed(2)} USD</span>
+                </div>
+                <div class="price-box">
+                  <span class="label">Output</span>
+                  <span class="value">R$ {brl(m.output_usd)}</span>
+                  <span class="sub-label">${m.output_usd.toFixed(2)} USD</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="badge-tag">{m.quality} · {m.speed}</span>
+                {m.open_source && <span class="oss-tag">⊙ Open Source</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .page-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: rgba(0, 212, 255, 0.15);
+    color: #00d4ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+  }
+
+  .page-sub {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .meta-tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .header-right {
+    flex-shrink: 0;
+    width: 320px;
+  }
+
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Columns Grid */
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .col {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .col-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .col-title.china { color: #ff6b35; }
+  .col-title.news { color: #00d4ff; }
+  .col-title.usa { color: #4da6ff; }
+
+  .flag {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  /* Pulse Dot for Live News Feed */
+  .pulse-dot {
+    width: 10px;
+    height: 10px;
+    background: #00d4ff;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #00d4ff;
+    animation: pulse 1.8s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+    70% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 6px rgba(0, 212, 255, 0); }
+    100% { transform: scale(0.95); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+  }
+
+  /* Model Cards in Side Columns */
+  .model-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .model-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: all 0.2s;
+  }
+
+  .model-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-2px);
+  }
+
+  .border-cn:hover { border-color: rgba(255, 107, 53, 0.3); }
+  .border-us:hover { border-color: rgba(77, 166, 255, 0.3); }
+
+  .card-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .m-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .m-provider {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 0.1rem;
+  }
+
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 0.55rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+  }
+
+  .price-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-box .label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.05em;
+  }
+
+  .price-box .value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #00d4ff;
+    margin-top: 0.1rem;
+  }
+
+  .col-china .price-box .value { color: #ff8552; }
+  .col-usa .price-box .value { color: #4da6ff; }
+
+  .price-box .sub-label {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 0.05rem;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .badge-tag {
+    font-size: 0.66rem;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.45);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+  }
+
+  .oss-tag {
+    font-size: 0.66rem;
+    font-weight: 700;
+    color: #00d4ff;
+  }
+
+  /* News Center Column */
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .news-card {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .news-card:last-child {
+    border-bottom: none;
+  }
+
+  .news-date {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(0, 212, 255, 0.6);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .news-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.35;
+  }
+
+  .news-card p {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+  }
+
+  .read-more {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #00d4ff;
+    text-decoration: none;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    transition: transform 0.2s;
+  }
+
+  .read-more:hover {
+    transform: translateX(3px);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1100px) {
+    .columns {
+      grid-template-columns: 1fr;
+    }
+    .page-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .header-right {
+      width: 100%;
+    }
+  }
+</style>
