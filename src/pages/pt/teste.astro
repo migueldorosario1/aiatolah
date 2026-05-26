@@ -1,21 +1,21 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ranking from '../data/ranking.json';
+import Layout from '../../layouts/Layout.astro';
+import ranking from '../../data/ranking.json';
 
-// Fetch exchange rates dynamically at build-time!
-let usd_cny = 7.25;
-let updated_date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+// Busca as cotações em tempo real durante o build estático!
+let usd_brl = 5.80;
+let updated_date = new Date().toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
 
 try {
-  const res = await fetch('https://economia.awesomeapi.com.br/last/USD-CNY');
+  const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
   if (res.ok) {
     const data = await res.json();
-    if (data.USDCNY) {
-      usd_cny = parseFloat(data.USDCNY.bid);
+    if (data.USDBRL) {
+      usd_brl = parseFloat(data.USDBRL.bid);
     }
   }
 } catch (e) {
-  console.error("Error fetching live CNY rate:", e);
+  console.error("Erro ao buscar cotação em tempo real:", e);
 }
 
 const { models } = ranking;
@@ -23,32 +23,32 @@ const { models } = ranking;
 const cnModels = models.filter(m => m.country === 'CN');
 const usModels = models.filter(m => m.country === 'US' || m.country === 'FR');
 
-function cny(usd: number) {
-  return (usd * usd_cny).toFixed(2).replace('.', ',');
+function brl(usd: number) {
+  return (usd * usd_brl).toFixed(2).replace('.', ',');
 }
 ---
 
 <Layout
-  title="AIatolah Beta Test — Bilingual AI Hub"
-  description="Beta testing for AIatolah 3-column dynamic layout comparing Chinese and American LLM prices in USD and CNY."
+  title="Teste Beta Aiatolah — Hub de Inteligência Multilateral"
+  description="Teste beta da interface de 3 colunas comparando preços de LLMs americanas e chinesas em Real (BRL)."
 >
   <main class="container">
 
     <header class="page-header glass-panel animate-fade-in">
       <div class="header-left">
-        <h1 class="page-title">Aiatolah <span class="badge">Beta Test</span></h1>
-        <p class="page-sub">Dynamic multilateral intelligence comparison — prices in USD and CNY per million tokens.</p>
+        <h1 class="page-title">Aiatolah <span class="badge">Teste Beta</span></h1>
+        <p class="page-sub">Comparação dinâmica de inteligência multilateral — preços em BRL e USD por milhão de tokens.</p>
         <div class="meta-row">
-          <span class="meta-tag">Updated: {updated_date}</span>
-          <span class="meta-tag">USD/CNY Rate: ¥ {usd_cny.toFixed(2)}</span>
+          <span class="meta-tag">Atualizado em: {updated_date}</span>
+          <span class="meta-tag">Cotação do Dólar: R$ {usd_brl.toFixed(2).replace('.', ',')}</span>
         </div>
       </div>
       <div class="header-right">
-        <!-- YouTube Video Embed (Jensen Huang Stanford Interview) -->
+        <!-- Incorporação de Vídeo no Topo (Entrevista de Stanford de Jensen Huang) -->
         <div class="video-container">
           <iframe 
             src="https://www.youtube.com/embed/cEg8cOx7UZk" 
-            title="Jensen Huang AI Interview" 
+            title="Entrevista de IA com Jensen Huang" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowfullscreen
@@ -59,9 +59,9 @@ function cny(usd: number) {
 
     <div class="columns animate-fade-in">
 
-      <!-- Left Column: China -->
+      <!-- Coluna Esquerda: China -->
       <section class="col col-china glass-panel">
-        <h2 class="col-title china"><span class="flag">🇨🇳</span> Chinese LLMs</h2>
+        <h2 class="col-title china"><span class="flag">🇨🇳</span> LLMs Chinesas</h2>
         <div class="model-cards">
           {cnModels.map(m => (
             <div class="model-card border-cn">
@@ -71,55 +71,55 @@ function cny(usd: number) {
               </div>
               <div class="pricing-row">
                 <div class="price-box">
-                  <span class="label">Input</span>
-                  <span class="value">${m.input_usd.toFixed(2)}</span>
-                  <span class="sub-label">≈ ¥ {cny(m.input_usd)} CNY</span>
+                  <span class="label">Entrada</span>
+                  <span class="value">R$ {brl(m.input_usd)}</span>
+                  <span class="sub-label">${m.input_usd.toFixed(2)} USD</span>
                 </div>
                 <div class="price-box">
-                  <span class="label">Output</span>
-                  <span class="value">${m.output_usd.toFixed(2)}</span>
-                  <span class="sub-label">≈ ¥ {cny(m.output_usd)} CNY</span>
+                  <span class="label">Saída</span>
+                  <span class="value">R$ {brl(m.output_usd)}</span>
+                  <span class="sub-label">${m.output_usd.toFixed(2)} USD</span>
                 </div>
               </div>
               <div class="card-footer">
-                <span class="badge-tag">{m.quality} · {m.speed}</span>
-                {m.open_source && <span class="oss-tag">⊙ Open Source</span>}
+                <span class="badge-tag">Qualidade: {m.quality} · {m.speed}</span>
+                {m.open_source && <span class="oss-tag">⊙ Código Aberto</span>}
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      <!-- Center Column: Latest AI News -->
+      <!-- Coluna Central: Feed Editorial de Notícias -->
       <section class="col col-news glass-panel">
-        <h2 class="col-title news"><span class="pulse-dot"></span> Latest AI Feed</h2>
+        <h2 class="col-title news"><span class="pulse-dot"></span> Radar Multilateral</h2>
         <div class="news-list">
           <article class="news-card">
-            <span class="news-date">2 hours ago</span>
-            <h3>DeepSeek V3 Benchmarks Displace GPT-4o on Multi-turn Code Tasks</h3>
-            <p>Independent analysis shows the new mixture-of-experts model from China achieves high-quality outputs at 1/10th the inference cost of American models.</p>
-            <a href="/news" class="read-more">Read analysis →</a>
+            <span class="news-date">Há 2 horas</span>
+            <h3>DeepSeek V3 Desbanca GPT-4o em Testes de Programação Complexa</h3>
+            <p>Análise independente demonstra que o novo modelo de Mistura de Especialistas (MoE) da China atinge resultados excepcionais com apenas 10% do custo de inferência dos modelos ocidentais.</p>
+            <a href="/news" class="read-more">Ler análise completa →</a>
           </article>
 
           <article class="news-card">
-            <span class="news-date">5 hours ago</span>
-            <h3>US Chip Restrictions Trigger Mass Migration to Domestic Chinese Accelerators</h3>
-            <p>Chinese firms are rapidly adopting domestic chips from Huawei and Biren, accelerating sovereignty in hardware and software ecosystems.</p>
-            <a href="/news" class="read-more">Read full story →</a>
+            <span class="news-date">Há 5 horas</span>
+            <h3>Sanções de Chips dos EUA Aceleram Migração em Massa para Hardware Chinês</h3>
+            <p>Empresas chinesas de tecnologia adotam rapidamente aceleradores domésticos da Huawei e Biren, impulsionando a soberania e independência no desenvolvimento de semicondutores.</p>
+            <a href="/news" class="read-more">Ler história completa →</a>
           </article>
 
           <article class="news-card">
-            <span class="news-date">1 day ago</span>
-            <h3>Alibaba Releases Qwen3 Max to the Global Public</h3>
-            <p>The new Alibaba flagship demonstrates exceptional multimodal capability, outperforming Gemini 1.5 Pro in complex reasoning tasks.</p>
-            <a href="/news" class="read-more">Read full story →</a>
+            <span class="news-date">Ontem</span>
+            <h3>Alibaba Libera Flagship Qwen3 Max de Código Aberto ao Público Global</h3>
+            <p>O mais recente carro-chefe da Alibaba demonstra capacidade multimodal sem precedentes, superando o Gemini 1.5 Pro em tarefas complexas de raciocínio de imagem e texto.</p>
+            <a href="/news" class="read-more">Ler história completa →</a>
           </article>
         </div>
       </section>
 
-      <!-- Right Column: USA & Others -->
+      <!-- Coluna Direita: EUA & Europa -->
       <section class="col col-usa glass-panel">
-        <h2 class="col-title usa"><span class="flag">🇺🇸</span> US & European LLMs</h2>
+        <h2 class="col-title usa"><span class="flag">🇺🇸</span> LLMs Ocidentais</h2>
         <div class="model-cards">
           {usModels.map(m => (
             <div class="model-card border-us">
@@ -129,19 +129,19 @@ function cny(usd: number) {
               </div>
               <div class="pricing-row">
                 <div class="price-box">
-                  <span class="label">Input</span>
-                  <span class="value">${m.input_usd.toFixed(2)}</span>
-                  <span class="sub-label">≈ ¥ {cny(m.input_usd)} CNY</span>
+                  <span class="label">Entrada</span>
+                  <span class="value">R$ {brl(m.input_usd)}</span>
+                  <span class="sub-label">${m.input_usd.toFixed(2)} USD</span>
                 </div>
                 <div class="price-box">
-                  <span class="label">Output</span>
-                  <span class="value">${m.output_usd.toFixed(2)}</span>
-                  <span class="sub-label">≈ ¥ {cny(m.output_usd)} CNY</span>
+                  <span class="label">Saída</span>
+                  <span class="value">R$ {brl(m.output_usd)}</span>
+                  <span class="sub-label">${m.output_usd.toFixed(2)} USD</span>
                 </div>
               </div>
               <div class="card-footer">
-                <span class="badge-tag">{m.quality} · {m.speed}</span>
-                {m.open_source && <span class="oss-tag">⊙ Open Source</span>}
+                <span class="badge-tag">Qualidade: {m.quality} · {m.speed}</span>
+                {m.open_source && <span class="oss-tag">⊙ Código Aberto</span>}
               </div>
             </div>
           ))}
@@ -228,7 +228,7 @@ function cny(usd: number) {
 
   .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%; /* proporção 16:9 */
     height: 0;
     overflow: hidden;
     border-radius: 8px;
@@ -244,7 +244,7 @@ function cny(usd: number) {
     height: 100%;
   }
 
-  /* Columns Grid */
+  /* Grid de 3 colunas */
   .columns {
     display: grid;
     grid-template-columns: 1fr 1.1fr 1fr;
@@ -280,7 +280,7 @@ function cny(usd: number) {
     line-height: 1;
   }
 
-  /* Pulse Dot for Live News Feed */
+  /* Ponto pulsante do Feed Editorial */
   .pulse-dot {
     width: 10px;
     height: 10px;
@@ -297,7 +297,7 @@ function cny(usd: number) {
     100% { transform: scale(0.95); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
   }
 
-  /* Model Cards in Side Columns */
+  /* Cards de LLMs */
   .model-cards {
     display: flex;
     flex-direction: column;
@@ -402,7 +402,7 @@ function cny(usd: number) {
     color: #00d4ff;
   }
 
-  /* News Center Column */
+  /* Lista de Notícias */
   .news-list {
     display: flex;
     flex-direction: column;
@@ -457,7 +457,7 @@ function cny(usd: number) {
     transform: translateX(3px);
   }
 
-  /* Responsive Design */
+  /* Design Responsivo */
   @media (max-width: 1100px) {
     .columns {
       grid-template-columns: 1fr;
