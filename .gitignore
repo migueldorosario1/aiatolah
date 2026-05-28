@@ -16,6 +16,14 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
+.env.*.local
+chaves*.env
+*.secret
+secrets/
+
+# operational data
+agent_data/
 
 # macOS-specific files
 .DS_Store
