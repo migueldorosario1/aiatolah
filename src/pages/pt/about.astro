@@ -1,0 +1,162 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Sobre"
+  description="O AIatolah é um veículo de mídia bilíngue especializado em inteligência artificial, LLMs, guerra de chips e geopolítica de tecnologia — feito pelo jornalista brasileiro Miguel do Rosário."
+>
+  <main class="about-container">
+
+    <section class="about-hero">
+      <h1>Sobre o <span class="ai-highlight">AI</span>atolah</h1>
+      <p class="tagline">Inteligência independente sobre IA — do Sul Global.</p>
+    </section>
+
+    <section class="about-body glass-panel">
+
+      <div class="about-block">
+        <h2>O que é o AIatolah?</h2>
+        <p>
+          O AIatolah é um veículo de imprensa especializado na cobertura de inteligência artificial, grandes modelos de linguagem (LLMs),
+          processadores, semicondutores e tudo o que está na fronteira da alta tecnologia.
+          Acompanhamos os últimos lançamentos de modelos de IA, comparamos preços e desempenho, e reportamos sobre a
+          geopolítica da guerra global dos chips.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2>Nossa Missão</h2>
+        <ul>
+          <li>Fornecer informações independentes e de qualidade sobre os modelos mais recentes de IA e LLMs</li>
+          <li>Comparar preços, qualidade e velocidade entre provedores chineses, americanos e globais</li>
+          <li>Publicar rankings: custo por milhão de tokens, qualidade de saída, velocidade de inferência</li>
+          <li>Cobrir grandes investimentos, movimentos corporativos e a geopolítica da IA</li>
+          <li>Reportar sobre a guerra dos chips — NVIDIA, TSMC e a corrida pela dominância dos semicondutores</li>
+        </ul>
+      </div>
+
+      <div class="about-block">
+        <h2>Nossa Perspectiva</h2>
+        <p>
+          Adotamos uma <strong>visão multilateral</strong>. Nenhum modelo, país ou empresa é automaticamente superior.
+          Cobrimos os modelos chineses (DeepSeek, Qwen, Kimi, GLM) com a mesma profundidade dos americanos
+          (ChatGPT, Claude, Gemini, Llama). Acreditamos que a tecnologia deve ser avaliada por seus méritos —
+          não por lealdade geopolítica.
+        </p>
+        <p>
+          Defendemos o <strong>software de código aberto</strong> (open source) e a ciência aberta. Acreditamos que o acesso à
+          IA de fronteira não deve ser monopolizado por um punhado de corporações ocidentais.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2>Quem faz o AIatolah?</h2>
+        <p>
+          O AIatolah é criado por <strong>Miguel do Rosário</strong>, jornalista brasileiro baseado no
+          Rio de Janeiro. Miguel cobre tecnologia, política e mídia há mais de uma década.
+          O site é produzido com o auxílio de uma equipe editorial autônoma de IA — um
+          experimento vivo de jornalismo humano-IA.
+        </p>
+      </div>
+
+      <div class="about-block">
+        <h2>Idiomas</h2>
+        <p>
+          O AIatolah publica em <strong>inglês</strong> e <strong>português</strong>.
+          O inglês é a nossa língua principal para alcance global. O português atende às comunidades brasileira e
+          lusófona do Sul Global.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  .about-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .about-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .about-hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    letter-spacing: -1px;
+  }
+
+  .ai-highlight {
+    color: #00d4ff;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+  }
+
+  .about-body {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .about-block h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-block p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-block ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .about-block ul li {
+    color: rgba(255,255,255,0.75);
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .about-block ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #00d4ff;
+  }
+
+  .about-block strong {
+    color: rgba(255,255,255,0.95);
+  }
+
+  @media (max-width: 768px) {
+    .about-hero h1 { font-size: 2rem; }
+    .about-body { padding: 1.5rem; }
+  }
+</style>

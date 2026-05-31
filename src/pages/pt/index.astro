@@ -1,5 +1,24 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const modules = import.meta.glob('./posts/*.md', { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, mod]: [string, any]) => {
+    const fm = mod.frontmatter ?? {};
+    const slug = path.replace('./posts/', '').replace('.md', '');
+    return {
+      title:    fm.title ?? slug,
+      date:     fm.date ?? '2026-01-01',
+      category: fm.category ?? 'AI',
+      excerpt:  fm.excerpt ?? '',
+      url:      `/pt/posts/${slug}`,
+      lang:     fm.lang ?? '',
+    };
+  })
+  .filter(p => p.lang === 'pt-br')
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 3);
 ---
 
 <Layout
@@ -16,9 +35,9 @@ import Layout from '../../layouts/Layout.astro';
         numa perspectiva multilateral, do Sul Global.
       </p>
       <div class="action-buttons">
-        <a href="/rankings" class="btn-neon">Rankings</a>
-        <a href="/news" class="btn-outline">Últimas Notícias</a>
-        <a href="/about" class="btn-outline">Sobre</a>
+        <a href="/pt/rankings" class="btn-neon">Rankings</a>
+        <a href="/pt/news" class="btn-outline">Últimas Notícias</a>
+        <a href="/pt/about" class="btn-outline">Sobre</a>
       </div>
     </section>
 
@@ -44,15 +63,32 @@ import Layout from '../../layouts/Layout.astro';
             <span class="model-tag">Zhipu</span>
           </div>
         </div>
-        <a href="/rankings" class="col-cta">Ranking completo →</a>
+        <a href="/pt/rankings" class="col-cta">Ranking completo →</a>
       </div>
 
       <div class="col col-center glass-panel">
         <h2 class="col-title news-title">📡 Últimas</h2>
         <div class="news-placeholder">
-          <p class="news-item">Notícias de IA atualizadas a cada 3 horas.</p>
-          <p class="news-item muted">Rankings, lançamentos, guerra dos chips, geopolítica.</p>
-          <a href="/news" class="col-cta">Ver notícias →</a>
+          {posts.length === 0 ? (
+            <>
+              <p class="news-item">Notícias de IA atualizadas a cada 3 horas.</p>
+              <p class="news-item muted">Rankings, lançamentos, guerra dos chips, geopolítica.</p>
+            </>
+          ) : (
+            posts.map(post => (
+              <article class="news-item-mini" style="display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.8rem;">
+                <div style="display: flex; gap: 0.5rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'Outfit', sans-serif;">
+                  <span style="color: #00d4ff; font-weight: 700;">{post.category}</span>
+                  <span>·</span>
+                  <span>{new Date(post.date).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric' })}</span>
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; line-height: 1.3; margin: 0;">
+                  <a href={post.url} style="color: rgba(255,255,255,0.9); text-decoration: none; transition: color 0.2s;" class="hover-cyan">{post.title}</a>
+                </h3>
+              </article>
+            ))
+          )}
+          <a href="/pt/news" class="col-cta" style="margin-top: auto;">Ver notícias →</a>
         </div>
       </div>
 
@@ -76,7 +112,7 @@ import Layout from '../../layouts/Layout.astro';
             <span class="model-tag best-open">Open source</span>
           </div>
         </div>
-        <a href="/rankings" class="col-cta">Ranking completo →</a>
+        <a href="/pt/rankings" class="col-cta">Ranking completo →</a>
       </div>
 
     </section>

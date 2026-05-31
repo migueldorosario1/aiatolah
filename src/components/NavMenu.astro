@@ -1,12 +1,26 @@
 ---
-// NavMenu.astro — Aiatolah navigation (English)
-// Inspired by Rio Carta premium header — dropdown hover, mobile toggle, dark theme
+// NavMenu.astro — Aiatolah navigation (English/Portuguese)
+const pathname = Astro.url.pathname;
+const isPt = pathname.startsWith('/pt');
+
+const homeLink = isPt ? "/pt" : "/";
+const rankingsLink = isPt ? "/pt/rankings" : "/rankings";
+const newsLink = isPt ? "/pt/news" : "/news";
+const aboutLink = isPt ? "/pt/about" : "/about";
+
+const tChina = isPt ? "Chineses" : "Chinese";
+const tAmerican = isPt ? "Americanos" : "American";
+const tOthers = isPt ? "Outros" : "Others";
+const tImage = isPt ? "Imagem" : "Image";
+const tRankings = isPt ? "Benchmarks" : "Rankings";
+const tNews = isPt ? "Notícias" : "News";
+const tAbout = isPt ? "Sobre" : "About";
 ---
 
 <nav class="aiatolah-nav">
   <div class="nav-inner">
 
-    <a href="/" class="nav-logo">
+    <a href={homeLink} class="nav-logo">
       <svg class="logo-crescent" width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <mask id="crescent-mask">
@@ -26,7 +40,7 @@
         <button class="dropbtn">LLMs <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="dropdown-content">
           <div class="dropdown-section">
-            <span class="section-title">🇨🇳 Chinese</span>
+            <span class="section-title">🇨🇳 {tChina}</span>
             <a href="https://platform.deepseek.com/" target="_blank" rel="noopener">DeepSeek</a>
             <a href="https://chat.qwen.ai/" target="_blank" rel="noopener">Qwen (Alibaba)</a>
             <a href="https://platform.moonshot.cn/" target="_blank" rel="noopener">Kimi (Moonshot)</a>
@@ -34,7 +48,7 @@
             <a href="https://cloud.baidu.com/product/wenxinworkshop" target="_blank" rel="noopener">Baidu Ernie</a>
           </div>
           <div class="dropdown-section">
-            <span class="section-title">🇺🇸 American</span>
+            <span class="section-title">🇺🇸 {tAmerican}</span>
             <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT (OpenAI)</a>
             <a href="https://claude.ai/" target="_blank" rel="noopener">Claude (Anthropic)</a>
             <a href="https://x.ai/grok" target="_blank" rel="noopener">Grok (xAI)</a>
@@ -42,7 +56,7 @@
             <a href="https://llama.meta.com/" target="_blank" rel="noopener">Llama (Meta)</a>
           </div>
           <div class="dropdown-section">
-            <span class="section-title">🌍 Others</span>
+            <span class="section-title">🌍 {tOthers}</span>
             <a href="https://mistral.ai/" target="_blank" rel="noopener">Mistral (France)</a>
             <a href="https://cohere.com/" target="_blank" rel="noopener">Cohere (Canada)</a>
             <a href="https://ai.yandex.com/" target="_blank" rel="noopener">YandexGPT (Russia)</a>
@@ -52,16 +66,16 @@
 
       <!-- Image Generators -->
       <div class="nav-item dropdown">
-        <button class="dropbtn">Image <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button class="dropbtn">{tImage} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="dropdown-content">
           <div class="dropdown-section">
-            <span class="section-title">🇨🇳 Chinese</span>
+            <span class="section-title">🇨🇳 {tChina}</span>
             <a href="https://wanx.aliyun.com/" target="_blank" rel="noopener">Wan 2.6 (Alibaba)</a>
             <a href="https://open.bigmodel.cn/dev/api/image-model/cogview" target="_blank" rel="noopener">CogView (Zhipu)</a>
             <a href="https://tongyi.aliyun.com/" target="_blank" rel="noopener">Tongyi Wanxiang</a>
           </div>
           <div class="dropdown-section">
-            <span class="section-title">🇺🇸 American</span>
+            <span class="section-title">🇺🇸 {tAmerican}</span>
             <a href="https://openai.com/dall-e-3" target="_blank" rel="noopener">DALL-E 3 (OpenAI)</a>
             <a href="https://www.midjourney.com/" target="_blank" rel="noopener">Midjourney</a>
             <a href="https://flux1.ai/" target="_blank" rel="noopener">Flux (Black Forest)</a>
@@ -72,25 +86,25 @@
 
       <!-- Rankings -->
       <div class="nav-item">
-        <a href="/rankings" class="direct-link">Rankings</a>
+        <a href={rankingsLink} class="direct-link">{tRankings}</a>
       </div>
 
       <!-- News -->
       <div class="nav-item">
-        <a href="/news" class="direct-link">News</a>
+        <a href={newsLink} class="direct-link">{tNews}</a>
       </div>
 
       <!-- About -->
       <div class="nav-item">
-        <a href="/about" class="direct-link">About</a>
+        <a href={aboutLink} class="direct-link">{tAbout}</a>
       </div>
 
     </div>
 
     <!-- Language flags -->
     <div class="lang-flags">
-      <a href="/" class="flag-btn" title="English">🇺🇸</a>
-      <a href="/pt" class="flag-btn" title="Português">🇧🇷</a>
+      <a href="/" class={`flag-btn ${!isPt ? 'active-flag' : ''}`} title="English">🇺🇸</a>
+      <a href="/pt" class={`flag-btn ${isPt ? 'active-flag' : ''}`} title="Português">🇧🇷</a>
     </div>
 
   </div>
