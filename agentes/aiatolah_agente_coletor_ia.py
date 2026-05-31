@@ -25,6 +25,12 @@ except ImportError:
 FEEDS_MERCADO = {
     "Nvidia": "https://finance.yahoo.com/rss/headline?s=NVDA",
     "TSMC": "https://finance.yahoo.com/rss/headline?s=TSM",
+    "AMD": "https://finance.yahoo.com/rss/headline?s=AMD",
+    "ASML": "https://finance.yahoo.com/rss/headline?s=ASML",
+    "Broadcom": "https://finance.yahoo.com/rss/headline?s=AVGO",
+    "Microsoft": "https://finance.yahoo.com/rss/headline?s=MSFT",
+    "Google": "https://finance.yahoo.com/rss/headline?s=GOOG",
+    "Meta": "https://finance.yahoo.com/rss/headline?s=META",
     "Tech_AI": "https://techcrunch.com/category/artificial-intelligence/feed/",
     "China_Tech": "https://www.scmp.com/rss/318198/XML" # SCMP Tech
 }

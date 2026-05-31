@@ -2,7 +2,20 @@
 import Layout from '../../layouts/Layout.astro';
 import ranking from '../../data/ranking.json';
 
-const { models, usd_brl, updated_at } = ranking;
+const { models, updated_at } = ranking;
+let usd_brl = 5.80;
+
+try {
+  const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL');
+  if (res.ok) {
+    const data = await res.json();
+    if (data.USDBRL) {
+      usd_brl = parseFloat(data.USDBRL.bid);
+    }
+  }
+} catch (e) {
+  console.error("Erro ao buscar cotacao de Dolar em tempo real:", e);
+}
 
 const sorted = [...models].sort((a, b) => a.input_usd - b.input_usd);
 
