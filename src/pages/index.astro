@@ -1,5 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const modules = import.meta.glob('./en/posts/*.md', { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, mod]: [string, any]) => {
+    const fm = mod.frontmatter ?? {};
+    const slug = path.replace('./en/posts/', '').replace('.md', '');
+    return {
+      title:    fm.title ?? slug,
+      date:     fm.date ?? '2026-01-01',
+      category: fm.category ?? 'AI',
+      excerpt:  fm.excerpt ?? '',
+      url:      `/en/posts/${slug}`,
+      lang:     fm.lang ?? 'en',
+    };
+  })
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, 3);
 ---
 
 <Layout
@@ -50,9 +68,26 @@ import Layout from '../layouts/Layout.astro';
       <div class="col col-center glass-panel">
         <h2 class="col-title news-title">📡 Latest</h2>
         <div class="news-placeholder">
-          <p class="news-item">AI news updated every 3 hours.</p>
-          <p class="news-item muted">Rankings, model releases, chip wars, geopolitics.</p>
-          <a href="/news" class="col-cta">Browse news →</a>
+          {posts.length === 0 ? (
+            <>
+              <p class="news-item">AI news updated every 3 hours.</p>
+              <p class="news-item muted">Rankings, model releases, chip wars, geopolitics.</p>
+            </>
+          ) : (
+            posts.map(post => (
+              <article class="news-item-mini" style="display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.8rem; text-align: left; width: 100%;">
+                <div style="display: flex; gap: 0.5rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'Outfit', sans-serif;">
+                  <span style="color: #00d4ff; font-weight: 700;">{post.category}</span>
+                  <span>·</span>
+                  <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; line-height: 1.3; margin: 0;">
+                  <a href={post.url} style="color: rgba(255,255,255,0.9); text-decoration: none; transition: color 0.2s;" class="hover-cyan">{post.title}</a>
+                </h3>
+              </article>
+            ))
+          )}
+          <a href="/news" class="col-cta" style="margin-top: auto;">Browse news →</a>
         </div>
       </div>
 
@@ -228,23 +263,85 @@ import Layout from '../layouts/Layout.astro';
     flex-direction: column;
     gap: 0.75rem;
     flex: 1;
+    width: 100%;
   }
 
-  .news-item {
-    font-size: 0.92rem;
-    color: rgba(255,255,255,0.65);
-    line-height: 1.6;
+  .news-item-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .news-item.muted { color: rgba(255,255,255,0.35); font-size: 0.83rem; }
+  .news-item-mini:hover {
+    background: rgba(0, 212, 255, 0.05);
+    border-color: rgba(0, 212, 255, 0.25);
+    transform: translateY(-2px);
+  }
 
+  .hover-cyan {
+    transition: color 0.2s;
+  }
+
+  .news-item-mini:hover .hover-cyan {
+    color: #00d4ff !important;
+  }
+
+  /* Highly Mobile Responsive Styles */
   @media (max-width: 900px) {
-    .columns { grid-template-columns: 1fr; }
-    .hero-title { font-size: 2.2rem; }
+    .container {
+      padding: 2rem 1.25rem;
+      gap: 2rem;
+    }
+    .hero {
+      padding: 3rem 1.5rem;
+    }
+    .hero-title {
+      font-size: 2.3rem;
+    }
+    .hero-sub {
+      font-size: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .columns {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .col {
+      padding: 1.5rem;
+    }
   }
 
-  @media (max-width: 600px) {
-    .container { padding: 2rem 1rem; }
-    .hero { padding: 2.5rem 1rem; }
+  @media (max-width: 480px) {
+    .container {
+      padding: 1.5rem 1rem;
+    }
+    .hero {
+      padding: 2.25rem 1rem;
+    }
+    .hero-title {
+      font-size: 1.95rem;
+    }
+    .hero-sub {
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .action-buttons {
+      flex-direction: column;
+      width: 100%;
+      gap: 0.75rem;
+    }
+    .btn-neon, .btn-outline {
+      width: 100%;
+      text-align: center;
+      padding: 0.75rem 1rem;
+    }
+    .col {
+      padding: 1.2rem 1rem;
+    }
   }
 </style>
