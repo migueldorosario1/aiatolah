@@ -38,7 +38,7 @@ FEEDS_MERCADO = {
 # Palavras-chave estratégicas para atração de notícias chinesas
 KEYWORDS_CHINESAS = ["Kimi", "Moonshot", "Alibaba", "DeepSeek", "Qwen", "Baidu", "Ernie", "Tencent", "Zhipu", "GLM"]
 
-def gerar_html_comparativo(modelo_nome: str, metricas: dict) -> str:
+def _gerar_html_comparativo_raw(modelo_nome: str, metricas: dict) -> str:
     """
     Gera um card visual responsivo em HTML/CSS puro com tabelas e gráficos
     em barra horizontais comparativos de custo e tamanho de parâmetros.
@@ -342,10 +342,12 @@ def gerar_html_comparativo(modelo_nome: str, metricas: dict) -> str:
         <div style="background:#a8ffb2; width:{100 - bar_width_preco}%; height:100%; border-radius:3px;"></div>
       </div>
     </div>
-  </div>
-</div>
-"""
     return html
+
+def gerar_html_comparativo(modelo_nome: str, metricas: dict) -> str:
+    html_raw = _gerar_html_comparativo_raw(modelo_nome, metricas)
+    # Remove any blank lines to prevent CommonMark parser from dropping out of HTML block mode
+    return "\n".join([line for line in html_raw.splitlines() if line.strip()])
 
 def coletar_noticias():
     """Coleta as últimas notícias (Top 3) dos feeds RSS estratégicos."""

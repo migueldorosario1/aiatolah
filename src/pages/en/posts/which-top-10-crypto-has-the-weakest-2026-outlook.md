@@ -15,7 +15,6 @@ source: "https://247wallst.com/investing/2026/05/28/which-top-10-crypto-has-the-
     <h4 style="color:#76b900; margin:0; font-size:16px; font-weight:bold; display:flex; align-items:center; gap:8px;">🟢 NVIDIA GPU Gen-to-Gen: Hopper vs Blackwell</h4>
     <span style="font-size:10px; color:#76b900; background:rgba(118,185,0,0.1); padding:2px 8px; border-radius:12px; border:1px solid rgba(118,185,0,0.3); font-weight:bold;">Soberania de Semicondutores</span>
   </div>
-  
   <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom:15px; text-align:left;">
     <thead>
       <tr style="color:#94a3b8; border-bottom:1px solid #1e293b;">
@@ -47,7 +46,6 @@ source: "https://247wallst.com/investing/2026/05/28/which-top-10-crypto-has-the-
       </tr>
     </tbody>
   </table>
-
   <div style="font-size:12px;">
     <div style="margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#94a3b8;">
@@ -58,7 +56,6 @@ source: "https://247wallst.com/investing/2026/05/28/which-top-10-crypto-has-the-
         <div style="background:#76b900; width:100%; height:100%; border-radius:4px;"></div>
       </div>
     </div>
-    
     <div>
       <div style="display:flex; justify-content:space-between; margin-bottom:4px; color:#94a3b8;">
         <span>Consumo Energético / Eficiência (Watts por PetaFLOP):</span>
