@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Futuros de Dow, S&P 500 e Nasdaq sobem enquanto mercado aguarda atualizações sobre EUA e Irã"
 date: 2026-05-28
 category: "Nvidia"

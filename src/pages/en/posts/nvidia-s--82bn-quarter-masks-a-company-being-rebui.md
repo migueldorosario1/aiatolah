@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Nvidia's $82bn quarter masks a company being rebuilt from within - Analysis"
 date: 2026-05-22
 category: "Nvidia"

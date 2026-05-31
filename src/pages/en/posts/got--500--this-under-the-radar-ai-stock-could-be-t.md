@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Got $500? This Under-the-Radar AI Stock Could Be the Best Investment You Make All Year. - Analysis"
 date: 2026-05-22
 category: "Nvidia"

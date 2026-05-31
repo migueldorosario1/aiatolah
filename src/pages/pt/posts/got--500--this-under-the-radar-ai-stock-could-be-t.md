@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Tem R$ 2.500? Esta ação de IA fora do radar pode ser seu melhor investimento no ano"
 date: 2026-05-22
 category: "Nvidia"

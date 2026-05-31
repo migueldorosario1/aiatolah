@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "The Chip War in 2026: How China Is Routing Around US Semiconductor Sanctions"
 date: 2026-05-18
 category: "Chip Wars"

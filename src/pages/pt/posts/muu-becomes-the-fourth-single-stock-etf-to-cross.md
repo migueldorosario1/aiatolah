@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "MUU se torna o quarto ETF de ação única a ultrapassar US$ 5 bilhões"
 date: 2026-05-28
 category: "Nvidia"

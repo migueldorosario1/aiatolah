@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Alibaba's Qwen3 235B: The Largest Open-Source Model — And It's Chinese"
 date: 2026-05-19
 category: "Open Source"

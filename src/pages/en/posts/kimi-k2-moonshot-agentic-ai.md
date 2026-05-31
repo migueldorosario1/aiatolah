@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Kimi K2: Moonshot AI's Bet on Agentic Models Challenges OpenAI's Operator"
 date: 2026-05-21
 category: "China AI"

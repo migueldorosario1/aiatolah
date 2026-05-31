@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Vale a pena comprar o ETF de Prata iShares após queda de 35%?"
 date: 2026-05-22
 category: "Nvidia"

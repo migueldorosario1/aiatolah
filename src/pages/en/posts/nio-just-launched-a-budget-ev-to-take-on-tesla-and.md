@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Nio Just Launched a Budget EV to Take On Tesla and BYD. Is Nio Stock Finally Worth Buying? - Analysis"
 date: 2026-05-31
 category: "Nvidia"

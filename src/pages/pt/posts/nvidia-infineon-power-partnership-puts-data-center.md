@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Parceria de energia entre NVIDIA e Infineon coloca data centers em novo foco"
 date: 2026-05-31
 category: "Nvidia"

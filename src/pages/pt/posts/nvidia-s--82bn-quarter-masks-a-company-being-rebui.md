@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Trimestre de US$ 82 bilhões da Nvidia oculta uma empresa sendo reconstruída por dentro"
 date: 2026-05-22
 category: "Nvidia"

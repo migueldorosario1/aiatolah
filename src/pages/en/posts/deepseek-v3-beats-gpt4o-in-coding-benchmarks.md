@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "DeepSeek V3 Outperforms GPT-4o on Coding and Math — At a Fraction of the Cost"
 date: 2026-05-23
 category: "Rankings"

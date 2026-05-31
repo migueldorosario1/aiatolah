@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "NVIDIA Infineon Power Partnership Puts Data Center Story In New Focus - Analysis"
 date: 2026-05-31
 category: "Nvidia"

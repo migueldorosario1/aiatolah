@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Qual das 10 principais criptomoedas tem a pior perspectiva para 2026?"
 date: 2026-05-28
 category: "Nvidia"

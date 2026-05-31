@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Which Top 10 Crypto Has The Weakest 2026 Outlook? - Analysis"
 date: 2026-05-28
 category: "Nvidia"

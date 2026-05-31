@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "The Semiconductor Play Nobody Owns Just Lapped Wall Street’s Biggest Names - Analysis"
 date: 2026-05-31
 category: "Nvidia"

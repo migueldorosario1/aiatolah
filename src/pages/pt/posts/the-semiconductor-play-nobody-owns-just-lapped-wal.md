@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "A ação de semicondutores que ninguém tem acaba de superar os gigantes de Wall Street"
 date: 2026-05-31
 category: "Nvidia"

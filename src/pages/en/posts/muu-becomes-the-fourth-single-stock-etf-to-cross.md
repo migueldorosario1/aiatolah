@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "MUU Becomes the Fourth Single-Stock ETF to Cross $5 Billion - Analysis"
 date: 2026-05-28
 category: "Nvidia"

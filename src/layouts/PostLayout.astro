@@ -1,0 +1,261 @@
+---
+import Layout from './Layout.astro';
+
+const { frontmatter } = Astro.props;
+const { title, date, category, lang, source } = frontmatter;
+
+const isPt = lang === 'pt-br';
+const backText = isPt ? '← Voltar para Notícias' : '← Back to News';
+const backLink = isPt ? '/pt/news' : '/news';
+const publishedText = isPt ? 'Publicado em' : 'Published on';
+const sourceText = isPt ? 'Fonte original' : 'Original source';
+
+const formattedDate = new Date(date).toLocaleDateString(isPt ? 'pt-BR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<Layout title={title} description={`${title} - Editorial analysis from a Global South perspective.`}>
+  <main class="post-container">
+    <article class="post-article glass-panel animate-fade-in">
+      <header class="post-header">
+        <a href={backLink} class="back-link">{backText}</a>
+        
+        <div class="post-meta-top">
+          <span class="category-tag">{category}</span>
+          <span class="post-date">{publishedText} {formattedDate}</span>
+        </div>
+        
+        <h1 class="post-title gradient-text">{title}</h1>
+        
+        {source && (
+          <a href={source} target="_blank" rel="noopener noreferrer" class="source-link">
+            {sourceText} ↗
+          </a>
+        )}
+      </header>
+      
+      <div class="post-content">
+        <slot />
+      </div>
+      
+      <footer class="post-footer">
+        <div class="footer-logo">
+          <svg class="logo-crescent" width="32" height="32" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <mask id="crescent-mask-post">
+                <circle cx="11" cy="11" r="9" fill="white"/>
+                <circle cx="15.2" cy="10" r="7.2" fill="black"/>
+              </mask>
+            </defs>
+            <circle cx="11" cy="11" r="9" fill="#e8b84b" mask="url(#crescent-mask-post)"/>
+          </svg>
+          <span class="logo-text"><span class="logo-ai">AI</span>atolah</span>
+        </div>
+        <p class="footer-tagline">
+          {isPt ? 'Perspectiva independente e multilateral sobre IA e tecnologia.' : 'Independent, multilateral intelligence on AI and technology.'}
+        </p>
+      </footer>
+    </article>
+  </main>
+</Layout>
+
+<style is:global>
+  /* Local styling specifically for post articles */
+  .post-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  .post-article {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+  }
+
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 2rem;
+  }
+
+  .back-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #00ff88;
+    text-decoration: none;
+    transition: transform 0.2s;
+    align-self: flex-start;
+  }
+
+  .back-link:hover {
+    transform: translateX(-4px);
+  }
+
+  .post-meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .category-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: rgba(0, 212, 255, 0.12);
+    color: #00d4ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .post-date {
+    font-size: 0.82rem;
+    color: #888899;
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -1px;
+    margin: 0.5rem 0;
+  }
+
+  .source-link {
+    font-size: 0.82rem;
+    color: #888899;
+    text-decoration: none;
+    align-self: flex-start;
+    transition: color 0.2s;
+  }
+
+  .source-link:hover {
+    color: #fff;
+  }
+
+  /* Markdown content styles styling inside global layout */
+  .post-content {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .post-content h1 {
+    display: none; /* Hide the duplicate main title inside markdown */
+  }
+
+  .post-content h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 1.5rem;
+    border-left: 3px solid #00ff88;
+    padding-left: 0.75rem;
+  }
+
+  .post-content p {
+    margin-bottom: 0.5rem;
+  }
+
+  .post-content ul, .post-content ol {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-content blockquote {
+    border-left: 4px solid rgba(0, 255, 136, 0.2);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: #888899;
+  }
+
+  /* Micro-charts container table inside posts */
+  .aiatolah-benchmark-card table {
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  .aiatolah-benchmark-card table th, .aiatolah-benchmark-card table td {
+    padding: 8px 12px;
+  }
+
+  /* Post Footer */
+  .post-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #fff;
+  }
+
+  .logo-ai {
+    color: #00d4ff;
+  }
+
+  .footer-tagline {
+    font-size: 0.85rem;
+    color: #888899;
+  }
+
+  /* Touch and Mobile responsive refinements */
+  @media (max-width: 768px) {
+    .post-container {
+      padding: 1.5rem 1rem;
+    }
+    .post-article {
+      padding: 1.75rem 1.25rem;
+      gap: 1.5rem;
+    }
+    .post-title {
+      font-size: 1.85rem;
+    }
+    .post-content {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .aiatolah-benchmark-card {
+      padding: 12px !important;
+      margin: 15px 0 !important;
+    }
+    .aiatolah-benchmark-card table {
+      font-size: 11px !important;
+    }
+    .aiatolah-benchmark-card th, .aiatolah-benchmark-card td {
+      padding: 6px 4px !important;
+    }
+  }
+</style>

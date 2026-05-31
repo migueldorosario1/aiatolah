@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Inflação atinge o maior nível em quase 3 anos no primeiro relatório sob comando de Kevin Warsh"
 date: 2026-05-28
 category: "Nvidia"

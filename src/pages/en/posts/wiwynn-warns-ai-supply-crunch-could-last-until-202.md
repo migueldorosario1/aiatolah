@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Wiwynn Warns AI Supply Crunch Could Last Until 2027-2028 - Analysis"
 date: 2026-05-28
 category: "Nvidia"

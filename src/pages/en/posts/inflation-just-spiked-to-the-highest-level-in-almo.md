@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Inflation Just Spiked to the Highest Level in Almost 3 Years in the First Report Under New Fed Chair Kevin Warsh. But There Was Some Good News - Analysis"
 date: 2026-05-28
 category: "Nvidia"

@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Nio lança carro elétrico popular para enfrentar Tesla e BYD"
 date: 2026-05-31
 category: "Nvidia"

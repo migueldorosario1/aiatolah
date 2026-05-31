@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Stock market today: Dow, S&P 500, Nasdaq futures edge up as Wall Street braces for US-Iran update - Analysis"
 date: 2026-05-28
 category: "Nvidia"

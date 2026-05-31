@@ -443,6 +443,7 @@ def processar_e_redigir_ia(noticia):
     
     # 3. Geração dos templates Markdown enriquecidos com os micro-charts
     conteudo_md_en = f"""---
+layout: ../../../layouts/PostLayout.astro
 title: "{titulo_en} - Analysis"
 date: {data_hoje}
 category: "{noticia['categoria']}"
@@ -458,6 +459,7 @@ source: "{noticia['link']}"
 """
 
     conteudo_md_pt = f"""---
+layout: ../../../layouts/PostLayout.astro
 title: "{titulo_pt} - Análise"
 date: {data_hoje}
 category: "{noticia['categoria']}"

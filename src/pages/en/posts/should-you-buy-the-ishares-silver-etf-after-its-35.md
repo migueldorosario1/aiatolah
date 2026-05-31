@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Should You Buy the iShares Silver ETF After Its 35% Plunge? Here's What Could Happen Next. - Analysis"
 date: 2026-05-22
 category: "Nvidia"

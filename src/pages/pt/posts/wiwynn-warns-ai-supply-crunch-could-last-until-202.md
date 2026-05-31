@@ -1,4 +1,5 @@
 ---
+layout: ../../../layouts/PostLayout.astro
 title: "Wiwynn alerta que crise de fornecimento de IA pode durar até 2027-2028"
 date: 2026-05-28
 category: "Nvidia"
