@@ -1,12 +1,12 @@
 ---
-title: "Stock market today: Dow, S&P 500, Nasdaq futures edge up as Wall Street braces for US-Iran update - Análise"
+title: "Futuros de Dow, S&P 500 e Nasdaq sobem enquanto mercado aguarda atualizações sobre EUA e Irã"
 date: 2026-05-28
 category: "Nvidia"
 lang: "pt-br"
 source: "https://finance.yahoo.com/news/live/stock-market-today-dow-sp-500-nasdaq-futures-edge-up-as-wall-street-braces-for-us-iran-update-222720596.html?.tsrc=rss"
 ---
 
-# Stock market today: Dow, S&P 500, Nasdaq futures edge up as Wall Street braces for US-Iran update
+# Futuros de Dow, S&P 500 e Nasdaq sobem enquanto mercado aguarda atualizações sobre EUA e Irã
 
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">

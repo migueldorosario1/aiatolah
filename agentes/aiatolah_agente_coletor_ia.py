@@ -397,8 +397,20 @@ def processar_e_redigir_ia(noticia):
             titulo_pt = higienizar_texto_cjk(noticia["titulo"])
             titulo_en = noticia["titulo"]
     else:
-        titulo_pt = higienizar_texto_cjk(noticia["titulo"])
         titulo_en = noticia["titulo"]
+        try:
+            sys_tradutor = (
+                "Você é um tradutor jornalístico profissional especializado em tecnologia e negócios. "
+                "Traduza o título a seguir do inglês para o português do brasil de forma fluida, natural, "
+                "sem jargões corporativos literais excessivos. Retorne APENAS a tradução limpa, sem aspas, "
+                "sem explicações, sem markdown, sem tags, sem pontuação extra ao redor."
+            )
+            trad_pt = gerar_texto(sys_tradutor, f"Traduza: {titulo_en}", agente_nome="tradutor_titulo", tema="tecnologia")
+            titulo_pt = trad_pt[0].strip('\"\'\n ') if isinstance(trad_pt, tuple) else trad_pt.strip('\"\'\n ')
+            print(f"[Tradutor] Título traduzido para PT: {titulo_pt}")
+        except Exception as e:
+            print(f"[Erro] Falha ao traduzir título: {e}")
+            titulo_pt = higienizar_texto_cjk(noticia["titulo"])
         
     print(f"[LLM] Gerando análise para: {titulo_en}")
     

@@ -1,12 +1,12 @@
 ---
-title: "NVIDIA Infineon Power Partnership Puts Data Center Story In New Focus - Análise"
+title: "Parceria de energia entre NVIDIA e Infineon coloca data centers em novo foco"
 date: 2026-05-31
 category: "Nvidia"
 lang: "pt-br"
 source: "https://finance.yahoo.com/markets/stocks/articles/nvidia-infineon-power-partnership-puts-170311130.html?.tsrc=rss"
 ---
 
-# NVIDIA Infineon Power Partnership Puts Data Center Story In New Focus
+# Parceria de energia entre NVIDIA e Infineon coloca data centers em novo foco
 
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">

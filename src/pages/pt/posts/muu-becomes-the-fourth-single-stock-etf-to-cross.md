@@ -1,12 +1,12 @@
 ---
-title: "MUU Becomes the Fourth Single-Stock ETF to Cross $5 Billion - Análise"
+title: "MUU se torna o quarto ETF de ação única a ultrapassar US$ 5 bilhões"
 date: 2026-05-28
 category: "Nvidia"
 lang: "pt-br"
 source: "http://www.etf.com/sections/features/muu-becomes-fourth-single-stock-etf-cross-5-billion?utm_source=yahoo-finance&utm_medium=rss&utm_campaign=yahoo-finance-rss&.tsrc=rss"
 ---
 
-# MUU Becomes the Fourth Single-Stock ETF to Cross $5 Billion
+# MUU se torna o quarto ETF de ação única a ultrapassar US$ 5 bilhões
 
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">

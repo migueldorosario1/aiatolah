@@ -1,12 +1,12 @@
 ---
-title: "Wiwynn Warns AI Supply Crunch Could Last Until 2027-2028 - Análise"
+title: "Wiwynn alerta que crise de fornecimento de IA pode durar até 2027-2028"
 date: 2026-05-28
 category: "Nvidia"
 lang: "pt-br"
 source: "https://finance.yahoo.com/sectors/technology/articles/wiwynn-warns-ai-supply-crunch-221449458.html?.tsrc=rss"
 ---
 
-# Wiwynn Warns AI Supply Crunch Could Last Until 2027-2028
+# Wiwynn alerta que crise de fornecimento de IA pode durar até 2027-2028
 
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">

@@ -1,12 +1,12 @@
 ---
-title: "Nio Just Launched a Budget EV to Take On Tesla and BYD. Is Nio Stock Finally Worth Buying? - Análise"
+title: "Nio lança carro elétrico popular para enfrentar Tesla e BYD"
 date: 2026-05-31
 category: "Nvidia"
 lang: "pt-br"
 source: "https://www.fool.com/investing/2026/05/31/nio-just-launched-a-budget-ev-to-take-on-tesla-and/?.tsrc=rss"
 ---
 
-# Nio Just Launched a Budget EV to Take On Tesla and BYD. Is Nio Stock Finally Worth Buying?
+# Nio lança carro elétrico popular para enfrentar Tesla e BYD
 
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">

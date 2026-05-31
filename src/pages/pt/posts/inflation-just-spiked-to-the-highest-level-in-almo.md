@@ -1,12 +1,12 @@
 ---
-title: "Inflation Just Spiked to the Highest Level in Almost 3 Years in the First Report Under New Fed Chair Kevin Warsh. But There Was Some Good News - Análise"
+title: "Inflação atinge o maior nível em quase 3 anos no primeiro relatório sob comando de Kevin Warsh"
 date: 2026-05-28
 category: "Nvidia"
 lang: "pt-br"
 source: "https://www.fool.com/investing/2026/05/28/inflation-just-spiked-to-the-highest-level-in-almost-3-years-in-the-first-report-under-new-fed-chair-kevin-warsh-but-there-was-some-good-news/?.tsrc=rss"
 ---
 
-# Inflation Just Spiked to the Highest Level in Almost 3 Years in the First Report Under New Fed Chair Kevin Warsh. But There Was Some Good News
+# Inflação atinge o maior nível em quase 3 anos no primeiro relatório sob comando de Kevin Warsh
 
 
 
