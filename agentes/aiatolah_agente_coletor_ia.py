@@ -342,12 +342,63 @@ def _gerar_html_comparativo_raw(modelo_nome: str, metricas: dict) -> str:
         <div style="background:#a8ffb2; width:{100 - bar_width_preco}%; height:100%; border-radius:3px;"></div>
       </div>
     </div>
+  </div>
+</div>
+"""
     return html
 
-def gerar_html_comparativo(modelo_nome: str, metricas: dict) -> str:
+def traduzir_html_para_en(html: str) -> str:
+    replacements = {
+        "Soberania de Semicondutores": "Semiconductor Sovereignty",
+        "Métrica de Performance": "Performance Metric",
+        "Litografia (Processo)": "Lithography (Process)",
+        "Transistores Totais": "Total Transistors",
+        "Largura de Banda de Memória": "Memory Bandwidth",
+        "Consumo Energético / Eficiência (Watts por PetaFLOP):": "Energy Consumption / Efficiency (Watts per PetaFLOP):",
+        "25x mais eficiente": "25x more efficient",
+        "Guerra das Fundições": "Foundry Wars",
+        "Característica": "Feature",
+        "Arquitetura do Transistor": "Transistor Architecture",
+        "Densidade de Chips (vs N3E)": "Chip Density (vs N3E)",
+        "Ganho de Velocidade (mesma energia)": "Speed Gain (same power)",
+        "+10% a +15% de Performance": "+10% to +15% Performance",
+        "Redução de Consumo (mesmo clock)": "Power Reduction (same clock)",
+        "-25% a -30% de Consumo": "-25% to -30% Power",
+        "Eficiência Energética N2 (Redução de Dissipação):": "N2 Energy Efficiency (Power Dissipation Reduction):",
+        "30% menor consumo": "30% lower power",
+        "Soberania Tecnológica": "Technological Sovereignty",
+        "Modelo de IA": "AI Model",
+        "Origem": "Origin",
+        "Custo Input (1M tokens)": "Input Cost (1M tokens)",
+        "EUA (Proprietário)": "USA (Proprietary)",
+        "Eficiência Financeira (DeepSeek vs GPT-4o):": "Financial Efficiency (DeepSeek vs GPT-4o):",
+        "97% mais barato": "97% cheaper",
+        "Sul Global Tech": "Global South Tech",
+        "Provedor / API": "Provider / API",
+        "Qualidade": "Quality",
+        "Capaz (B)": "Capable (B)",
+        "Excelente (A)": "Excellent (A)",
+        "Índice de Acessibilidade Financeira (GLM-4 / DeepSeek):": "Financial Accessibility Index (GLM-4 / DeepSeek):",
+        "99% acessível": "99% affordable",
+        "Ficha Técnica & Benchmark": "Technical Specs & Benchmark",
+        "Modelo Analisado": "Analyzed Model",
+        "Escala de Parâmetros": "Parameter Scale",
+        "Preço por 1M Tokens (Input)": "Price per 1M Tokens (Input)",
+        "Escala de Tamanho (vs Frontier 200B):": "Size Scale (vs Frontier 200B):",
+        "Eficiência de Custo (vs Standard GPT-4o $15):": "Cost Efficiency (vs Standard GPT-4o $15):",
+        "mais eficiente": "more efficient"
+    }
+    for old, new in replacements.items():
+        html = html.replace(old, new)
+    return html
+
+def gerar_html_comparativo(modelo_nome: str, metricas: dict, lang="pt-br") -> str:
     html_raw = _gerar_html_comparativo_raw(modelo_nome, metricas)
     # Remove any blank lines to prevent CommonMark parser from dropping out of HTML block mode
-    return "\n".join([line for line in html_raw.splitlines() if line.strip()])
+    html_clean = "\n".join([line for line in html_raw.splitlines() if line.strip()])
+    if lang == "en":
+        return traduzir_html_para_en(html_clean)
+    return html_clean
 
 def coletar_noticias():
     """Coleta as últimas notícias (Top 3) dos feeds RSS estratégicos."""
@@ -430,7 +481,8 @@ def processar_e_redigir_ia(noticia):
             modelo_nome = kw
             break
             
-    html_grafico = gerar_html_comparativo(modelo_nome, metricas)
+    html_grafico_en = gerar_html_comparativo(modelo_nome, metricas, lang="en")
+    html_grafico_pt = gerar_html_comparativo(modelo_nome, metricas, lang="pt-br")
     
     sys_prompt = (
         "Você é um analista experiente focado no mercado global de Inteligência Artificial, "
@@ -440,7 +492,7 @@ def processar_e_redigir_ia(noticia):
     )
     
     prompt_en = f"Write in English a professional editorial analysis about: {titulo_en} (Category: {noticia['categoria']})."
-    prompt_pt = f"Escreva em Português uma análise editorial profissional sobre: {titulo_pt} (Categoria: {noticia['categoria']})."
+    prompt_pt = f"Escreva em Português uma análise editorial profissional sobre: {titulo_pt} (Category: {noticia['categoria']})."
     
     # Chama a LLM via Trindade (Roteador de LLM)
     retorno_en = gerar_texto(sys_prompt, prompt_en, agente_nome="aiatolah_en", tema="tecnologia")
@@ -461,7 +513,7 @@ source: "{noticia['link']}"
 
 # {titulo_en}
 
-{html_grafico}
+{html_grafico_en}
 
 {texto_en}
 """
@@ -477,7 +529,7 @@ source: "{noticia['link']}"
 
 # {titulo_pt}
 
-{html_grafico}
+{html_grafico_pt}
 
 {texto_pt}
 """
