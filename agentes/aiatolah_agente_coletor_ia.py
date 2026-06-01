@@ -533,7 +533,7 @@ source: "{noticia['link']}"
 
 {texto_pt}
 """
-    return slug, conteudo_md_en, conteudo_md_pt
+    return slug, conteudo_md_en, conteudo_md_pt, titulo_en, titulo_pt
 
 def salvar_artigo_astro(slug, conteudo_en, conteudo_pt):
     """Salva os .md diretos no repositório Headless nas pastas de idioma correspondentes."""
@@ -558,6 +558,7 @@ def executar_git_push():
     """
     Executa git add, git commit e git push para persistir e deployar
     no repositório headless do portal Aiatolah na Vercel.
+    Retorna True se houver novos Commits/Push, False caso contrário.
     """
     import subprocess
     repo_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -567,7 +568,7 @@ def executar_git_push():
         status_res = subprocess.run(["git", "status", "--porcelain"], cwd=repo_dir, capture_output=True, text=True)
         if not status_res.stdout.strip():
             print("[*] Nenhum artigo novo ou alterado encontrado para deploy.")
-            return
+            return False
             
         # 1. git add .
         subprocess.run(["git", "add", "."], cwd=repo_dir, check=True)
@@ -581,19 +582,69 @@ def executar_git_push():
         print("[*] Enviando posts ao GitHub para publicação via Vercel...")
         subprocess.run(["git", "push", "origin", "main"], cwd=repo_dir, check=True)
         print("[+] Deploy executado e publicado com sucesso total! 🚀")
+        return True
     except Exception as e:
         print(f"[Erro] Falha ao executar Git Push automático: {e}")
+        return False
+
+def disparar_ifttt_webhook(slug, titulo_pt, titulo_en):
+    """
+    Dispara os webhooks do IFTTT para notificar sobre novos artigos em PT e EN.
+    O IFTTT Maker Key é obtido da variável de ambiente IFTTT_KEY, IFTTT_WEBHOOK_KEY ou IFTTT_MAKER_KEY.
+    """
+    import requests
+    ifttt_key = os.environ.get("IFTTT_KEY") or os.environ.get("IFTTT_WEBHOOK_KEY") or os.environ.get("IFTTT_MAKER_KEY")
+    if not ifttt_key:
+        print("[!] IFTTT Maker Key não encontrada nas variáveis de ambiente. Pulando webhook.")
+        return
+        
+    link_pt = f"https://aiatolah.com/pt/posts/{slug}"
+    link_en = f"https://aiatolah.com/en/posts/{slug}"
+    
+    # 1. Dispara o Webhook em Português
+    try:
+        payload_pt = {"value1": titulo_pt, "value2": link_pt}
+        # Dispara tanto o evento específico quanto o genérico para máxima compatibilidade
+        for event in ["aiatolah_novo_post_pt", "aiatolah_novo_post"]:
+            url = f"https://maker.ifttt.com/trigger/{event}/with/key/{ifttt_key}"
+            r = requests.post(url, json=payload_pt, timeout=10)
+            print(f"[IFTTT] Webhook '{event}' disparado para PT: {r.status_code}")
+    except Exception as e:
+        print(f"[Erro] Falha ao disparar Webhook IFTTT PT: {e}")
+        
+    # 2. Dispara o Webhook em Inglês
+    try:
+        payload_en = {"value1": titulo_en, "value2": link_en}
+        url = f"https://maker.ifttt.com/trigger/aiatolah_novo_post_en/with/key/{ifttt_key}"
+        r = requests.post(url, json=payload_en, timeout=10)
+        print(f"[IFTTT] Webhook 'aiatolah_novo_post_en' disparado para EN: {r.status_code}")
+    except Exception as e:
+        print(f"[Erro] Falha ao disparar Webhook IFTTT EN: {e}")
 
 def main():
-    print("=== Iniciando Aiatolah Agente Coletor v1.1 (Phase 1) ===")
+    print("=== Iniciando Aiatolah Agente Coletor v1.2 (Phase 1 + Social Webhook) ===")
     noticias = coletar_noticias()
     
+    artigos_processados = []
     for noti in noticias:
-        slug, md_en, md_pt = processar_e_redigir_ia(noti)
+        slug, md_en, md_pt, titulo_en, titulo_pt = processar_e_redigir_ia(noti)
         salvar_artigo_astro(slug, md_en, md_pt)
+        artigos_processados.append({
+            "slug": slug,
+            "titulo_en": titulo_en,
+            "titulo_pt": titulo_pt
+        })
         
-    print("=== Coleta concluída. Iniciando deploy automático na Vercel... ===")
-    executar_git_push()
+    if artigos_processados:
+        print("=== Coleta concluída. Iniciando deploy automático na Vercel... ===")
+        if executar_git_push():
+            print("=== Deploy de sucesso. Disparando notificações IFTTT... ===")
+            for art in artigos_processados:
+                disparar_ifttt_webhook(art["slug"], art["titulo_pt"], art["titulo_en"])
+        else:
+            print("[*] Sem novos commits. Webhooks do IFTTT ignorados.")
+    else:
+        print("[*] Nenhuma nova notícia coletada nesta rodada.")
 
 if __name__ == "__main__":
     main()
