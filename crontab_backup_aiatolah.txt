@@ -1,3 +1,4 @@
 # Jornais do dia - sincronização diária
 30 10 * * * "/home/migueldorosario/Downloads/Antigravity Google/Outros/Jornais do dia/jornaisdodia.sh"
 0 12 * * * "/home/migueldorosario/Downloads/Antigravity Google/Outros/Jornais do dia/jornaisdodia.sh"
+0 */3 * * * cd "/home/migueldorosario/Downloads/Antigravity Google/aiatolah" && set -a && . ./.env.local && set +a && /home/migueldorosario/.pyenv/versions/3.10.13/bin/python3 agentes/aiatolah_agente_coletor_ia.py >> agent_data/cron_errors.log 2>&1
