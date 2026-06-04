@@ -502,11 +502,15 @@ def processar_e_redigir_ia(noticia):
     texto_pt = retorno_pt[0] if isinstance(retorno_pt, tuple) else retorno_pt
     
     # 3. Geração dos templates Markdown enriquecidos com os micro-charts
+    titulo_en_yaml = titulo_en.replace('"', "'")
+    titulo_pt_yaml = titulo_pt.replace('"', "'")
+    categoria_yaml = noticia['categoria'].replace('"', "'")
+
     conteudo_md_en = f"""---
 layout: ../../../layouts/PostLayout.astro
-title: "{titulo_en} - Analysis"
+title: "{titulo_en_yaml} - Analysis"
 date: {data_hoje}
-category: "{noticia['categoria']}"
+category: "{categoria_yaml}"
 lang: "en"
 source: "{noticia['link']}"
 ---
@@ -520,9 +524,9 @@ source: "{noticia['link']}"
 
     conteudo_md_pt = f"""---
 layout: ../../../layouts/PostLayout.astro
-title: "{titulo_pt} - Análise"
+title: "{titulo_pt_yaml} - Análise"
 date: {data_hoje}
-category: "{noticia['categoria']}"
+category: "{categoria_yaml}"
 lang: "pt-br"
 source: "{noticia['link']}"
 ---
