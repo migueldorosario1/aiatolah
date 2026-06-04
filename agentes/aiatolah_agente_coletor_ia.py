@@ -502,17 +502,23 @@ def processar_e_redigir_ia(noticia):
     texto_pt = retorno_pt[0] if isinstance(retorno_pt, tuple) else retorno_pt
     
     # 3. Geração dos templates Markdown enriquecidos com os micro-charts
-    titulo_en_yaml = titulo_en.replace('"', "'")
-    titulo_pt_yaml = titulo_pt.replace('"', "'")
-    categoria_yaml = noticia['categoria'].replace('"', "'")
+    def escape_yaml_single_quote(val):
+        if not val:
+            return "''"
+        return f"'{str(val).replace(chr(39), chr(39)+chr(39))}'"
+
+    titulo_en_yaml = escape_yaml_single_quote(f"{titulo_en} - Analysis")
+    titulo_pt_yaml = escape_yaml_single_quote(f"{titulo_pt} - Análise")
+    categoria_yaml = escape_yaml_single_quote(noticia['categoria'])
+    link_yaml = escape_yaml_single_quote(noticia['link'])
 
     conteudo_md_en = f"""---
 layout: ../../../layouts/PostLayout.astro
-title: "{titulo_en_yaml} - Analysis"
+title: {titulo_en_yaml}
 date: {data_hoje}
-category: "{categoria_yaml}"
+category: {categoria_yaml}
 lang: "en"
-source: "{noticia['link']}"
+source: {link_yaml}
 ---
 
 # {titulo_en}
@@ -524,11 +530,11 @@ source: "{noticia['link']}"
 
     conteudo_md_pt = f"""---
 layout: ../../../layouts/PostLayout.astro
-title: "{titulo_pt_yaml} - Análise"
+title: {titulo_pt_yaml}
 date: {data_hoje}
-category: "{categoria_yaml}"
+category: {categoria_yaml}
 lang: "pt-br"
-source: "{noticia['link']}"
+source: {link_yaml}
 ---
 
 # {titulo_pt}
