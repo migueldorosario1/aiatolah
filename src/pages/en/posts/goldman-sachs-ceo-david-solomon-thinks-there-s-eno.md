@@ -1,6 +1,6 @@
 ---
 layout: ../../../layouts/PostLayout.astro
-title: "Goldman Sachs CEO David Solomon Thinks There's Enough "Greed" to Absorb the SpaceX, OpenAI, and Anthropic IPOs - Analysis"
+title: "Goldman Sachs CEO David Solomon Thinks There's Enough 'Greed' to Absorb the SpaceX, OpenAI, and Anthropic IPOs - Analysis"
 date: 2026-06-03
 category: "Nvidia"
 lang: "en"
