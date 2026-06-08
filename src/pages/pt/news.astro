@@ -13,10 +13,12 @@ const posts = Object.entries(modules)
       category: fm.category ?? 'AI',
       excerpt:  fm.excerpt ?? '',
       url:      `/pt/posts/${slug}`,
+      heroImage: fm.heroImage ?? '/hero/default-aiatolah.jpg',
+      noHome:   fm.noHome === true,
       lang:     fm.lang ?? '',
     };
   })
-  .filter(p => p.lang === 'pt-br')
+  .filter(p => p.lang === 'pt-br' && !p.noHome)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 const categoryColor: Record<string, string> = {
@@ -29,22 +31,25 @@ const categoryColor: Record<string, string> = {
 ---
 
 <Layout
-  title="Notícias de IA | AIatolah"
-  description="Últimas notícias sobre inteligência artificial, LLMs, guerra dos chips e geopolítica de IA — sob a perspectiva do Sul Global. Atualizado a cada 3 horas."
+  title="Notícias | AIatolah"
+  description="Últimas análises sobre inteligência artificial, LLMs, guerra dos chips e geopolítica de IA — sob a perspectiva do Sul Global."
 >
   <main class="container">
 
-    <section class="news-hero animate-fade-in">
-      <h1 class="news-title">Notícias de <span class="hi">IA</span></h1>
-      <p class="news-sub">
-        Guerra dos chips · Lançamentos de LLM · Grandes investimentos · Geopolítica da IA<br/>
-        <span class="update-badge">⟳ Atualizado a cada 3 horas</span>
-      </p>
-    </section>
+    <!-- Category Filter Menu Bar (Replaces redundant header) -->
+    <div class="filter-menu-container animate-fade-in">
+      <div class="filter-menu-bar glass-panel">
+        <button class="filter-btn active" data-filter="all">Todas as Análises</button>
+        <button class="filter-btn" data-filter="Rankings">Rankings</button>
+        <button class="filter-btn" data-filter="China AI">China AI</button>
+        <button class="filter-btn" data-filter="Open Source">Código Aberto</button>
+        <button class="filter-btn" data-filter="Chip Wars">Guerra de Chips</button>
+      </div>
+    </div>
 
     <section class="news-grid animate-fade-in">
       {posts.map((post, i) => (
-        <a href={post.url} class={`news-card glass-panel ${i === 0 ? 'card-featured' : ''}`}>
+        <a href={post.url} class={`news-card glass-panel ${i === 0 ? 'card-featured' : ''}`} data-category={post.category}>
           <div class="card-top">
             <span class={`cat-tag ${categoryColor[post.category] ?? 'cat-default'}`}>
               {post.category}
@@ -63,6 +68,42 @@ const categoryColor: Record<string, string> = {
   </main>
 </Layout>
 
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.news-card') as NodeListOf<HTMLElement>;
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all
+      buttons.forEach(b => b.classList.remove('active'));
+      // Add active class to clicked
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'flex';
+          card.classList.remove('animate-fade-in');
+          void card.offsetWidth; // trigger reflow
+          card.classList.add('animate-fade-in');
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Adjust featured layout if filtering
+      if (filter === 'all') {
+        const firstVisible = Array.from(cards).find(c => c.style.display !== 'none');
+        if (firstVisible) firstVisible.classList.add('card-featured');
+      } else {
+        cards.forEach(card => card.classList.remove('card-featured'));
+      }
+    });
+  });
+</script>
+
 <style>
   .container {
     max-width: 1200px;
@@ -73,37 +114,45 @@ const categoryColor: Record<string, string> = {
     gap: 2.5rem;
   }
 
-  /* Hero */
-  .news-hero { text-align: center; }
+  /* Filter Menu Bar styling */
+  .filter-menu-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
 
-  .news-title {
+  .filter-menu-bar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(8, 8, 20, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .filter-btn {
     font-family: 'Outfit', sans-serif;
-    font-size: 2.8rem;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -1px;
-    margin-bottom: 0.6rem;
-  }
-
-  .hi { color: #00d4ff; }
-
-  .news-sub {
-    color: rgba(255,255,255,0.45);
-    font-size: 0.95rem;
-    line-height: 1.8;
-  }
-
-  .update-badge {
-    display: inline-block;
-    margin-top: 0.4rem;
-    font-size: 0.78rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    color: rgba(0,212,255,0.7);
-    background: rgba(0,212,255,0.07);
-    border: 1px solid rgba(0,212,255,0.2);
+    color: rgba(255, 255, 255, 0.6);
+    background: none;
+    border: none;
+    padding: 0.5rem 1.25rem;
     border-radius: 20px;
-    padding: 0.2rem 0.75rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .filter-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .filter-btn.active {
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.2);
   }
 
   /* Grid */
@@ -207,7 +256,6 @@ const categoryColor: Record<string, string> = {
 
   @media (max-width: 600px) {
     .container { padding: 2rem 1rem; }
-    .news-title { font-size: 2rem; }
     .news-grid { grid-template-columns: 1fr; }
     .card-featured { grid-column: span 1; }
   }
