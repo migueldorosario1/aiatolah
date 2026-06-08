@@ -44,7 +44,7 @@
     },
     {
       "id": "gpt-4o-mini",
-      "name": "GPT-4o mini",
+      "name": "ChatGPT 4o mini",
       "provider": "OpenAI",
       "country": "US",
       "flag": "🇺🇸",
@@ -161,7 +161,7 @@
     },
     {
       "id": "gpt-5-5",
-      "name": "GPT-5.5",
+      "name": "ChatGPT 5.5 (GPT-5)",
       "provider": "OpenAI",
       "country": "US",
       "flag": "🇺🇸",
@@ -187,7 +187,7 @@
     },
     {
       "id": "gpt-4o",
-      "name": "GPT-4o",
+      "name": "ChatGPT 4o",
       "provider": "OpenAI",
       "country": "US",
       "flag": "🇺🇸",
@@ -226,7 +226,7 @@
     },
     {
       "id": "gpt-4o-1",
-      "name": "GPT-4o-1",
+      "name": "ChatGPT o1 (Pro)",
       "provider": "OpenAI",
       "country": "US",
       "flag": "🇺🇸",
