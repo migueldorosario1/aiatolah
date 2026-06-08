@@ -2,7 +2,7 @@
 import Layout from './Layout.astro';
 
 const { frontmatter } = Astro.props;
-const { title, date, category, lang, source } = frontmatter;
+const { title, date, category, lang, source, heroImage } = frontmatter;
 
 const isPt = lang === 'pt-br';
 const backText = isPt ? '← Voltar para Notícias' : '← Back to News';
@@ -37,6 +37,12 @@ const formattedDate = new Date(date).toLocaleDateString(isPt ? 'pt-BR' : 'en-US'
         )}
       </header>
       
+      {heroImage && (
+        <div class="post-hero-wrapper">
+          <img src={heroImage} alt={title} class="post-hero-image" />
+        </div>
+      )}
+      
       <div class="post-content">
         <slot />
       </div>
@@ -68,6 +74,27 @@ const formattedDate = new Date(date).toLocaleDateString(isPt ? 'pt-BR' : 'en-US'
     max-width: 860px;
     margin: 0 auto;
     padding: 3rem 1.5rem;
+  }
+
+  .post-hero-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    aspect-ratio: 16 / 9;
+  }
+
+  .post-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .post-hero-wrapper:hover .post-hero-image {
+    transform: scale(1.03);
   }
 
   .post-article {

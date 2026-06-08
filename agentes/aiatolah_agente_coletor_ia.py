@@ -433,6 +433,65 @@ def coletar_noticias():
             
     return noticias_filtradas[:3] # Limita o total a 3 por rodada para controle de custo
 
+def gerar_e_salvar_imagem_destacada(slug, titulo_en):
+    """
+    Gera uma imagem de destaque para o artigo usando Fal.ai Flux Schnell.
+    Salva a imagem localmente em 'public/hero/{slug}.jpg'.
+    Retorna o caminho público da imagem '/hero/{slug}.jpg' ou '/hero/default-aiatolah.jpg' em caso de erro.
+    """
+    import requests
+    # Ensure public/hero exists
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    hero_dir = os.path.join(base_dir, 'public', 'hero')
+    os.makedirs(hero_dir, exist_ok=True)
+    
+    # Load FAL key from environment
+    fal_key = os.environ.get("FAL_API_KEY")
+    if not fal_key:
+        print("[Visual] FAL_API_KEY não configurado nas variáveis de ambiente. Pulando geração de imagem.")
+        return "/hero/default-aiatolah.jpg"
+        
+    url = "https://fal.run/fal-ai/flux/schnell"
+    headers = {
+        "Authorization": f"Key {fal_key}",
+        "Content-Type": "application/json"
+    }
+    
+    # Generate prompt based on the article title
+    # We want highly premium, aesthetic abstract/conceptual tech illustrations (no faces, no text)
+    prompt = f"Abstract modern editorial concept illustration about {titulo_en}, sleek clean corporate tech style, glowing accents, dark background, 16:9, cinematic lighting, absolutely no text, no words, no letters, no recognizable faces."
+    
+    payload = {
+        "prompt": prompt,
+        "image_size": "landscape_16_9",
+        "num_inference_steps": 4,
+        "enable_safety_checker": True
+    }
+    
+    try:
+        print(f"[Visual] Gerando imagem para o artigo: {slug}...")
+        r = requests.post(url, json=payload, headers=headers, timeout=60)
+        if r.status_code == 200:
+            res = r.json()
+            images = res.get("images", [])
+            if images:
+                img_url = images[0].get("url")
+                print(f"[Visual] Baixando imagem gerada de: {img_url}...")
+                img_data = requests.get(img_url).content
+                local_path = os.path.join(hero_dir, f"{slug}.jpg")
+                with open(local_path, "wb") as f:
+                    f.write(img_data)
+                print(f"[Visual] Imagem salva com sucesso: {local_path}")
+                return f"/hero/{slug}.jpg"
+            else:
+                print("[Visual] Resposta do Fal.ai sem imagem:", res)
+        else:
+            print(f"[Visual] Erro na API Fal.ai: HTTP {r.status_code} - {r.text}")
+    except Exception as e:
+        print(f"[Visual] Exceção ao gerar imagem destacada: {e}")
+        
+    return "/hero/default-aiatolah.jpg"
+
 def processar_e_redigir_ia(noticia):
     """
     Chama a LLM para ler o título e gerar um texto rico focado no mercado e na tecnologia.
@@ -501,6 +560,9 @@ def processar_e_redigir_ia(noticia):
     texto_en = retorno_en[0] if isinstance(retorno_en, tuple) else retorno_en
     texto_pt = retorno_pt[0] if isinstance(retorno_pt, tuple) else retorno_pt
     
+    # Gera a imagem destacada por IA
+    hero_image_path = gerar_e_salvar_imagem_destacada(slug, titulo_en)
+    
     # 3. Geração dos templates Markdown enriquecidos com os micro-charts
     def escape_yaml_single_quote(val):
         if not val:
@@ -519,6 +581,7 @@ date: {data_hoje}
 category: {categoria_yaml}
 lang: "en"
 source: {link_yaml}
+heroImage: "{hero_image_path}"
 ---
 
 # {titulo_en}
@@ -535,6 +598,7 @@ date: {data_hoje}
 category: {categoria_yaml}
 lang: "pt-br"
 source: {link_yaml}
+heroImage: "{hero_image_path}"
 ---
 
 # {titulo_pt}
