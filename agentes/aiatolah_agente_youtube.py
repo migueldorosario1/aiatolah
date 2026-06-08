@@ -44,8 +44,9 @@ def obter_transcricao(video_id):
     """Obtém a transcrição do vídeo usando a biblioteca youtube-transcript-api."""
     try:
         from youtube_transcript_api import YouTubeTranscriptApi
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en', 'pt', 'es'])
-        text = " ".join([t['text'] for t in transcript_list])
+        api = YouTubeTranscriptApi()
+        transcript = api.fetch(video_id, languages=['en', 'pt', 'es'])
+        text = " ".join([snippet.text for snippet in transcript])
         return text
     except Exception as e:
         print(f"[YouTube] Falha ao obter transcrição para o vídeo {video_id}: {e}")
