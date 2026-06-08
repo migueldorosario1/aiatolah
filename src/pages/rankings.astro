@@ -19,12 +19,14 @@ try {
 
 const sorted = [...models].sort((a, b) => a.input_usd - b.input_usd);
 
-function brl(usd: number) {
-  return (usd * usd_brl).toFixed(2).replace('.', ',');
+function getCostTier(usd: number) {
+  if (usd < 0.50) return 'economic';
+  if (usd <= 2.00) return 'medium';
+  return 'expensive';
 }
 
 function usdFmt(n: number) {
-  return n < 1 ? `$${n.toFixed(2)}` : `$${n.toFixed(2)}`;
+  return `$${n.toFixed(2)}`;
 }
 
 const qualityLabel: Record<string, string> = {
@@ -61,15 +63,52 @@ const countryClass: Record<string, string> = {
       </div>
     </section>
 
-    <section class="legend animate-fade-in">
-      <div class="legend-items">
-        <span class="leg"><span class="dot cn"></span> China</span>
-        <span class="leg"><span class="dot us"></span> USA</span>
-        <span class="leg"><span class="dot fr"></span> Europe</span>
-        <span class="leg"><span class="q-s badge-leg">S</span> Frontier</span>
-        <span class="leg"><span class="q-a badge-leg">A</span> Excellent</span>
-        <span class="leg"><span class="q-b badge-leg">B</span> Capable</span>
-        <span class="leg open-badge">⊙ Open source</span>
+    <!-- Dynamic Control Center & Filters -->
+    <section class="controls glass-panel animate-fade-in">
+      <div class="control-header">
+        <h2 class="control-title">🎛️ Control Center & Filters</h2>
+      </div>
+      
+      <div class="filter-group-row">
+        <div class="filter-group">
+          <span class="filter-label">Region</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="region" data-val="all">All</button>
+            <button class="filter-chip" data-filter="region" data-val="CN"><span class="dot cn"></span> China</button>
+            <button class="filter-chip" data-filter="region" data-val="US"><span class="dot us"></span> USA</button>
+            <button class="filter-chip" data-filter="region" data-val="FR"><span class="dot fr"></span> Europe</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Quality</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="quality" data-val="all">All</button>
+            <button class="filter-chip" data-filter="quality" data-val="S"><span class="badge-leg q-s">S</span> Frontier</button>
+            <button class="filter-chip" data-filter="quality" data-val="A"><span class="badge-leg q-a">A</span> Excellent</button>
+            <button class="filter-chip" data-filter="quality" data-val="B"><span class="badge-leg q-b">B</span> Capable</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Cost Tier</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="cost" data-val="all">All</button>
+            <button class="filter-chip" data-filter="cost" data-val="economic">🟢 Economic</button>
+            <button class="filter-chip" data-filter="cost" data-val="medium">🟡 Medium</button>
+            <button class="filter-chip" data-filter="cost" data-val="expensive">🔴 Expensive</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="extra-controls">
+        <div class="control-unit">
+          <span class="control-label">Price Resolution:</span>
+          <div class="segmented-control">
+            <button class="seg-btn active" data-resolution="1m">Per Million Tokens</button>
+            <button class="seg-btn" data-resolution="1k">Per Thousand Tokens</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -79,15 +118,16 @@ const countryClass: Record<string, string> = {
           <tr>
             <th class="th-rank">#</th>
             <th class="th-model">Model</th>
-            <th class="th-price">Input / M tokens</th>
-            <th class="th-price">Output / M tokens</th>
+            <th class="th-price">Input / <span class="price-res-label">M</span> tokens</th>
+            <th class="th-price">Output / <span class="price-res-label">M</span> tokens</th>
+            <th class="th-cost">Cost Tier</th>
             <th class="th-qual">Quality</th>
             <th class="th-speed">Speed</th>
           </tr>
         </thead>
         <tbody>
           {sorted.map((m, i) => (
-            <tr class={`rank-row ${countryClass[m.country] ?? ''}`}>
+            <tr class={`rank-row ${countryClass[m.country] ?? ''}`} data-region={m.country} data-quality={m.quality} data-cost={getCostTier(m.input_usd)}>
               <td class="td-rank">{i + 1}</td>
               <td class="td-model">
                 <div class="model-info">
@@ -106,11 +146,16 @@ const countryClass: Record<string, string> = {
                   ))}
                 </div>
               </td>
-              <td class="td-price">
+              <td class="td-price" data-usd={m.input_usd} data-price-type="input">
                 <span class="price-usd">{usdFmt(m.input_usd)}</span>
               </td>
-              <td class="td-price">
+              <td class="td-price" data-usd={m.output_usd} data-price-type="output">
                 <span class="price-usd">{usdFmt(m.output_usd)}</span>
+              </td>
+              <td class="td-cost">
+                {getCostTier(m.input_usd) === 'economic' && <span class="cost-badge cost-economic">🟢 Economic</span>}
+                {getCostTier(m.input_usd) === 'medium' && <span class="cost-badge cost-medium">🟡 Medium</span>}
+                {getCostTier(m.input_usd) === 'expensive' && <span class="cost-badge cost-expensive">🔴 Expensive</span>}
               </td>
               <td class="td-qual">
                 <span class={`quality-badge ${qualityClass[m.quality]}`}>
@@ -133,6 +178,100 @@ const countryClass: Record<string, string> = {
 
   </main>
 </Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Filter Logic
+    const activeFilters = {
+      region: 'all',
+      quality: 'all',
+      cost: 'all'
+    };
+
+    const chips = document.querySelectorAll('.filter-chip');
+    const rows = document.querySelectorAll('.rank-row');
+
+    function applyFilters() {
+      let visibleIndex = 1;
+      rows.forEach(row => {
+        const region = row.getAttribute('data-region');
+        const quality = row.getAttribute('data-quality');
+        const cost = row.getAttribute('data-cost');
+
+        const matchesRegion = activeFilters.region === 'all' || region === activeFilters.region;
+        const matchesQuality = activeFilters.quality === 'all' || quality === activeFilters.quality;
+        const matchesCost = activeFilters.cost === 'all' || cost === activeFilters.cost;
+
+        if (row instanceof HTMLElement) {
+          if (matchesRegion && matchesQuality && matchesCost) {
+            row.style.display = '';
+            const rankCell = row.querySelector('.td-rank');
+            if (rankCell) rankCell.textContent = String(visibleIndex++);
+          } else {
+            row.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const type = chip.getAttribute('data-filter');
+        const val = chip.getAttribute('data-val');
+        if (!type || !val) return;
+
+        // Deactivate siblings
+        const groupChips = document.querySelectorAll(`.filter-chip[data-filter="${type}"]`);
+        groupChips.forEach(c => c.classList.remove('active'));
+
+        // Activate clicked
+        chip.classList.add('active');
+
+        // Update active filters
+        activeFilters[type] = val;
+
+        // Apply
+        applyFilters();
+      });
+    });
+
+    // 2. Price Resolution Logic
+    const segButtons = document.querySelectorAll('.seg-btn');
+    const priceCells = document.querySelectorAll('.td-price');
+
+    function formatUSD(val, resolution) {
+      if (resolution === '1k') {
+        const v = val / 1000;
+        if (v < 0.0001) return '$' + v.toFixed(6);
+        if (v < 0.01) return '$' + v.toFixed(5);
+        return '$' + v.toFixed(3);
+      } else {
+        return '$' + val.toFixed(2);
+      }
+    }
+
+    segButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const res = btn.getAttribute('data-resolution');
+        if (!res) return;
+        
+        segButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        priceCells.forEach(cell => {
+          const usdVal = parseFloat(cell.getAttribute('data-usd') || '0');
+          const usdLabel = cell.querySelector('.price-usd');
+          if (usdLabel) usdLabel.textContent = formatUSD(usdVal, res);
+        });
+
+        const labels = document.querySelectorAll('.price-res-label');
+        labels.forEach(l => {
+          l.textContent = res === '1k' ? '1K' : 'M';
+        });
+      });
+    });
+  });
+</script>
 
 <style>
   .container {
@@ -186,42 +325,166 @@ const countryClass: Record<string, string> = {
     text-align: center;
   }
 
-  /* Legend */
-  .legend-items {
+  /* Controls and Filters */
+  .controls {
+    padding: 1.5rem;
     display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .leg {
+  .control-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.75rem;
+  }
+
+  .control-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-group-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.05em;
+  }
+
+  .filter-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.65);
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.92rem;
-    color: rgba(255,255,255,0.6);
-    font-family: 'Outfit', sans-serif;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .filter-chip:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .filter-chip.active {
+    background: rgba(0, 212, 255, 0.15);
+    border-color: rgba(0, 212, 255, 0.4);
+    color: #00d4ff;
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
   }
 
   .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     display: inline-block;
   }
-  .dot.cn { background: rgba(255, 107, 53, 0.6); }
-  .dot.us { background: rgba(77, 166, 255, 0.6); }
-  .dot.fr { background: rgba(100, 220, 150, 0.6); }
+  .dot.cn { background: rgba(255, 107, 53, 0.9); }
+  .dot.us { background: rgba(77, 166, 255, 0.9); }
+  .dot.fr { background: rgba(100, 220, 150, 0.9); }
 
   .badge-leg {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    padding: 0.15rem 0.45rem;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 4px;
     font-family: 'Outfit', sans-serif;
   }
 
-  .open-badge { color: rgba(0,212,255,0.7); }
+  .extra-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .control-unit {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .control-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .segmented-control {
+    display: flex;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2px;
+    border-radius: 8px;
+  }
+
+  .seg-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .seg-btn:hover {
+    color: #fff;
+  }
+
+  .seg-btn.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
 
   /* Table */
   .table-wrap {
@@ -252,7 +515,7 @@ const countryClass: Record<string, string> = {
 
   .th-rank { width: 50px; text-align: center; }
   .th-price { text-align: right; }
-  .th-qual, .th-speed { text-align: center; }
+  .th-qual, .th-speed, .th-cost { text-align: center; }
 
   /* Rows */
   .rank-row {
@@ -345,12 +608,22 @@ const countryClass: Record<string, string> = {
     color: rgba(255,255,255,0.9);
   }
 
-  .price-brl {
-    display: block;
-    font-size: 0.85rem;
-    color: rgba(255,255,255,0.45);
-    margin-top: 0.15rem;
+  /* Cost badges */
+  .cost-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    display: inline-block;
   }
+
+  .cost-economic { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
+  .cost-medium { background: rgba(234, 179, 8, 0.1); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.2); }
+  .cost-expensive { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+  .td-cost { text-align: center; }
 
   /* Quality */
   .td-qual { text-align: center; }
@@ -395,6 +668,14 @@ const countryClass: Record<string, string> = {
     .container { padding: 2rem 1rem; }
     .rank-title { font-size: 2rem; }
     .th-speed, .td-speed { display: none; }
+    .th-cost, .td-cost { display: none; }
     .rank-table th, .rank-table td { padding: 0.7rem 0.6rem; }
+  }
+
+  @media (max-width: 1024px) {
+    .filter-group-row {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
   }
 </style>

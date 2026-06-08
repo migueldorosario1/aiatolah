@@ -21,6 +21,12 @@ const sorted = [...models].sort((a, b) => a.input_usd - b.input_usd);
 
 const notePt = "Os preços são por milhão de tokens (entrada/saída). Indicativos — sempre verifique com o provedor oficial.";
 
+function getCostTier(usd: number) {
+  if (usd < 0.50) return 'economic';
+  if (usd <= 2.00) return 'medium';
+  return 'expensive';
+}
+
 function brl(usd: number) {
   return (usd * usd_brl).toFixed(2).replace('.', ',');
 }
@@ -66,20 +72,66 @@ const speedLabel: Record<string, string> = {
       <p class="rank-sub">Preço por milhão de tokens — ordenado pelo mais barato</p>
       <div class="rank-meta">
         <span class="meta-badge">Atualizado em {updated_at}</span>
-        <span class="meta-badge">Dólar BRL: R$ {usd_brl.toFixed(2).replace('.', ',')}</span>
+        <span class="meta-badge">Dólar BRL: R$ <span id="header-rate">{usd_brl.toFixed(2).replace('.', ',')}</span></span>
         <span class="meta-badge muted">{notePt}</span>
       </div>
     </section>
 
-    <section class="legend animate-fade-in">
-      <div class="legend-items">
-        <span class="leg"><span class="dot cn"></span> China</span>
-        <span class="leg"><span class="dot us"></span> EUA</span>
-        <span class="leg"><span class="dot fr"></span> Europa</span>
-        <span class="leg"><span class="q-s badge-leg">S</span> Fronteira</span>
-        <span class="leg"><span class="q-a badge-leg">A</span> Excelente</span>
-        <span class="leg"><span class="q-b badge-leg">B</span> Capaz</span>
-        <span class="leg open-badge">⊙ Código Aberto</span>
+    <!-- Centro de Controle Dinâmico e Filtros -->
+    <section class="controls glass-panel animate-fade-in">
+      <div class="control-header">
+        <h2 class="control-title">🎛️ Painel de Controle e Filtros</h2>
+      </div>
+      
+      <div class="filter-group-row">
+        <div class="filter-group">
+          <span class="filter-label">Região</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="region" data-val="all">Todos</button>
+            <button class="filter-chip" data-filter="region" data-val="CN"><span class="dot cn"></span> China</button>
+            <button class="filter-chip" data-filter="region" data-val="US"><span class="dot us"></span> EUA</button>
+            <button class="filter-chip" data-filter="region" data-val="FR"><span class="dot fr"></span> Europa</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Qualidade</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="quality" data-val="all">Todos</button>
+            <button class="filter-chip" data-filter="quality" data-val="S"><span class="badge-leg q-s">S</span> Fronteira</button>
+            <button class="filter-chip" data-filter="quality" data-val="A"><span class="badge-leg q-a">A</span> Excelente</button>
+            <button class="filter-chip" data-filter="quality" data-val="B"><span class="badge-leg q-b">B</span> Capaz</button>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">Custo</span>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="cost" data-val="all">Todos</button>
+            <button class="filter-chip" data-filter="cost" data-val="economic">🟢 Econômico</button>
+            <button class="filter-chip" data-filter="cost" data-val="medium">🟡 Médio</button>
+            <button class="filter-chip" data-filter="cost" data-val="expensive">🔴 Caro</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="extra-controls">
+        <div class="control-unit">
+          <span class="control-label">Ajustar Cotação do Dólar (R$):</span>
+          <div class="rate-adjuster">
+            <span class="rate-currency">R$</span>
+            <input type="number" id="usd-brl-input" value={usd_brl.toFixed(2)} step="0.10" min="3.00" max="10.00" class="rate-input" />
+            <button class="rate-reset" id="reset-rate" data-default={usd_brl.toFixed(2)}>redefinir</button>
+          </div>
+        </div>
+
+        <div class="control-unit">
+          <span class="control-label">Resolução do Preço:</span>
+          <div class="segmented-control">
+            <button class="seg-btn active" data-resolution="1m">Por Milhão</button>
+            <button class="seg-btn" data-resolution="1k">Por Mil</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -89,15 +141,16 @@ const speedLabel: Record<string, string> = {
           <tr>
             <th class="th-rank">#</th>
             <th class="th-model">Modelo</th>
-            <th class="th-price">Entrada / M tokens</th>
-            <th class="th-price">Saída / M tokens</th>
+            <th class="th-price">Entrada / <span class="price-res-label">M</span> tokens</th>
+            <th class="th-price">Saída / <span class="price-res-label">M</span> tokens</th>
+            <th class="th-cost">Custo</th>
             <th class="th-qual">Qualidade</th>
             <th class="th-speed">Velocidade</th>
           </tr>
         </thead>
         <tbody>
           {sorted.map((m, i) => (
-            <tr class={`rank-row ${countryClass[m.country] ?? ''}`}>
+            <tr class={`rank-row ${countryClass[m.country] ?? ''}`} data-region={m.country} data-quality={m.quality} data-cost={getCostTier(m.input_usd)}>
               <td class="td-rank">{i + 1}</td>
               <td class="td-model">
                 <div class="model-info">
@@ -116,13 +169,18 @@ const speedLabel: Record<string, string> = {
                   ))}
                 </div>
               </td>
-              <td class="td-price">
+              <td class="td-price" data-usd={m.input_usd}>
                 <span class="price-usd">{usdFmt(m.input_usd)}</span>
-                <span class="price-brl">R$ {brl(m.input_usd)}</span>
+                <span class="price-brl">R$ <span class="price-brl-val">{brl(m.input_usd)}</span></span>
               </td>
-              <td class="td-price">
+              <td class="td-price" data-usd={m.output_usd}>
                 <span class="price-usd">{usdFmt(m.output_usd)}</span>
-                <span class="price-brl">R$ {brl(m.output_usd)}</span>
+                <span class="price-brl">R$ <span class="price-brl-val">{brl(m.output_usd)}</span></span>
+              </td>
+              <td class="td-cost">
+                {getCostTier(m.input_usd) === 'economic' && <span class="cost-badge cost-economic">🟢 Econômico</span>}
+                {getCostTier(m.input_usd) === 'medium' && <span class="cost-badge cost-medium">🟡 Médio</span>}
+                {getCostTier(m.input_usd) === 'expensive' && <span class="cost-badge cost-expensive">🔴 Caro</span>}
               </td>
               <td class="td-qual">
                 <span class={`quality-badge ${qualityClass[m.quality]}`}>
@@ -139,12 +197,156 @@ const speedLabel: Record<string, string> = {
     </section>
 
     <p class="disclaimer animate-fade-in">
-      Os preços são indicativos e estão sujeitos a alterações. Sempre verifique as taxas oficiais diretamente nos provedores.
+      Os preços são indicativos e sujeitos a alteração. Sempre verifique com o provedor.
       <a href="/pt/about" class="disc-link">Sobre o AIatolah →</a>
     </p>
 
   </main>
 </Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Filter Logic
+    const activeFilters = {
+      region: 'all',
+      quality: 'all',
+      cost: 'all'
+    };
+
+    const chips = document.querySelectorAll('.filter-chip');
+    const rows = document.querySelectorAll('.rank-row');
+
+    function applyFilters() {
+      let visibleIndex = 1;
+      rows.forEach(row => {
+        const region = row.getAttribute('data-region');
+        const quality = row.getAttribute('data-quality');
+        const cost = row.getAttribute('data-cost');
+
+        const matchesRegion = activeFilters.region === 'all' || region === activeFilters.region;
+        const matchesQuality = activeFilters.quality === 'all' || quality === activeFilters.quality;
+        const matchesCost = activeFilters.cost === 'all' || cost === activeFilters.cost;
+
+        if (row instanceof HTMLElement) {
+          if (matchesRegion && matchesQuality && matchesCost) {
+            row.style.display = '';
+            const rankCell = row.querySelector('.td-rank');
+            if (rankCell) rankCell.textContent = String(visibleIndex++);
+          } else {
+            row.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const type = chip.getAttribute('data-filter');
+        const val = chip.getAttribute('data-val');
+        if (!type || !val) return;
+
+        // Deactivate siblings
+        const groupChips = document.querySelectorAll(`.filter-chip[data-filter="${type}"]`);
+        groupChips.forEach(c => c.classList.remove('active'));
+
+        // Activate clicked
+        chip.classList.add('active');
+
+        // Update active filters
+        activeFilters[type] = val;
+
+        // Apply
+        applyFilters();
+      });
+    });
+
+    // 2. Exchange Rate & Price Resolution Logic
+    const rateInput = document.getElementById('usd-brl-input') as HTMLInputElement | null;
+    const resetRate = document.getElementById('reset-rate');
+    const headerRate = document.getElementById('header-rate');
+    const priceCells = document.querySelectorAll('.td-price');
+    const segButtons = document.querySelectorAll('.seg-btn');
+
+    let currentRate = rateInput ? parseFloat(rateInput.value) : 5.80;
+    let currentResolution = '1m';
+
+    function formatBRL(usdVal, rate, resolution) {
+      const v = usdVal * rate;
+      if (resolution === '1k') {
+        const val1k = v / 1000;
+        if (val1k < 0.0001) return val1k.toFixed(6).replace('.', ',');
+        if (val1k < 0.01) return val1k.toFixed(5).replace('.', ',');
+        return val1k.toFixed(3).replace('.', ',');
+      } else {
+        return v.toFixed(2).replace('.', ',');
+      }
+    }
+
+    function formatUSD(val, resolution) {
+      if (resolution === '1k') {
+        const v = val / 1000;
+        if (v < 0.0001) return '$' + v.toFixed(6);
+        if (v < 0.01) return '$' + v.toFixed(5);
+        return '$' + v.toFixed(3);
+      } else {
+        return '$' + val.toFixed(2);
+      }
+    }
+
+    function updatePrices() {
+      priceCells.forEach(cell => {
+        const usdVal = parseFloat(cell.getAttribute('data-usd') || '0');
+        const usdLabel = cell.querySelector('.price-usd');
+        const brlValLabel = cell.querySelector('.price-brl-val');
+        
+        if (usdLabel) usdLabel.textContent = formatUSD(usdVal, currentResolution);
+        if (brlValLabel) brlValLabel.textContent = formatBRL(usdVal, currentRate, currentResolution);
+      });
+      if (headerRate) {
+        headerRate.textContent = currentRate.toFixed(2).replace('.', ',');
+      }
+    }
+
+    if (rateInput) {
+      rateInput.addEventListener('input', () => {
+        const val = parseFloat(rateInput.value);
+        if (!isNaN(val) && val >= 3.0 && val <= 10.0) {
+          currentRate = val;
+          updatePrices();
+        }
+      });
+    }
+
+    if (resetRate) {
+      resetRate.addEventListener('click', () => {
+        const defaultValStr = resetRate.getAttribute('data-default');
+        if (!defaultValStr) return;
+        const defaultVal = parseFloat(defaultValStr);
+        if (rateInput) rateInput.value = defaultVal.toFixed(2);
+        currentRate = defaultVal;
+        updatePrices();
+      });
+    }
+
+    segButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const res = btn.getAttribute('data-resolution');
+        if (!res) return;
+        currentResolution = res;
+        
+        segButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const labels = document.querySelectorAll('.price-res-label');
+        labels.forEach(l => {
+          l.textContent = currentResolution === '1k' ? 'mil' : 'M';
+        });
+
+        updatePrices();
+      });
+    });
+  });
+</script>
 
 <style>
   .container {
@@ -198,42 +400,224 @@ const speedLabel: Record<string, string> = {
     text-align: center;
   }
 
-  /* Legend */
-  .legend-items {
+  /* Controls and Filters */
+  .controls {
+    padding: 1.5rem;
     display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .leg {
+  .control-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.75rem;
+  }
+
+  .control-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-group-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.05em;
+  }
+
+  .filter-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.65);
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.92rem;
-    color: rgba(255,255,255,0.6);
-    font-family: 'Outfit', sans-serif;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .filter-chip:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .filter-chip.active {
+    background: rgba(0, 212, 255, 0.15);
+    border-color: rgba(0, 212, 255, 0.4);
+    color: #00d4ff;
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
   }
 
   .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     display: inline-block;
   }
-  .dot.cn { background: rgba(255, 107, 53, 0.6); }
-  .dot.us { background: rgba(77, 166, 255, 0.6); }
-  .dot.fr { background: rgba(100, 220, 150, 0.6); }
+  .dot.cn { background: rgba(255, 107, 53, 0.9); }
+  .dot.us { background: rgba(77, 166, 255, 0.9); }
+  .dot.fr { background: rgba(100, 220, 150, 0.9); }
 
   .badge-leg {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    padding: 0.15rem 0.45rem;
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 4px;
     font-family: 'Outfit', sans-serif;
   }
 
-  .open-badge { color: rgba(0,212,255,0.7); }
+  .extra-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .control-unit {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .control-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .rate-adjuster {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 2px 8px 2px 2px;
+  }
+
+  .rate-currency {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 0 0.5rem;
+  }
+
+  .rate-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    width: 65px;
+    padding: 0.35rem 0;
+    outline: none;
+    text-align: left;
+  }
+
+  .rate-input::-webkit-outer-spin-button,
+  .rate-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .rate-input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .rate-reset {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .rate-reset:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  .segmented-control {
+    display: flex;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2px;
+    border-radius: 8px;
+  }
+
+  .seg-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0.35rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .seg-btn:hover {
+    color: #fff;
+  }
+
+  .seg-btn.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
 
   /* Table */
   .table-wrap {
@@ -264,7 +648,7 @@ const speedLabel: Record<string, string> = {
 
   .th-rank { width: 50px; text-align: center; }
   .th-price { text-align: right; }
-  .th-qual, .th-speed { text-align: center; }
+  .th-qual, .th-speed, .th-cost { text-align: center; }
 
   /* Rows */
   .rank-row {
@@ -364,6 +748,23 @@ const speedLabel: Record<string, string> = {
     margin-top: 0.15rem;
   }
 
+  /* Cost badges */
+  .cost-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .cost-economic { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
+  .cost-medium { background: rgba(234, 179, 8, 0.1); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.2); }
+  .cost-expensive { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+  .td-cost { text-align: center; }
+
   /* Quality */
   .td-qual { text-align: center; }
 
@@ -407,6 +808,14 @@ const speedLabel: Record<string, string> = {
     .container { padding: 2rem 1rem; }
     .rank-title { font-size: 2rem; }
     .th-speed, .td-speed { display: none; }
+    .th-cost, .td-cost { display: none; }
     .rank-table th, .rank-table td { padding: 0.7rem 0.6rem; }
+  }
+
+  @media (max-width: 1024px) {
+    .filter-group-row {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
   }
 </style>
