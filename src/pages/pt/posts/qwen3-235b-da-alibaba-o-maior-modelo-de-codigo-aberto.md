@@ -6,6 +6,7 @@ category: "Open Source"
 lang: "pt-br"
 excerpt: "O Qwen3 235B-A22B da Alibaba é o maior modelo de linguagem de código aberto disponível, superando o GPT-4o em vários benchmarks importantes, enquanto é de download gratuito e auto-hospedável."
 source: "https://qwenlm.github.io"
+heroImage: "/hero/qwen3.png"
 ---
 
 # Qwen3 235B da Alibaba: O maior modelo de código aberto do mundo é chinês

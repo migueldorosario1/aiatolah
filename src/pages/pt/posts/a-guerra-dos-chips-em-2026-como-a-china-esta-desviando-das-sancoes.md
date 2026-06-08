@@ -6,6 +6,7 @@ category: "Chip Wars"
 lang: "pt-br"
 excerpt: "Apesar dos rígidos controles de exportação dos EUA sobre semicondutores avançados, a indústria de IA da China acelerou — e não desacelerou. Saiba como a estratégia de Pequim está funcionando."
 source: "https://www.semiconductordigest.com"
+heroImage: "/hero/chip-war.png"
 ---
 
 # A guerra dos chips em 2026: Como a China está contornando as sanções de semicondutores dos EUA

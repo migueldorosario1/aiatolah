@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-24",
+  "updated_at": "2026-06-08",
   "usd_brl": 5.80,
   "note": "Prices are per million tokens (input/output). Indicative — check provider for current rates.",
   "models": [
@@ -67,6 +67,19 @@
       "speed": "Very Fast",
       "open_source": false,
       "tags": ["multimodal", "fast reasoning"]
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "name": "DeepSeek V4 Pro",
+      "provider": "DeepSeek",
+      "country": "CN",
+      "flag": "🇨🇳",
+      "input_usd": 0.20,
+      "output_usd": 0.80,
+      "quality": "S",
+      "speed": "Very Fast",
+      "open_source": true,
+      "tags": ["best value", "frontier", "open source"]
     },
     {
       "id": "qwen3-235b",
@@ -147,6 +160,19 @@
       "tags": ["frontier", "multimodal", "long context"]
     },
     {
+      "id": "gpt-5-5",
+      "name": "GPT-5.5",
+      "provider": "OpenAI",
+      "country": "US",
+      "flag": "🇺🇸",
+      "input_usd": 2.00,
+      "output_usd": 8.00,
+      "quality": "S",
+      "speed": "Very Fast",
+      "open_source": false,
+      "tags": ["frontier", "reasoning", "multimodal"]
+    },
+    {
       "id": "mistral-large",
       "name": "Mistral Large",
       "provider": "Mistral AI",
@@ -171,6 +197,19 @@
       "speed": "Fast",
       "open_source": false,
       "tags": ["frontier", "multimodal"]
+    },
+    {
+      "id": "claude-4-8-opus",
+      "name": "Claude 4.8 Opus",
+      "provider": "Anthropic",
+      "country": "US",
+      "flag": "🇺🇸",
+      "input_usd": 3.00,
+      "output_usd": 12.00,
+      "quality": "S",
+      "speed": "Medium",
+      "open_source": false,
+      "tags": ["frontier", "coding", "reasoning"]
     },
     {
       "id": "claude-sonnet-4-6",

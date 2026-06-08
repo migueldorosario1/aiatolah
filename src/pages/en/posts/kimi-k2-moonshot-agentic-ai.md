@@ -6,6 +6,7 @@ category: "China AI"
 lang: "en"
 excerpt: "Moonshot AI's Kimi K2 introduces a new class of long-context, agentic models capable of multi-step reasoning and tool use — positioning China as a leader in autonomous AI agents."
 source: "https://platform.moonshot.cn"
+heroImage: "/hero/kimi-k2.png"
 ---
 
 # Kimi K2: Moonshot AI's Bet on Agentic Models Challenges OpenAI's Operator

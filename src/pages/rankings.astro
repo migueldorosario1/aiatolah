@@ -57,7 +57,6 @@ const countryClass: Record<string, string> = {
       <p class="rank-sub">Price per million tokens — sorted cheapest first</p>
       <div class="rank-meta">
         <span class="meta-badge">Updated {updated_at}</span>
-        <span class="meta-badge">USD → BRL: R$ {usd_brl.toFixed(2)}</span>
         <span class="meta-badge muted">{note}</span>
       </div>
     </section>
@@ -109,11 +108,9 @@ const countryClass: Record<string, string> = {
               </td>
               <td class="td-price">
                 <span class="price-usd">{usdFmt(m.input_usd)}</span>
-                <span class="price-brl">R$ {brl(m.input_usd)}</span>
               </td>
               <td class="td-price">
                 <span class="price-usd">{usdFmt(m.output_usd)}</span>
-                <span class="price-brl">R$ {brl(m.output_usd)}</span>
               </td>
               <td class="td-qual">
                 <span class={`quality-badge ${qualityClass[m.quality]}`}>

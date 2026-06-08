@@ -6,6 +6,7 @@ category: "Rankings"
 lang: "pt-br"
 excerpt: "O DeepSeek V3 da China superou o GPT-4o da OpenAI em vários benchmarks importantes, custando 10 vezes menos por milhão de tokens — uma mudança sísmica na curva de custos de IA."
 source: "https://deepseek.com"
+heroImage: "/hero/deepseek-v3.png"
 ---
 
 # DeepSeek V3 desbanca GPT-4o em programação e matemática — Por uma fração do custo
