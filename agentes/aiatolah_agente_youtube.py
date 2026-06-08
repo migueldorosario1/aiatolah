@@ -161,6 +161,8 @@ def processar_video(video):
   <iframe src="https://www.youtube.com/embed/{video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;"></iframe>
 </div>"""
 
+    no_home_line = "noHome: true\n" if os.getenv("AIATOLAH_NO_HOME") == "1" else ""
+
     conteudo_md_en = f"""---
 layout: ../../../layouts/PostLayout.astro
 title: {titulo_en_yaml}
@@ -169,7 +171,7 @@ category: 'YouTube'
 lang: "en"
 source: '{link_youtube}'
 heroImage: "{hero_image}"
----
+{no_home_line}---
 
 # {titulo_en}
 
@@ -186,7 +188,7 @@ category: 'YouTube'
 lang: "pt-br"
 source: '{link_youtube}'
 heroImage: "{hero_image}"
----
+{no_home_line}---
 
 # {titulo_pt}
 

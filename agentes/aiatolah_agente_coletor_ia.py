@@ -574,6 +574,8 @@ def processar_e_redigir_ia(noticia):
     categoria_yaml = escape_yaml_single_quote(noticia['categoria'])
     link_yaml = escape_yaml_single_quote(noticia['link'])
 
+    no_home_line = "noHome: true\n" if os.getenv("AIATOLAH_NO_HOME") == "1" else ""
+
     conteudo_md_en = f"""---
 layout: ../../../layouts/PostLayout.astro
 title: {titulo_en_yaml}
@@ -582,7 +584,7 @@ category: {categoria_yaml}
 lang: "en"
 source: {link_yaml}
 heroImage: "{hero_image_path}"
----
+{no_home_line}---
 
 # {titulo_en}
 
@@ -599,7 +601,7 @@ category: {categoria_yaml}
 lang: "pt-br"
 source: {link_yaml}
 heroImage: "{hero_image_path}"
----
+{no_home_line}---
 
 # {titulo_pt}
 

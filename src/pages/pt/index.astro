@@ -14,201 +14,388 @@ const posts = Object.entries(modules)
       excerpt:  fm.excerpt ?? '',
       url:      `/pt/posts/${slug}`,
       lang:     fm.lang ?? '',
+      heroImage: fm.heroImage ?? '/hero/default-aiatolah.jpg',
+      noHome:   fm.noHome === true,
     };
   })
-  .filter(p => p.lang === 'pt-br')
+  .filter(p => p.lang === 'pt-br' && !p.noHome)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .slice(0, 3);
+  .slice(0, 7); // Show latest 7 posts (1 hero + 6 in grid)
 ---
 
 <Layout
-  title="Rankings e Notícias de IA"
+  title="Rankings e Geopolítica de IA"
   description="AIatolah — Rankings independentes, preços e notícias sobre modelos de IA e LLMs. China vs EUA. Perspectiva do Sul Global."
 >
   <main class="container">
 
-    <section class="hero glass-panel animate-fade-in">
-      <h1 class="hero-title">O ranking de <span class="ai-cyan">IA</span> que não<br/>toma partido.</h1>
-      <p class="hero-sub">
-        Compare LLMs chineses e americanos em qualidade, preço e velocidade.
-        Geopolítica dos chips, grandes investimentos e modelos de fronteira —
-        numa perspectiva multilateral, do Sul Global.
+    <section class="editorial-intro glass-panel animate-fade-in">
+      <div class="intro-header">
+        <h1 class="intro-title">Inteligência <span class="ai-cyan">AIatolah</span></h1>
+        <span class="update-badge">⟳ Atualizado a cada 3 horas</span>
+      </div>
+      <p class="intro-sub">
+        Uma curadoria multilateral do cenário de fronteira da inteligência artificial. Comparações de benchmark de LLMs chineses e americanos, cadeias globais de semicondutores e soberania tecnológica.
       </p>
-      <div class="action-buttons">
-        <a href="/pt/rankings" class="btn-neon">Rankings</a>
-        <a href="/pt/news" class="btn-outline">Últimas Notícias</a>
-        <a href="/pt/about" class="btn-outline">Sobre</a>
-      </div>
     </section>
 
-    <section class="columns animate-fade-in">
-
-      <div class="col glass-panel">
-        <h2 class="col-title china">🇨🇳 China</h2>
-        <div class="model-list">
-          <div class="model-item">
-            <span class="model-name">DeepSeek V3</span>
-            <span class="model-tag best-value">Melhor custo</span>
+    <div class="layout-main animate-fade-in">
+      
+      <!-- News Feed (Left) -->
+      <section class="news-area">
+        <h2 class="section-title-line">📡 Últimas Análises</h2>
+        
+        {posts.length === 0 ? (
+          <div class="glass-panel empty-news">
+            <p>Nenhuma análise publicada ainda. Volte em breve!</p>
           </div>
-          <div class="model-item">
-            <span class="model-name">Qwen 3 Max</span>
-            <span class="model-tag">Alibaba</span>
-          </div>
-          <div class="model-item">
-            <span class="model-name">Kimi K2</span>
-            <span class="model-tag">Moonshot</span>
-          </div>
-          <div class="model-item">
-            <span class="model-name">GLM-4</span>
-            <span class="model-tag">Zhipu</span>
-          </div>
-        </div>
-        <a href="/pt/rankings" class="col-cta">Ranking completo →</a>
-      </div>
-
-      <div class="col col-center glass-panel">
-        <h2 class="col-title news-title">📡 Últimas</h2>
-        <div class="news-placeholder">
-          {posts.length === 0 ? (
-            <>
-              <p class="news-item">Notícias de IA atualizadas a cada 3 horas.</p>
-              <p class="news-item muted">Rankings, lançamentos, guerra dos chips, geopolítica.</p>
-            </>
-          ) : (
-            posts.map(post => (
-              <article class="news-item-mini" style="display: flex; flex-direction: column; gap: 0.2rem; margin-bottom: 0.8rem;">
-                <div style="display: flex; gap: 0.5rem; font-size: 0.72rem; color: rgba(255,255,255,0.4); font-family: 'Outfit', sans-serif;">
-                  <span style="color: #00d4ff; font-weight: 700;">{post.category}</span>
-                  <span>·</span>
-                  <span>{new Date(post.date).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric' })}</span>
+        ) : (
+          <div class="news-main-grid">
+            {posts.map((post, i) => (
+              <a href={post.url} class={`home-news-card glass-panel ${i === 0 ? 'card-hero' : 'card-grid'}`}>
+                <div class="card-image-wrapper">
+                  <img src={post.heroImage} alt={post.title} class="card-image" loading="lazy" />
                 </div>
-                <h3 style="font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; line-height: 1.3; margin: 0;">
-                  <a href={post.url} style="color: rgba(255,255,255,0.9); text-decoration: none; transition: color 0.2s;" class="hover-cyan">{post.title}</a>
-                </h3>
-              </article>
-            ))
-          )}
-          <a href="/pt/news" class="col-cta" style="margin-top: auto;">Ver notícias →</a>
-        </div>
-      </div>
+                <div class="card-content">
+                  <div class="card-meta">
+                    <span class="card-category">{post.category}</span>
+                    <span class="card-date">
+                      {new Date(post.date).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                  </div>
+                  <h3 class="card-title">{post.title}</h3>
+                  {i === 0 && post.excerpt && <p class="card-excerpt">{post.excerpt}</p>}
+                  <span class="card-read-more">Ler análise →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
 
-      <div class="col glass-panel">
-        <h2 class="col-title usa">🇺🇸 EUA</h2>
-        <div class="model-list">
-          <div class="model-item">
-            <span class="model-name">Claude Sonnet</span>
-            <span class="model-tag">Anthropic</span>
+      <!-- Sidebar Rankings (Right) -->
+      <aside class="sidebar-area">
+        
+        <div class="sidebar-block glass-panel">
+          <h2 class="sidebar-title china">🇨🇳 LLMs Chineses</h2>
+          <div class="model-list">
+            <div class="model-item">
+              <span class="model-name">DeepSeek V3</span>
+              <span class="model-tag best-value">Melhor custo</span>
+            </div>
+            <div class="model-item">
+              <span class="model-name">Qwen 3 Max</span>
+              <span class="model-tag">Alibaba</span>
+            </div>
+            <div class="model-item">
+              <span class="model-name">Kimi K2</span>
+              <span class="model-tag">Moonshot</span>
+            </div>
+            <div class="model-item">
+              <span class="model-name">GLM-4</span>
+              <span class="model-tag">Zhipu</span>
+            </div>
           </div>
-          <div class="model-item">
-            <span class="model-name">GPT-4o</span>
-            <span class="model-tag">OpenAI</span>
-          </div>
-          <div class="model-item">
-            <span class="model-name">Gemini 1.5 Pro</span>
-            <span class="model-tag">Google</span>
-          </div>
-          <div class="model-item">
-            <span class="model-name">Llama 3.3 70B</span>
-            <span class="model-tag best-open">Open source</span>
-          </div>
+          <a href="/pt/rankings" class="sidebar-cta">Ranking completo →</a>
         </div>
-        <a href="/pt/rankings" class="col-cta">Ranking completo →</a>
-      </div>
 
-    </section>
+        <div class="sidebar-block glass-panel">
+          <h2 class="sidebar-title usa">🇺🇸 LLMs dos EUA</h2>
+          <div class="model-list">
+            <div class="model-item">
+              <span class="model-name">Claude Sonnet</span>
+              <span class="model-tag">Anthropic</span>
+            </div>
+            <div class="model-item">
+              <span class="model-name">GPT-4o</span>
+              <span class="model-tag">OpenAI</span>
+            </div>
+            <div class="model-item">
+              <span class="model-name">Gemini 1.5 Pro</span>
+              <span class="model-tag">Google</span>
+            </div>
+            <div class="model-item">
+              <span class="model-name">Llama 3.3 70B</span>
+              <span class="model-tag best-open">Código aberto</span>
+            </div>
+          </div>
+          <a href="/pt/rankings" class="sidebar-cta">Ranking completo →</a>
+        </div>
+
+      </aside>
+
+    </div>
 
   </main>
 </Layout>
 
 <style>
   .container {
-    max-width: 1300px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
   }
 
-  .hero {
-    text-align: center;
-    padding: 4rem 2rem;
+  /* Compact Editorial Intro */
+  .editorial-intro {
+    padding: 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-radius: 12px;
   }
 
-  .hero-title {
+  .intro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .intro-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 3.2rem;
+    font-size: 1.8rem;
     font-weight: 900;
     color: #fff;
-    line-height: 1.15;
-    margin-bottom: 1.25rem;
-    letter-spacing: -1.5px;
+    letter-spacing: -0.5px;
+    margin: 0;
   }
 
-  .ai-cyan { color: #00d4ff; }
-
-  .hero-sub {
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.6);
-    max-width: 680px;
-    margin: 0 auto 2.5rem;
-    line-height: 1.7;
-  }
-
-  .action-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-outline {
-    display: inline-block;
-    color: rgba(255,255,255,0.8);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    padding: 0.7rem 1.4rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .btn-outline:hover {
-    border-color: rgba(0, 212, 255, 0.5);
+  .ai-cyan {
     color: #00d4ff;
-    background: rgba(0, 212, 255, 0.06);
   }
 
-  .columns {
+  .update-badge {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(0, 212, 255, 0.85);
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 30px;
+    letter-spacing: 0.02em;
+  }
+
+  .intro-sub {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 900px;
+  }
+
+  /* Main Layout Grid */
+  .layout-main {
     display: grid;
-    grid-template-columns: 1fr 1.1fr 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 2.3fr 1fr;
+    gap: 2rem;
     align-items: start;
   }
 
-  .col {
-    padding: 1.75rem;
+  /* Left News Area */
+  .news-area {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 
-  .col-title {
+  .section-title-line {
     font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    letter-spacing: 0.08em;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .empty-news {
+    padding: 3rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .news-main-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  /* Home News Card */
+  .home-news-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .home-news-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.04);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Hero News Card layout */
+  .card-hero {
+    grid-column: span 2;
+    flex-direction: row;
+    min-height: 300px;
+  }
+
+  .card-hero .card-image-wrapper {
+    width: 50%;
+    aspect-ratio: auto;
+  }
+
+  .card-hero .card-content {
+    width: 50%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  /* Grid News Card layout */
+  .card-grid .card-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .card-grid .card-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    flex-grow: 1;
+  }
+
+  .card-image-wrapper {
+    overflow: hidden;
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .home-news-card:hover .card-image {
+    transform: scale(1.03);
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .card-category {
+    color: #00d4ff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card-date {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0;
+    transition: color 0.2s;
+  }
+
+  .card-hero .card-title {
+    font-size: 1.5rem;
+  }
+
+  .home-news-card:hover .card-title {
+    color: #00d4ff;
+  }
+
+  .card-excerpt {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-read-more {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(0, 212, 255, 0.7);
+    margin-top: auto;
+    display: inline-block;
+    transition: color 0.2s;
+  }
+
+  .home-news-card:hover .card-read-more {
+    color: #00d4ff;
+  }
+
+  /* Right Sidebar Area */
+  .sidebar-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sidebar-block {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .sidebar-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .china { color: #ff6b35; }
-  .usa   { color: #4da6ff; }
-  .news-title { color: #00d4ff; }
+  .usa { color: #4da6ff; }
 
-  .model-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .model-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
 
   .model-item {
     display: flex;
@@ -232,110 +419,66 @@ const posts = Object.entries(modules)
     font-weight: 600;
     color: rgba(255,255,255,0.4);
     background: rgba(255,255,255,0.05);
-    padding: 0.2rem 0.5rem;
+    padding: 0.15rem 0.45rem;
     border-radius: 4px;
   }
 
   .best-value { color: #00d4ff; background: rgba(0,212,255,0.1); }
   .best-open  { color: #7b2ff7; background: rgba(123,47,247,0.1); }
 
-  .col-cta {
+  .sidebar-cta {
     font-family: 'Outfit', sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
-    color: rgba(0,212,255,0.7);
+    color: rgba(0, 212, 255, 0.75);
     text-decoration: none;
+    transition: color 0.2s;
     margin-top: auto;
-    transition: color 0.2s;
   }
 
-  .col-cta:hover { color: #00d4ff; }
-  .col-center { align-items: flex-start; }
-
-  .news-placeholder {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    flex: 1;
-    width: 100%;
+  .sidebar-cta:hover {
+    color: #00d4ff;
   }
 
-  .news-item-mini {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    padding: 0.85rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .news-item-mini:hover {
-    background: rgba(0, 212, 255, 0.05);
-    border-color: rgba(0, 212, 255, 0.25);
-    transform: translateY(-2px);
-  }
-
-  .hover-cyan {
-    transition: color 0.2s;
-  }
-
-  .news-item-mini:hover .hover-cyan {
-    color: #00d4ff !important;
-  }
-
-  /* Highly Mobile Responsive Styles */
-  @media (max-width: 900px) {
-    .container {
-      padding: 2rem 1.25rem;
-      gap: 2rem;
-    }
-    .hero {
-      padding: 3rem 1.5rem;
-    }
-    .hero-title {
-      font-size: 2.3rem;
-    }
-    .hero-sub {
-      font-size: 1rem;
-      margin-bottom: 1.75rem;
-    }
-    .columns {
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .layout-main {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
-    .col {
-      padding: 1.5rem;
-    }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     .container {
-      padding: 1.5rem 1rem;
+      padding: 1.25rem 1rem;
+      gap: 1.5rem;
     }
-    .hero {
-      padding: 2.25rem 1rem;
+
+    .editorial-intro {
+      padding: 1.25rem;
     }
-    .hero-title {
-      font-size: 1.95rem;
+
+    .intro-title {
+      font-size: 1.5rem;
     }
-    .hero-sub {
-      font-size: 0.9rem;
-      line-height: 1.6;
+
+    .news-main-grid {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
-    .action-buttons {
+
+    .card-hero {
       flex-direction: column;
-      width: 100%;
-      gap: 0.75rem;
     }
-    .btn-neon, .btn-outline {
+
+    .card-hero .card-image-wrapper {
       width: 100%;
-      text-align: center;
-      padding: 0.75rem 1rem;
+      aspect-ratio: 16 / 9;
     }
-    .col {
-      padding: 1.2rem 1rem;
+
+    .card-hero .card-content {
+      width: 100%;
+      padding: 1.25rem;
     }
   }
 </style>
