@@ -15,6 +15,8 @@ const tImage = isPt ? "Imagem" : "Image";
 const tRankings = isPt ? "Benchmarks" : "Rankings";
 const tNews = isPt ? "Notícias" : "News";
 const tAbout = isPt ? "Sobre" : "About";
+const tArticles = isPt ? "Artigos" : "Articles";
+const tVideos = isPt ? "Vídeos & Entrevistas" : "Videos & Interviews";
 ---
 
 <nav class="aiatolah-nav">
@@ -89,9 +91,16 @@ const tAbout = isPt ? "Sobre" : "About";
         <a href={rankingsLink} class="direct-link">{tRankings}</a>
       </div>
 
-      <!-- News -->
-      <div class="nav-item">
-        <a href={newsLink} class="direct-link">{tNews}</a>
+      <!-- News Dropdown -->
+      <div class="nav-item dropdown">
+        <button class="dropbtn">{tNews} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="dropdown-content news-dropdown-content">
+          <div class="dropdown-section">
+            <span class="section-title">{isPt ? "Explorar" : "Explore"}</span>
+            <a href={newsLink}>{tArticles}</a>
+            <a href={isPt ? "/pt/videos" : "/videos"}>{tVideos}</a>
+          </div>
+        </div>
       </div>
 
       <!-- About -->
@@ -247,6 +256,14 @@ const tAbout = isPt ? "Sobre" : "About";
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem 1.5rem;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (min-width: 769px) {
+    .news-dropdown-content {
+      min-width: 200px !important;
+      max-width: 240px !important;
+      grid-template-columns: 1fr !important;
+    }
   }
 
   @media (min-width: 769px) {

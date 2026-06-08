@@ -1,0 +1,273 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const modules = import.meta.glob('./posts/*.md', { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, mod]: [string, any]) => {
+    const fm = mod.frontmatter ?? {};
+    const slug = path.replace('./posts/', '').replace('.md', '');
+    return {
+      title:    fm.title ?? slug,
+      date:     fm.date ?? '2026-01-01',
+      category: fm.category ?? 'AI',
+      excerpt:  fm.excerpt ?? '',
+      url:      `/pt/posts/${slug}`,
+      source:   fm.source ?? '',
+      heroImage: fm.heroImage ?? '/hero/default-aiatolah.jpg',
+      noHome:   fm.noHome === true,
+    };
+  })
+  .filter(p => p.source.includes('youtube.com') || p.source.includes('youtu.be') || p.category === 'YouTube')
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+function getYouTubeId(url: string) {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+}
+---
+
+<Layout
+  title="Entrevistas & Vídeos"
+  description="Transmissões de Fronteira — Entrevistas em vídeo selecionadas e palestras técnicas sobre inteligência artificial e computação."
+>
+  <main class="container">
+    <section class="intro glass-panel animate-fade-in">
+      <h1 class="intro-title">🎥 Transmissões de <span class="ai-cyan">Fronteira</span></h1>
+      <p class="intro-sub">
+        Assista a entrevistas selecionadas, palestras técnicas e debates fundamentais sobre o futuro da inteligência artificial, modelos de código aberto e soberania tecnológica.
+      </p>
+    </section>
+
+    <section class="videos-grid animate-fade-in">
+      {posts.length === 0 ? (
+        <div class="glass-panel empty-videos">
+          <p>Nenhuma transmissão em vídeo encontrada. Volte em breve!</p>
+        </div>
+      ) : (
+        posts.map((post) => {
+          const videoId = getYouTubeId(post.source);
+          return (
+            <article class="video-card glass-panel">
+              {videoId ? (
+                <div class="video-wrapper">
+                  <iframe 
+                    src={`https://www.youtube.com/embed/${videoId}`} 
+                    title={post.title} 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              ) : (
+                <div class="image-wrapper">
+                  <img src={post.heroImage} alt={post.title} class="card-image" loading="lazy" />
+                </div>
+              )}
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="card-category">{post.category}</span>
+                  <span class="card-date">
+                    {new Date(post.date).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric', year: 'numeric' })}
+                  </span>
+                </div>
+                <h2 class="card-title">{post.title}</h2>
+                {post.excerpt && <p class="card-excerpt">{post.excerpt}</p>}
+                <a href={post.url} class="card-read-more">Ler análise técnica →</a>
+              </div>
+            </article>
+          );
+        })
+      )}
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .intro {
+    padding: 2.5rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .intro-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin: 0;
+  }
+
+  .ai-cyan {
+    color: #00d4ff;
+  }
+
+  .intro-sub {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 800px;
+  }
+
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .video-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.01);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 212, 255, 0.25);
+    background: rgba(0, 212, 255, 0.02);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .image-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .card-category {
+    color: #00d4ff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card-date {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #fff;
+    margin: 0;
+  }
+
+  .card-excerpt {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-read-more {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(0, 212, 255, 0.7);
+    text-decoration: none;
+    margin-top: auto;
+    display: inline-block;
+    transition: color 0.2s;
+  }
+
+  .card-read-more:hover {
+    color: #00d4ff;
+  }
+
+  .empty-videos {
+    grid-column: span 2;
+    padding: 4rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 2rem 1rem;
+      gap: 1.5rem;
+    }
+
+    .intro {
+      padding: 1.5rem;
+    }
+
+    .intro-title {
+      font-size: 1.8rem;
+    }
+
+    .videos-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .empty-videos {
+      grid-column: span 1;
+    }
+  }
+</style>
