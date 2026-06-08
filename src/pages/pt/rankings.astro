@@ -156,10 +156,12 @@ const speedLabel: Record<string, string> = {
                 <div class="model-info">
                   <span class="model-flag">{m.flag}</span>
                   <div class="model-name-wrap">
-                    <span class="model-name">
-                      {m.name}
-                      {m.open_source && <span class="oss-dot" title="Código aberto">⊙</span>}
-                    </span>
+                    <a href={m.link} target="_blank" rel="noopener noreferrer" class="model-name-link">
+                      <span class="model-name">
+                        {m.name}
+                        {m.open_source && <span class="oss-dot" title="Código aberto">⊙</span>}
+                      </span>
+                    </a>
                     <span class="model-provider">{m.provider}</span>
                   </div>
                 </div>
@@ -692,6 +694,19 @@ const speedLabel: Record<string, string> = {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
+  }
+
+  .model-name-link {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+  }
+
+  .model-name-link:hover .model-name {
+    color: #00d4ff;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
   }
 
   .model-name {

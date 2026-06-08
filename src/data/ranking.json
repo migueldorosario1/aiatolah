@@ -14,7 +14,8 @@
       "quality": "B",
       "speed": "Very Fast",
       "open_source": false,
-      "tags": ["cheapest", "basic tasks"]
+      "tags": ["cheapest", "basic tasks"],
+      "link": "https://open.bigmodel.cn/"
     },
     {
       "id": "mistral-small",
@@ -27,7 +28,8 @@
       "quality": "B",
       "speed": "Fast",
       "open_source": false,
-      "tags": ["europe", "efficient"]
+      "tags": ["europe", "efficient"],
+      "link": "https://mistral.ai/"
     },
     {
       "id": "kimi-k2",
@@ -40,7 +42,8 @@
       "quality": "S",
       "speed": "Fast",
       "open_source": false,
-      "tags": ["agentic", "long context"]
+      "tags": ["agentic", "long context"],
+      "link": "https://kimi.moonshot.cn/"
     },
     {
       "id": "gpt-4o-mini",
@@ -53,7 +56,8 @@
       "quality": "B",
       "speed": "Very Fast",
       "open_source": false,
-      "tags": ["mass tasks", "triagem"]
+      "tags": ["mass tasks", "triagem"],
+      "link": "https://chatgpt.com/"
     },
     {
       "id": "gemini-2-5-flash",
@@ -66,7 +70,8 @@
       "quality": "A",
       "speed": "Very Fast",
       "open_source": false,
-      "tags": ["multimodal", "fast reasoning"]
+      "tags": ["multimodal", "fast reasoning"],
+      "link": "https://gemini.google.com/"
     },
     {
       "id": "deepseek-v4-pro",
@@ -79,7 +84,8 @@
       "quality": "S",
       "speed": "Very Fast",
       "open_source": true,
-      "tags": ["best value", "frontier", "open source"]
+      "tags": ["best value", "frontier", "open source"],
+      "link": "https://chat.deepseek.com/"
     },
     {
       "id": "qwen3-235b",
@@ -92,7 +98,8 @@
       "quality": "S",
       "speed": "Fast",
       "open_source": true,
-      "tags": ["MoE", "open source", "best value"]
+      "tags": ["MoE", "open source", "best value"],
+      "link": "https://chat.qwen.ai/"
     },
     {
       "id": "gemini-3-1-flash-lite",
@@ -105,7 +112,8 @@
       "quality": "A",
       "speed": "Very Fast",
       "open_source": false,
-      "tags": ["efficient", "low latency", "multimodal"]
+      "tags": ["efficient", "low latency", "multimodal"],
+      "link": "https://gemini.google.com/"
     },
     {
       "id": "deepseek-v3",
@@ -118,7 +126,8 @@
       "quality": "S",
       "speed": "Fast",
       "open_source": true,
-      "tags": ["best value", "coding", "open source"]
+      "tags": ["best value", "coding", "open source"],
+      "link": "https://chat.deepseek.com/"
     },
     {
       "id": "deepseek-r1",
@@ -131,7 +140,8 @@
       "quality": "S",
       "speed": "Medium",
       "open_source": true,
-      "tags": ["reasoning", "math", "open source"]
+      "tags": ["reasoning", "math", "open source"],
+      "link": "https://chat.deepseek.com/"
     },
     {
       "id": "llama-3-3-70b",
@@ -144,7 +154,8 @@
       "quality": "A",
       "speed": "Fast",
       "open_source": true,
-      "tags": ["open source", "self-host"]
+      "tags": ["open source", "self-host"],
+      "link": "https://llama.meta.com/"
     },
     {
       "id": "qwen3-max",
@@ -157,7 +168,8 @@
       "quality": "S",
       "speed": "Medium",
       "open_source": false,
-      "tags": ["frontier", "multilingual"]
+      "tags": ["frontier", "multilingual"],
+      "link": "https://chat.qwen.ai/"
     },
     {
       "id": "gemini-2-5-pro",
@@ -170,7 +182,8 @@
       "quality": "S",
       "speed": "Medium",
       "open_source": false,
-      "tags": ["frontier", "multimodal", "long context"]
+      "tags": ["frontier", "multimodal", "long context"],
+      "link": "https://gemini.google.com/"
     },
     {
       "id": "gemini-3-5-flash",
@@ -183,7 +196,8 @@
       "quality": "S",
       "speed": "Very Fast",
       "open_source": false,
-      "tags": ["multimodal", "fast reasoning", "efficient"]
+      "tags": ["multimodal", "fast reasoning", "efficient"],
+      "link": "https://gemini.google.com/"
     },
     {
       "id": "gpt-5-5",
@@ -196,7 +210,8 @@
       "quality": "S",
       "speed": "Very Fast",
       "open_source": false,
-      "tags": ["frontier", "reasoning", "multimodal"]
+      "tags": ["frontier", "reasoning", "multimodal"],
+      "link": "https://chatgpt.com/"
     },
     {
       "id": "gemini-3-1-pro",
@@ -209,7 +224,8 @@
       "quality": "S",
       "speed": "Fast",
       "open_source": false,
-      "tags": ["frontier", "long context", "reasoning"]
+      "tags": ["frontier", "long context", "reasoning"],
+      "link": "https://gemini.google.com/"
     },
     {
       "id": "mistral-large",
@@ -222,7 +238,8 @@
       "quality": "A",
       "speed": "Medium",
       "open_source": false,
-      "tags": ["europe", "multilingual"]
+      "tags": ["europe", "multilingual"],
+      "link": "https://mistral.ai/"
     },
     {
       "id": "gpt-4o",
@@ -235,7 +252,8 @@
       "quality": "S",
       "speed": "Fast",
       "open_source": false,
-      "tags": ["frontier", "multimodal"]
+      "tags": ["frontier", "multimodal"],
+      "link": "https://chatgpt.com/"
     },
     {
       "id": "claude-4-8-opus",
@@ -248,7 +266,8 @@
       "quality": "S",
       "speed": "Medium",
       "open_source": false,
-      "tags": ["frontier", "coding", "reasoning"]
+      "tags": ["frontier", "coding", "reasoning"],
+      "link": "https://claude.ai/"
     },
     {
       "id": "claude-sonnet-4-6",
@@ -261,7 +280,8 @@
       "quality": "S",
       "speed": "Fast",
       "open_source": false,
-      "tags": ["frontier", "coding", "reasoning"]
+      "tags": ["frontier", "coding", "reasoning"],
+      "link": "https://claude.ai/"
     },
     {
       "id": "gpt-4o-1",
@@ -274,7 +294,8 @@
       "quality": "S",
       "speed": "Slow",
       "open_source": false,
-      "tags": ["reasoning", "premium"]
+      "tags": ["reasoning", "premium"],
+      "link": "https://chatgpt.com/"
     }
   ]
 }
