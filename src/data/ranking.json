@@ -95,6 +95,19 @@
       "tags": ["MoE", "open source", "best value"]
     },
     {
+      "id": "gemini-3-1-flash-lite",
+      "name": "Gemini 3.1 Flash-Lite",
+      "provider": "Google",
+      "country": "US",
+      "flag": "🇺🇸",
+      "input_usd": 0.25,
+      "output_usd": 1.50,
+      "quality": "A",
+      "speed": "Very Fast",
+      "open_source": false,
+      "tags": ["efficient", "low latency", "multimodal"]
+    },
+    {
       "id": "deepseek-v3",
       "name": "DeepSeek V3",
       "provider": "DeepSeek",
@@ -160,6 +173,19 @@
       "tags": ["frontier", "multimodal", "long context"]
     },
     {
+      "id": "gemini-3-5-flash",
+      "name": "Gemini 3.5 Flash",
+      "provider": "Google",
+      "country": "US",
+      "flag": "🇺🇸",
+      "input_usd": 1.50,
+      "output_usd": 9.00,
+      "quality": "S",
+      "speed": "Very Fast",
+      "open_source": false,
+      "tags": ["multimodal", "fast reasoning", "efficient"]
+    },
+    {
       "id": "gpt-5-5",
       "name": "ChatGPT 5.5 (GPT-5)",
       "provider": "OpenAI",
@@ -171,6 +197,19 @@
       "speed": "Very Fast",
       "open_source": false,
       "tags": ["frontier", "reasoning", "multimodal"]
+    },
+    {
+      "id": "gemini-3-1-pro",
+      "name": "Gemini 3.1 Pro",
+      "provider": "Google",
+      "country": "US",
+      "flag": "🇺🇸",
+      "input_usd": 2.00,
+      "output_usd": 12.00,
+      "quality": "S",
+      "speed": "Fast",
+      "open_source": false,
+      "tags": ["frontier", "long context", "reasoning"]
     },
     {
       "id": "mistral-large",
