@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/PostLayout.astro
-title: 'Alphabet Ties Search AI And Mobility Closer To Revenue Potential - Analysis'
+title: 'Faraday Future Founder and Global CEO YT Jia Shares Weekly Investor Update: Provides New Details on the FF EAI Robotics Education Ecosystem Strategy, Product Line & New EAI Device Launch Happening at Its Los Angeles HQ on June 16 - Analysis'
 date: 2026-06-15
 category: 'Nvidia'
 lang: "en"
-source: 'https://finance.yahoo.com/markets/stocks/articles/alphabet-ties-search-ai-mobility-231657033.html?.tsrc=rss'
-heroImage: "/hero/alphabet-ties-search-ai-and-mobility-closer-to-rev.jpg"
+source: 'https://finance.yahoo.com/sectors/technology/articles/faraday-future-founder-global-ceo-004800814.html?.tsrc=rss'
+heroImage: "/hero/faraday-future-founder-and-global-ceo-yt-jia-share.jpg"
 noHome: true
 ---
 
-# Alphabet Ties Search AI And Mobility Closer To Revenue Potential
+# Faraday Future Founder and Global CEO YT Jia Shares Weekly Investor Update: Provides New Details on the FF EAI Robotics Education Ecosystem Strategy, Product Line & New EAI Device Launch Happening at Its Los Angeles HQ on June 16
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
   <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1e293b; padding-bottom:12px; margin-bottom:15px;">

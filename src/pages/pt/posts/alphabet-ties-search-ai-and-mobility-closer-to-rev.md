@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/PostLayout.astro
 title: '[MOCK] Análise gerada pela IA sobre: Traduza: Alphabet Ties Search AI And Mobility Clos... - Análise'
-date: 2026-06-14
+date: 2026-06-15
 category: 'Nvidia'
 lang: "pt-br"
 source: 'https://finance.yahoo.com/markets/stocks/articles/alphabet-ties-search-ai-mobility-231657033.html?.tsrc=rss'
