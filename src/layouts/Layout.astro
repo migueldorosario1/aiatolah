@@ -8,10 +8,16 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const isPt = pathname.startsWith('/pt');
+
+const aboutLink = isPt ? "/pt/about" : "/about";
+const privacyLink = isPt ? "/pt/privacy" : "/privacy";
 ---
 
 <!doctype html>
-<html lang="pt-br">
+<html lang={isPt ? "pt-br" : "en"}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -38,5 +44,94 @@ const { title, description } = Astro.props;
 	<body>
 		<NavMenu />
 		<slot />
+
+		<footer class="site-footer">
+			<div class="footer-content">
+				<div class="footer-brand">
+					<span class="logo-ai">AI</span>atolah
+				</div>
+				<div class="footer-links">
+					<a href={aboutLink}>{isPt ? "Sobre" : "About"}</a>
+					<a href={privacyLink}>{isPt ? "Política de Privacidade" : "Privacy Policy"}</a>
+				</div>
+				<div class="footer-copy">
+					&copy; {new Date().getFullYear()} AIatolah. {isPt ? "Todos os direitos reservados." : "All rights reserved."}
+				</div>
+			</div>
+		</footer>
 	</body>
 </html>
+
+<style>
+	.site-footer {
+		background: rgba(8, 8, 20, 0.95);
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+		padding: 2.5rem 1.5rem;
+		margin-top: auto;
+		width: 100%;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	.footer-content {
+		max-width: 1400px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25rem;
+		text-align: center;
+	}
+
+	.footer-brand {
+		font-size: 1.3rem;
+		font-weight: 800;
+		color: #fff;
+		letter-spacing: -0.5px;
+	}
+
+	.logo-ai {
+		color: #00d4ff;
+		font-weight: 900;
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	.footer-links a {
+		color: rgba(255, 255, 255, 0.6);
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 600;
+		transition: color 0.2s ease;
+	}
+
+	.footer-links a:hover {
+		color: #00d4ff;
+	}
+
+	.footer-copy {
+		color: rgba(255, 255, 255, 0.4);
+		font-size: 0.8rem;
+	}
+
+	@media (min-width: 768px) {
+		.footer-content {
+			flex-direction: row;
+			justify-content: space-between;
+		}
+		
+		.footer-links {
+			order: 2;
+		}
+
+		.footer-brand {
+			order: 1;
+		}
+
+		.footer-copy {
+			order: 3;
+		}
+	}
+</style>

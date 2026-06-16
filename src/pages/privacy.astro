@@ -1,0 +1,177 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Privacy Policy"
+  description="Privacy Policy for AIatolah — Information on cookies, data collection, and Google AdSense compliance."
+>
+  <main class="privacy-container">
+
+    <section class="privacy-hero">
+      <h1>Privacy <span class="ai-highlight">Policy</span></h1>
+      <p class="tagline">Compliance, cookies, and data transparency.</p>
+    </section>
+
+    <section class="privacy-body glass-panel">
+
+      <div class="privacy-block">
+        <h2>1. Overview</h2>
+        <p>
+          At AIatolah, accessible from aiatolah.com, the privacy of our visitors is of extreme importance to us. 
+          This Privacy Policy document outlines the types of personal information received and collected by AIatolah 
+          and how it is used.
+        </p>
+      </div>
+
+      <div class="privacy-block">
+        <h2>2. Log Files</h2>
+        <p>
+          Like many other websites, AIatolah makes use of log files. The information inside the log files includes 
+          internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date/time stamp, referring/exit pages, 
+          and number of clicks to analyze trends, administer the site, track user's movement around the site, and gather demographic information. 
+          IP addresses and other such information are not linked to any information that is personally identifiable.
+        </p>
+      </div>
+
+      <div class="privacy-block">
+        <h2>3. Cookies and Web Beacons</h2>
+        <p>
+          AIatolah uses cookies to store information about visitors' preferences, to record user-specific information on which pages the user accesses or visits, 
+          and to customize web page content based on visitors' browser type or other information that the visitor sends via their browser.
+        </p>
+      </div>
+
+      <div class="privacy-block">
+        <h2>4. Google AdSense & DART Cookies</h2>
+        <p>
+          Google, as a third-party vendor, uses cookies to serve ads on AIatolah.
+        </p>
+        <ul>
+          <li>Google's use of the DART cookie enables it to serve ads to users based on their visit to AIatolah and other sites on the Internet.</li>
+          <li>Users may opt out of the use of the DART cookie by visiting the Google Ad and Content Network Privacy Policy at the following URL: <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener" style="color: #00d4ff;">https://policies.google.com/technologies/ads</a>.</li>
+        </ul>
+        <p>
+          Our third-party ad servers or ad networks use technology to serve the advertisements and links that appear on AIatolah directly to your browsers. 
+          They automatically receive your IP address when this occurs. Other technologies (such as cookies, JavaScript, or Web Beacons) may also be used by 
+          the third-party ad networks to measure the effectiveness of their advertisements and/or to personalize the advertising content that you see.
+        </p>
+        <p>
+          AIatolah has no access to or control over these cookies that are used by third-party advertisers.
+        </p>
+      </div>
+
+      <div class="privacy-block">
+        <h2>5. Third-Party Privacy Policies</h2>
+        <p>
+          You should consult the respective privacy policies of these third-party ad servers for more detailed information on their practices as well as for instructions 
+          about how to opt-out of certain practices. AIatolah's privacy policy does not apply to, and we cannot control the activities of, such other advertisers or web sites.
+        </p>
+        <p>
+          If you wish to disable cookies, you may do so through your individual browser options. More detailed information about cookie management with specific web browsers 
+          can be found at the browsers' respective websites.
+        </p>
+      </div>
+
+      <div class="privacy-block">
+        <h2>6. Consent</h2>
+        <p>
+          By using our website, you hereby consent to our privacy policy and agree to its terms.
+        </p>
+      </div>
+
+      <div class="privacy-block">
+        <h2>7. Contact</h2>
+        <p>
+          If you require any more information or have any questions about our privacy policy, please feel free to contact us by email at <a href="mailto:migueldorosario@gmail.com" style="color: #00d4ff; text-decoration: none;">migueldorosario@gmail.com</a>.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  .privacy-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .privacy-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .privacy-hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    letter-spacing: -1px;
+  }
+
+  .ai-highlight {
+    color: #00d4ff;
+  }
+
+  .tagline {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+  }
+
+  .privacy-body {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .privacy-block h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+
+  .privacy-block p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.75;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .privacy-block ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .privacy-block ul li {
+    color: rgba(255,255,255,0.75);
+    padding-left: 1.25rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .privacy-block ul li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #00d4ff;
+  }
+
+  @media (max-width: 768px) {
+    .privacy-hero h1 { font-size: 2rem; }
+    .privacy-body { padding: 1.5rem; }
+  }
+</style>
