@@ -9,7 +9,12 @@ source: "https://www.youtube.com/watch?v=P2HJEz3oqLs"
 heroImage: "/hero/youtube-P2HJEz3oqLs.png"
 ---
 
+<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,0,0,0.3); border:1px solid #1e293b;">
+  <iframe style="position:absolute; top:0; left:0; width:100%; height:100%;" src="https://www.youtube.com/embed/P2HJEz3oqLs" title="Situação Emergente: Pausa Global da Anthropic, Auto-melhoria Recursiva e Personalidade de IA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
 # Situação Emergente: Pausa Global da Anthropic, Auto-melhoria Recursiva e Personalidade de IA
+
 
 O avanço da inteligência artificial cruzou uma nova linha de demarcação no início de junho de 2026. O debate público, antes centrado no uso de IA para aumentar a produtividade humana, agora enfrenta a iminência de sistemas capazes de projetar, testar e treinar de forma totalmente autônoma os seus próprios sucessores. 
 

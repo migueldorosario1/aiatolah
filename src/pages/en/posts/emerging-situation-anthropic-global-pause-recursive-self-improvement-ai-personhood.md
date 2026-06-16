@@ -9,7 +9,12 @@ source: "https://www.youtube.com/watch?v=P2HJEz3oqLs"
 heroImage: "/hero/youtube-P2HJEz3oqLs.png"
 ---
 
+<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin-bottom:30px; box-shadow:0 10px 30px rgba(0,0,0,0.3); border:1px solid #1e293b;">
+  <iframe style="position:absolute; top:0; left:0; width:100%; height:100%;" src="https://www.youtube.com/embed/P2HJEz3oqLs" title="Emerging Situation: Anthropic's Global Pause, Recursive Self-Improvement, and AI Personhood Arrives" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+
 # Emerging Situation: Anthropic's Global Pause, Recursive Self-Improvement, and AI Personhood Arrives
+
 
 The advancement of artificial intelligence crossed a critical threshold in early June 2026. The public conversation, long centered on how AI tools can augment human productivity, is now forced to confront the imminent reality of autonomous agents capable of designing, testing, and training their own successors.
 
