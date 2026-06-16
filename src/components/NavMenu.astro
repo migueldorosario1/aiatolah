@@ -116,6 +116,13 @@ const tVideos = isPt ? "Vídeos & Entrevistas" : "Videos & Interviews";
       <a href="/pt" class={`flag-btn ${isPt ? 'active-flag' : ''}`} title="Português">🇧🇷</a>
     </div>
 
+    <!-- Mobile menu toggle button -->
+    <button class="mobile-toggle" aria-label="Toggle Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
   </div>
 </nav>
 
@@ -310,12 +317,63 @@ const tVideos = isPt ? "Vídeos & Entrevistas" : "Videos & Interviews";
     padding-left: 0.9rem;
   }
 
+  .mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 0.5rem;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    transition: background-color 0.2s, color 0.2s;
+    align-items: center;
+  }
+
+  .mobile-toggle:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #00d4ff;
+  }
+
+  .mobile-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  }
+
+  .mobile-toggle.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .mobile-toggle.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-toggle.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
   /* Mobile */
   @media (max-width: 768px) {
     .nav-inner {
       padding: 0 1rem;
       gap: 1rem;
       position: relative;
+    }
+
+    .lang-flags {
+      margin-left: auto;
+    }
+
+    .mobile-toggle {
+      display: flex;
     }
 
     .nav-links {
@@ -365,7 +423,9 @@ const tVideos = isPt ? "Vídeos & Entrevistas" : "Videos & Interviews";
 
   if (mobileToggle && navLinks) {
     mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('is-open');
+      const isOpen = navLinks.classList.toggle('is-open');
+      mobileToggle.classList.toggle('is-active');
+      mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   }
 

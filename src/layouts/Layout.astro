@@ -26,6 +26,11 @@ const privacyLink = isPt ? "/pt/privacy" : "/privacy";
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		
+		<!-- Google Fonts Preconnect & Links (Optimized for PageSpeed and CLS) -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+
 		<!-- SEO & Internacionalização (Googlebot e Programática) -->
 		<link rel="alternate" hreflang="pt-br" href="https://aiatolah.com/pt" />
 		<link rel="alternate" hreflang="en" href="https://aiatolah.com/en" />
@@ -114,6 +119,12 @@ const privacyLink = isPt ? "/pt/privacy" : "/privacy";
 	.footer-copy {
 		color: rgba(255, 255, 255, 0.4);
 		font-size: 0.8rem;
+	}
+
+	@media (max-width: 768px) {
+		.site-footer {
+			padding-bottom: 6rem; /* Prevent mobile anchor ads from covering footer links and content */
+		}
 	}
 
 	@media (min-width: 768px) {

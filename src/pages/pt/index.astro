@@ -75,7 +75,7 @@ function getYouTubeId(url: string) {
                         loading="lazy"
                       ></iframe>
                     ) : (
-                      <img src={post.heroImage} alt={post.title} class="card-image" loading="lazy" />
+                      <img src={post.heroImage} alt={post.title} class="card-image" width="640" height="360" loading="lazy" />
                     )}
                   </div>
                   <div class="video-card-content">
@@ -101,7 +101,7 @@ function getYouTubeId(url: string) {
             {posts.map((post, i) => (
               <a href={post.url} class={`home-news-card glass-panel ${i === 0 ? 'card-hero' : 'card-grid'}`}>
                 <div class="card-image-wrapper">
-                  <img src={post.heroImage} alt={post.title} class="card-image" loading="lazy" />
+                  <img src={post.heroImage} alt={post.title} class="card-image" width="640" height="360" loading="lazy" />
                 </div>
                 <div class="card-content">
                   <div class="card-meta">
