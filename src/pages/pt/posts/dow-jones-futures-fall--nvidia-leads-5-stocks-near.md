@@ -1,7 +1,7 @@
 ---
 layout: ../../../layouts/PostLayout.astro
 title: '[MOCK] Análise gerada pela IA sobre: Traduza: Dow Jones Futures Fall; Nvidia Leads 5 St... - Análise'
-date: 2026-06-19
+date: 2026-06-20
 category: 'Nvidia'
 lang: "pt-br"
 source: 'https://finance.yahoo.com/m/aa0411a1-2ba1-3057-bff9-1381bd5225f7/dow-jones-futures-fall%3B.html?.tsrc=rss'
