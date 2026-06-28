@@ -261,8 +261,41 @@ def disparar_ifttt_webhook(slug, titulo_pt, titulo_en):
     except Exception:
         pass
 
+def count_posts_today(pasta_en, prefix_youtube=False):
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    count = 0
+    if not os.path.exists(pasta_en):
+        return 0
+    for fname in os.listdir(pasta_en):
+        if not fname.endswith(".md"):
+            continue
+        is_yt = fname.startswith("youtube-")
+        if prefix_youtube != is_yt:
+            continue
+        fpath = os.path.join(pasta_en, fname)
+        try:
+            with open(fpath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # Simple check for date in frontmatter
+                if f"date: '{today_str}'" in content or f"date: {today_str}" in content:
+                    count += 1
+        except Exception:
+            pass
+    return count
+
 def main():
     print("=== Iniciando Aiatolah Agente YouTube ===")
+    
+    pasta_base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'pages'))
+    pasta_en = os.path.join(pasta_base, 'en', 'posts')
+    
+    published_today = count_posts_today(pasta_en, prefix_youtube=True)
+    print(f"[*] Já publicados hoje: {published_today} vídeos do YouTube.")
+    
+    if published_today >= 1:
+        print("[*] Limite de 1 vídeo do YouTube por dia já atingido. Nenhum novo vídeo será processado.")
+        return
+        
     vistos = carregar_vistos()
     
     primeira_vez = len(vistos) == 0
@@ -306,11 +339,23 @@ def main():
         print(f"[*] Primeira execução: Processando apenas o vídeo de demonstração '{demonstracao_video['titulo']}' para popular a base de vistos.")
         
     artigos_criados = []
-    for vid in videos_a_processar[:3]: # Limita a 3 por rodada para controle de custos
+    for vid in videos_a_processar:
+        if published_today >= 1:
+            print("[*] Limite de 1 vídeo do YouTube por dia atingido. Parando processamento.")
+            break
+            
+        slug = f"youtube-{vid['id']}"
+        caminho_en = os.path.join(pasta_en, f"{slug}.md")
+        if os.path.exists(caminho_en):
+            print(f"[*] Vídeo '{vid['titulo']}' já existe. Pulando.")
+            vistos.add(vid['id'])
+            continue
+            
         try:
             slug, md_en, md_pt, titulo_en, titulo_pt = processar_video(vid)
             salvar_artigos(slug, md_en, md_pt)
             vistos.add(vid['id'])
+            published_today += 1
             artigos_criados.append({
                 "slug": slug,
                 "titulo_en": titulo_en,
@@ -330,3 +375,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

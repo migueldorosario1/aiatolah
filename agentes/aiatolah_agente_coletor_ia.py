@@ -697,14 +697,58 @@ def disparar_ifttt_webhook(slug, titulo_pt, titulo_en):
     except Exception as e:
         print(f"[Erro] Falha ao disparar Webhook IFTTT EN: {e}")
 
+def count_posts_today(pasta_en, prefix_youtube=False):
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    count = 0
+    if not os.path.exists(pasta_en):
+        return 0
+    for fname in os.listdir(pasta_en):
+        if not fname.endswith(".md"):
+            continue
+        is_yt = fname.startswith("youtube-")
+        if prefix_youtube != is_yt:
+            continue
+        fpath = os.path.join(pasta_en, fname)
+        try:
+            with open(fpath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                # Simple check for date in frontmatter
+                if f"date: '{today_str}'" in content or f"date: {today_str}" in content:
+                    count += 1
+        except Exception:
+            pass
+    return count
+
 def main():
     print("=== Iniciando Aiatolah Agente Coletor v1.2 (Phase 1 + Social Webhook) ===")
+    
+    pasta_base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'pages'))
+    pasta_en = os.path.join(pasta_base, 'en', 'posts')
+    
+    published_today = count_posts_today(pasta_en, prefix_youtube=False)
+    print(f"[*] Já publicados hoje: {published_today} notícias normais.")
+    
+    if published_today >= 2:
+        print("[*] Limite de 2 notícias por dia já atingido. Nenhuma nova notícia será coletada.")
+        return
+        
     noticias = coletar_noticias()
     
     artigos_processados = []
     for noti in noticias:
+        if published_today >= 2:
+            print("[*] Limite de 2 notícias por dia atingido. Parando processamento.")
+            break
+            
+        slug = "".join([c if c.isalnum() else "-" for c in noti['titulo'].lower()])[:50].strip('-')
+        caminho_en = os.path.join(pasta_en, f"{slug}.md")
+        if os.path.exists(caminho_en):
+            print(f"[*] Notícia '{noti['titulo']}' já existe ({slug}.md). Pulando.")
+            continue
+            
         slug, md_en, md_pt, titulo_en, titulo_pt = processar_e_redigir_ia(noti)
         salvar_artigo_astro(slug, md_en, md_pt)
+        published_today += 1
         artigos_processados.append({
             "slug": slug,
             "titulo_en": titulo_en,
@@ -720,7 +764,8 @@ def main():
         else:
             print("[*] Sem novos commits. Webhooks do IFTTT ignorados.")
     else:
-        print("[*] Nenhuma nova notícia coletada nesta rodada.")
+        print("[*] Nenhuma nova notícia processada nesta rodada.")
 
 if __name__ == "__main__":
     main()
+
