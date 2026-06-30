@@ -5,12 +5,11 @@ import feedparser
 import requests
 from datetime import datetime
 
-# Conectar ao roteador da Trindade (Padrão Ouro Isolado)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Projeto Cafezinho Agentes', 'root')))
+# Conectar ao roteador local isolado do Aiatolah
 try:
-    from agente_roteador_llm import gerar_texto
+    from roteador_local import gerar_texto
 except ImportError:
-    print("[Erro] Não foi possível importar o roteador LLM. Rodando com mock.")
+    print("[Erro] Não foi possível importar o roteador local. Rodando com mock.")
     def gerar_texto(sys_prompt, prompt, agente_nome="aiatolah", tema="ia", temperature=0.6):
         return f"[MOCK] Análise de vídeo do YouTube sobre: {prompt[:50]}..."
 
@@ -129,10 +128,11 @@ def processar_video(video):
     content_to_summarize = transcricao if transcricao else description
     
     sys_prompt = (
-        "Você é um cientista e jornalista de IA. Analise as falas ou a descrição do vídeo a seguir. "
-        "Escreva um resumo editorial detalhado e informativo em formato Markdown (com subtítulos, listas, etc.). "
-        "Foque nos aspectos mais técnicos, insights e perspectivas do futuro da tecnologia. "
-        "Não inclua tags de blocos de código markdown adicionais ao redor do texto."
+        "You are an engaging tech journalist writing for the Aiatolah portal. "
+        "Your style must be simple, journalistic, and highly accessible, explaining tech clearly. "
+        "Write an engaging, clear summary of the video content, framing the developments "
+        "in a simple way and comparing them to global tech advances (especially Chinese breakthroughs like DeepSeek, Qwen, Kimi, and hardware/chips) "
+        "and new scientific discoveries. Do NOT wrap the response in code blocks."
     )
     
     prompt_en = f"Generate a detailed technical summary in English for this AI video: '{titulo_en}'. Content:\n\n{content_to_summarize[:8000]}"

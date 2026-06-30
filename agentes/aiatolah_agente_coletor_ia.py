@@ -17,12 +17,11 @@ if os.path.exists(_env_local_path):
                 key, val = line.split('=', 1)
                 os.environ.setdefault(key.strip(), val.strip())
 
-# Conectar ao roteador da Trindade (Padrão Ouro Isolado)
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Projeto Cafezinho Agentes', 'root')))
+# Conectar ao roteador local isolado do Aiatolah
 try:
-    from agente_roteador_llm import gerar_texto
+    from roteador_local import gerar_texto
 except ImportError:
-    print("[Erro] Não foi possível importar o roteador LLM. Rodando com mock.")
+    print("[Erro] Não foi possível importar o roteador local. Rodando com mock.")
     def gerar_texto(sys_prompt, prompt, agente_nome="aiatolah", tema="ia", temperature=0.6):
         return f"[MOCK] Análise gerada pela IA sobre: {prompt[:50]}..."
 
@@ -701,27 +700,29 @@ def processar_e_redigir_ia(noticia):
     
     # Prompts editoriais estritos do Padrão Ouro (6 parágrafos, 2 frases por parágrafo)
     sys_prompt_en = (
-        "You are an expert analyst focusing on the global Artificial Intelligence market, "
-        "semiconductors (Nvidia, TSMC, ASML), and China's tech ecosystem (DeepSeek, Kimi, Qwen). "
-        "Write a discreet, analytical editorial article about the geopolitics and industry implications of the topic. "
+        "You are an engaging tech journalist writing for the Aiatolah portal. "
+        "Your style must be simple, journalistic, and highly accessible, explaining tech and geopolitics clearly. "
+        "Focus on comparing Chinese advances in artificial intelligence (DeepSeek, Kimi, Qwen) and hardware/chips "
+        "against Western alternatives and new global discoveries.\n"
         "Strictly follow these formatting rules:\n"
         "1. The article must contain exactly 6 paragraphs.\n"
         "2. Each paragraph must contain exactly 2 complete sentences (ended with a period).\n"
         "3. Do NOT include bullet points, lists, headings (no ## or #), or links.\n"
-        "4. Focus on digital sovereignty, supply chain shifts, and multipolarity, avoiding crude politics or hype.\n"
-        "5. Return ONLY the plain text of the 6 paragraphs. Do NOT wrap the output in code blocks (e.g. ```markdown)."
+        "4. Keep the language simple, engaging, and journalistic, avoiding heavy technical jargon.\n"
+        "5. Return ONLY the plain text of the 6 paragraphs. Do NOT wrap the output in code blocks."
     )
     
     sys_prompt_pt = (
-        "Você é um analista experiente focado no mercado global de Inteligência Artificial, "
-        "semicondutores (Nvidia, TSMC, ASML) e no ecossistema de tecnologia da China (DeepSeek, Kimi, Qwen). "
-        "Escreva uma análise editorial discreta e analítica sobre a geopolítica e as implicações industriais do tema. "
+        "Você é um jornalista de tecnologia engajador escrevendo para o portal Aiatolah. "
+        "Seu estilo deve ser simples, jornalístico e altamente acessível, explicando tecnologia e geopolítica de forma clara. "
+        "Foque em comparar os avanços chineses em inteligência artificial (DeepSeek, Kimi, Qwen) e hardware/chips "
+        "com as alternativas ocidentais e com as novas descobertas globais.\n"
         "Siga rigorosamente as seguintes regras de formatação:\n"
         "1. O artigo deve conter exatamente 6 parágrafos.\n"
         "2. Cada parágrafo deve conter exatamente 2 frases completas (terminadas com ponto final).\n"
         "3. NÃO inclua marcadores, listas, subtítulos (sem ## ou #) ou links no corpo do texto.\n"
-        "4. Foque em soberania digital, cadeias de suprimentos e multipolaridade, sem política partidária ou histeria.\n"
-        "5. Retorne APENAS o texto puro dos 6 parágrafos. NÃO envolva a resposta em blocos de código (ex: ```markdown)."
+        "4. Mantenha a linguagem simples, interessante e jornalística, evitando jargões técnicos excessivos.\n"
+        "5. Retorne APENAS o texto puro dos 6 parágrafos. NÃO envolva a resposta em blocos de código."
     )
     
     prompt_en = f"Write in English a professional editorial analysis about: {titulo_en} (Category: {noticia['categoria']})."
@@ -902,7 +903,7 @@ def main():
     published_today = count_posts_today(pasta_en, prefix_youtube=False)
     print(f"[*] Já publicados hoje: {published_today} notícias normais.")
     
-    limit_today = 5
+    limit_today = 10
     if published_today >= limit_today:
         print(f"[*] Limite de {limit_today} notícias por dia já atingido. Nenhuma nova notícia será coletada.")
         return
