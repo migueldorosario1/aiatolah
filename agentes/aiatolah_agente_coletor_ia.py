@@ -903,7 +903,7 @@ def main():
     published_today = count_posts_today(pasta_en, prefix_youtube=False)
     print(f"[*] Já publicados hoje: {published_today} notícias normais.")
     
-    limit_today = 15
+    limit_today = 5
     if published_today >= limit_today:
         print(f"[*] Limite de {limit_today} notícias por dia já atingido. Nenhuma nova notícia será coletada.")
         return
