@@ -15,6 +15,27 @@ const formattedDate = new Date(date).toLocaleDateString(isPt ? 'pt-BR' : 'en-US'
   month: 'long',
   day: 'numeric'
 });
+
+// Dynamic Interlinking (Cesta Premium Part 1)
+const postModules = isPt 
+  ? import.meta.glob('../pages/pt/posts/*.md', { eager: true }) 
+  : import.meta.glob('../pages/en/posts/*.md', { eager: true });
+
+const allPosts = Object.entries(postModules).map(([path, mod]: [string, any]) => {
+  const fm = mod.frontmatter ?? {};
+  const slug = path.split('/').pop().replace('.md', '');
+  return {
+    title: fm.title ?? slug,
+    date: fm.date ?? '2026-01-01',
+    url: isPt ? `/pt/posts/${slug}` : `/en/posts/${slug}`,
+    category: fm.category ?? 'AI'
+  };
+});
+
+const relatedPosts = allPosts
+  .filter(p => p.title !== title) // exclude current
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // sort by date
+  .slice(0, 2); // get top 2 latest posts
 ---
 
 <Layout title={title} description={`${title} - Editorial analysis from a Global South perspective.`}>
@@ -45,6 +66,49 @@ const formattedDate = new Date(date).toLocaleDateString(isPt ? 'pt-BR' : 'en-US'
       
       <div class="post-content">
         <slot />
+      </div>
+      
+      <!-- Cesta Premium: Interlinks & Mailchimp Newsletter -->
+      <div class="cesta-premium-container">
+        {relatedPosts.length > 0 && (
+          <div class="related-articles-section">
+            <h3 class="cesta-title">{isPt ? '⚡ Leia Também' : '⚡ Read Also'}</h3>
+            <ul class="related-list">
+              {relatedPosts.map(post => (
+                <li>
+                  <a href={post.url} class="related-link">{post.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div class="newsletter-premium-box glass-panel">
+          <div class="newsletter-header">
+            <h3 class="newsletter-title">{isPt ? 'Assine a AIatolah Intelligence' : 'Subscribe to AIatolah Intelligence'}</h3>
+            <p class="newsletter-sub">
+              {isPt 
+                ? 'Receba análises geopolíticas exclusivas sobre a guerra dos chips e inteligência artificial diretamente na sua caixa de entrada.' 
+                : 'Get exclusive geopolitical analysis on the chip war and artificial intelligence delivered directly to your inbox.'}
+            </p>
+          </div>
+          
+          <form action="#" method="POST" class="newsletter-form">
+            <input 
+              type="email" 
+              placeholder={isPt ? 'Seu melhor e-mail' : 'Your best email address'} 
+              required 
+              class="newsletter-input" 
+            />
+            <button type="submit" class="newsletter-button">
+              {isPt ? 'Inscrever-se' : 'Subscribe'}
+            </button>
+          </form>
+          
+          <span class="newsletter-spam-warning">
+            {isPt ? 'Zero spam. Cancele a qualquer momento.' : 'Zero spam. Unsubscribe at any time.'}
+          </span>
+        </div>
       </div>
       
       <footer class="post-footer">
@@ -283,6 +347,144 @@ const formattedDate = new Date(date).toLocaleDateString(isPt ? 'pt-BR' : 'en-US'
     }
     .aiatolah-benchmark-card th, .aiatolah-benchmark-card td {
       padding: 6px 4px !important;
+    }
+  }
+
+  /* Cesta Premium Styling */
+  .cesta-premium-container {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .related-articles-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cesta-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #00ff88;
+    margin: 0;
+  }
+
+  .related-list {
+    list-style: none !important;
+    padding-left: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .related-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: color 0.2s, padding-left 0.2s;
+    display: inline-block;
+  }
+
+  .related-link:hover {
+    color: #00d4ff;
+    padding-left: 4px;
+  }
+
+  .newsletter-premium-box {
+    padding: 2rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .newsletter-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 600px;
+  }
+
+  .newsletter-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+  }
+
+  .newsletter-sub {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .newsletter-form {
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+    gap: 0.5rem;
+  }
+
+  .newsletter-input {
+    flex-grow: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-input:focus {
+    border-color: #00d4ff;
+  }
+
+  .newsletter-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    background: #00d4ff;
+    color: #000;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .newsletter-button:hover {
+    background: #00ff88;
+  }
+
+  .newsletter-button:active {
+    transform: scale(0.98);
+  }
+
+  .newsletter-spam-warning {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  @media (max-width: 600px) {
+    .newsletter-form {
+      flex-direction: column;
     }
   }
 </style>
