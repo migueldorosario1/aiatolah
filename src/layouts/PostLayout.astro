@@ -68,7 +68,7 @@ const relatedPosts = allPosts
         <slot />
       </div>
       
-      <!-- Cesta Premium: Interlinks & Mailchimp Newsletter -->
+      <!-- Cesta Premium: Interlinks -->
       <div class="cesta-premium-container">
         {relatedPosts.length > 0 && (
           <div class="related-articles-section">
@@ -82,33 +82,6 @@ const relatedPosts = allPosts
             </ul>
           </div>
         )}
-
-        <div class="newsletter-premium-box glass-panel">
-          <div class="newsletter-header">
-            <h3 class="newsletter-title">{isPt ? 'Assine a AIatolah Intelligence' : 'Subscribe to AIatolah Intelligence'}</h3>
-            <p class="newsletter-sub">
-              {isPt 
-                ? 'Receba análises geopolíticas exclusivas sobre a guerra dos chips e inteligência artificial diretamente na sua caixa de entrada.' 
-                : 'Get exclusive geopolitical analysis on the chip war and artificial intelligence delivered directly to your inbox.'}
-            </p>
-          </div>
-          
-          <form action="#" method="POST" class="newsletter-form">
-            <input 
-              type="email" 
-              placeholder={isPt ? 'Seu melhor e-mail' : 'Your best email address'} 
-              required 
-              class="newsletter-input" 
-            />
-            <button type="submit" class="newsletter-button">
-              {isPt ? 'Inscrever-se' : 'Subscribe'}
-            </button>
-          </form>
-          
-          <span class="newsletter-spam-warning">
-            {isPt ? 'Zero spam. Cancele a qualquer momento.' : 'Zero spam. Unsubscribe at any time.'}
-          </span>
-        </div>
       </div>
       
       <footer class="post-footer">
@@ -396,95 +369,5 @@ const relatedPosts = allPosts
   .related-link:hover {
     color: #00d4ff;
     padding-left: 4px;
-  }
-
-  .newsletter-premium-box {
-    padding: 2rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    text-align: center;
-    align-items: center;
-  }
-
-  .newsletter-header {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-width: 600px;
-  }
-
-  .newsletter-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: #fff;
-    margin: 0;
-  }
-
-  .newsletter-sub {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .newsletter-form {
-    display: flex;
-    width: 100%;
-    max-width: 500px;
-    gap: 0.5rem;
-  }
-
-  .newsletter-input {
-    flex-grow: 1;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .newsletter-input:focus {
-    border-color: #00d4ff;
-  }
-
-  .newsletter-button {
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    background: #00d4ff;
-    color: #000;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .newsletter-button:hover {
-    background: #00ff88;
-  }
-
-  .newsletter-button:active {
-    transform: scale(0.98);
-  }
-
-  .newsletter-spam-warning {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.35);
-  }
-
-  @media (max-width: 600px) {
-    .newsletter-form {
-      flex-direction: column;
-    }
   }
 </style>
