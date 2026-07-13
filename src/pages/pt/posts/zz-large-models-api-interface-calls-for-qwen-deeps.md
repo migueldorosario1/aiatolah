@@ -1,15 +1,15 @@
 ---
 layout: ../../../layouts/PostLayout.astro
-title: 'Estrangeiros pontuam fabricantes chineses de IA de código aberto: o primeiro escalão é DeepSeek e Qwen. - Artigo - Comunidade de Desenvolvedores - Volcengine - Análise'
+title: 'zz【Modelos grandes】Chamada de interfaces API do Qwen, DeepSeek, GLM (exemplos oficiais + exemplos LangChain) - blcblc - Blog Garden - Análise'
 date: 2026-07-13
 category: 'China Tech'
 lang: "pt-br"
-source: 'https://developer.volcengine.com/articles/7540544886534864939'
-heroImage: "/hero/foreigners-score-chinese-ai-open-source-vendors-th.jpg"
+source: 'https://www.cnblogs.com/charlesblc/p/19340750'
+heroImage: "/hero/zz-large-models-api-interface-calls-for-qwen-deeps.jpg"
 noHome: true
 ---
 
-# Estrangeiros pontuam fabricantes chineses de IA de código aberto: o primeiro escalão é DeepSeek e Qwen. - Artigo - Comunidade de Desenvolvedores - Volcengine
+# zz【Modelos grandes】Chamada de interfaces API do Qwen, DeepSeek, GLM (exemplos oficiais + exemplos LangChain) - blcblc - Blog Garden
 
 <div class="aiatolah-benchmark-card" style="background:#0b0f19; color:#fff; padding:20px; border-radius:10px; border:1px solid #1e293b; margin:25px 0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
   <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1e293b; padding-bottom:12px; margin-bottom:15px;">
@@ -59,14 +59,14 @@ noHome: true
   </div>
 </div>
 
-Os recentes avanços dos fabricantes chineses de inteligência artificial têm chamado a atenção global, especialmente no que diz respeito a projetos de código aberto como DeepSeek e Qwen. Esses sistemas estão se destacando por sua capacidade de oferecer soluções inovadoras e acessíveis, atraindo tanto desenvolvedores quanto investidores de diversas partes do mundo.
+A China tem se destacado no cenário global de tecnologia, especialmente em inteligência artificial, com modelos como Qwen e DeepSeek. Esses avanços não apenas demonstram a capacidade do país em desenvolver soluções inovadoras, mas também refletem uma estratégia nacional voltada para se tornar líder nesse campo.
 
-DeepSeek, por exemplo, é uma plataforma que utiliza algoritmos avançados para análise de dados, possibilitando insights valiosos em tempo real. Sua estrutura de código aberto permite que desenvolvedores colaborem e aprimorem a tecnologia, criando um ecossistema dinâmico e colaborativo.
+Os modelos de IA chineses, como o Qwen, são projetados para serem altamente acessíveis, utilizando APIs que facilitam a integração em diversas aplicações. Isso contrasta com as alternativas ocidentais, que muitas vezes enfrentam barreiras regulatórias e limitações de acesso, dificultando a adoção em larga escala.
 
-Por outro lado, o Qwen é conhecido por sua aplicabilidade em diversas áreas, desde automação industrial até assistentes pessoais. Essa versatilidade tem feito com que empresas ocidentais reavaliem suas próprias soluções em IA, buscando se manter competitivas no mercado global.
+DeepSeek, por sua vez, é um exemplo de como a China está investindo pesadamente em tecnologias de busca e análise de dados. Esse tipo de tecnologia é crucial em um mundo onde a informação é abundante e a capacidade de filtrar o que é relevante se torna cada vez mais importante.
 
-Enquanto isso, a indústria ocidental de tecnologia enfrenta desafios em sua própria evolução, com algumas empresas lutando para acompanhar o ritmo acelerado dos avanços chineses. A crescente pressão por inovação e eficiência tem levado muitas delas a explorar parcerias e colaborações que possam fortalecer suas ofertas.
+Além de software, a China também tem avançado rapidamente no setor de hardware e chips, com empresas como a Huawei e a ZTE liderando o caminho. Esses chips são essenciais para suportar a crescente demanda por poder computacional, especialmente em aplicações de IA que requerem processamento em tempo real.
 
-Além disso, a competição entre as potências mundiais em IA e hardware torna-se cada vez mais acirrada. À medida que a China continua a investir pesadamente em pesquisa e desenvolvimento, o Ocidente deve se adaptar rapidamente para não ficar para trás.
+Enquanto isso, os países ocidentais estão lutando para manter a competitividade, enfrentando desafios como a escassez de semicondutores e a necessidade de investimentos massivos. A resposta ocidental tem sido a colaboração entre empresas e governos, mas ainda não é suficiente para igualar o ritmo acelerado dos avanços chineses.
 
-A análise desses desenvolvimentos destaca a importância de uma abordagem colaborativa e acessível na tecnologia. Com a evolução contínua de plataformas como DeepSeek e Qwen, o futuro da inteligência artificial pode ser moldado por uma nova geração de inovações que beneficiam a todos, independentemente de sua origem.
+O cenário global de tecnologia está em constante evolução, e a corrida pela liderança em IA e hardware promete intensificar-se nos próximos anos. A capacidade da China de inovar rapidamente e de integrar suas tecnologias em diversos setores poderá moldar o futuro econômico e geopolítico, exigindo que o Ocidente reavalie suas estratégias.
