@@ -19,7 +19,7 @@ def gerar_texto(sys_prompt, prompt, agente_nome="aiatolah", tema="ia", temperatu
     """
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     base_url = "https://api.deepseek.com"
-    model = "deepseek-chat"
+    model = "deepseek-v4-pro"
     
     if not api_key:
         # Fallback to OpenAI
@@ -57,7 +57,7 @@ def gerar_texto(sys_prompt, prompt, agente_nome="aiatolah", tema="ia", temperatu
     except Exception as e:
         print(f"[Erro] Aiatolah Local Router failed for model {model}: {e}")
         # Try OpenAI emergency fallback
-        if model == "deepseek-chat" and os.environ.get("OPENAI_API_KEY"):
+        if "deepseek" in model and os.environ.get("OPENAI_API_KEY"):
             try:
                 headers = {
                     "Authorization": f"Bearer {os.environ.get('OPENAI_API_KEY')}",
