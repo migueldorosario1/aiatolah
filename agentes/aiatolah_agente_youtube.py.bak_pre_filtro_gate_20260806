@@ -41,30 +41,16 @@ def salvar_vistos(vistos):
         json.dump(list(vistos), f, ensure_ascii=False, indent=2)
 
 def obter_transcricao(video_id):
-    """Obtém a transcrição do vídeo usando a biblioteca youtube-transcript-api.
-    2026-08-06: fallback via proxy IPRoyal (IP de datacenter é bloqueado pelo YouTube)."""
-    from youtube_transcript_api import YouTubeTranscriptApi
-    proxy_url = os.environ.get("IPROYAL_PROXY", "").strip()
+    """Obtém a transcrição do vídeo usando a biblioteca youtube-transcript-api."""
     try:
+        from youtube_transcript_api import YouTubeTranscriptApi
         api = YouTubeTranscriptApi()
         transcript = api.fetch(video_id, languages=['en', 'pt', 'es'])
         text = " ".join([snippet.text for snippet in transcript])
         return text
     except Exception as e:
-        print(f"[YouTube] Transcrição direta falhou ({video_id}): {str(e)[:120]}")
-    if proxy_url:
-        from youtube_transcript_api.proxies import GenericProxyConfig
-        for tentativa in (1, 2):  # sessão residencial rotativa pode falhar intermitente
-            try:
-                print(f"[YouTube] Tentando via proxy IPRoyal ({video_id}, t{tentativa})...")
-                api = YouTubeTranscriptApi(proxy_config=GenericProxyConfig(http_url=proxy_url, https_url=proxy_url))
-                transcript = api.fetch(video_id, languages=['en', 'pt', 'es'])
-                text = " ".join([snippet.text for snippet in transcript])
-                print(f"[YouTube] Transcrição via proxy OK ({len(text)} chars)")
-                return text
-            except Exception as e2:
-                print(f"[YouTube] Proxy t{tentativa} falhou ({video_id}): {str(e2)[:120]}")
-    return None
+        print(f"[YouTube] Falha ao obter transcrição para o vídeo {video_id}: {e}")
+        return None
 
 def gerar_e_salvar_imagem_destacada(slug, video_id, titulo_en):
     """Gera uma imagem de destaque por IA usando Fal.ai Flux Schnell."""
@@ -140,12 +126,7 @@ def processar_video(video):
         
     # 2. Obter transcrição e resumir
     transcricao = obter_transcricao(video_id)
-    if not transcricao or len(transcricao) < 500:
-        # 2026-08-06 (reavaliação): SEM transcrição real = NÃO publica.
-        # Antes: usava a descrição e o LLM inventava conteúdo (alucinação estrutural).
-        print(f"[YouTube] ⛔ Sem transcrição real para {video_id} — pulando (não publica sem fonte).")
-        return None
-    content_to_summarize = transcricao
+    content_to_summarize = transcricao if transcricao else description
     
     sys_prompt = (
         "You are an engaging tech journalist writing for the Aiatolah portal. "
@@ -336,22 +317,6 @@ def main():
                 titulo = entry.title
                 descricao = entry.summary if hasattr(entry, 'summary') else ""
                 
-                # 2026-08-06 (reavaliação Kimi K3): filtro temático — só IA/tech avança.
-                # Antes: qualquer vídeo novo do canal entrava (ex.: Guerra Civil no Lex Fridman).
-                texto_tema = (titulo + " " + descricao).lower()
-                KW_SUB = ["inteligência artificial", "inteligencia artificial", "artificial intelligence",
-                          "machine learning", "deep learning", "neural", "transformer", "language model",
-                          "modelo de linguagem", "deepseek", "qwen", "kimi", "claude", "gemini", "openai",
-                          "anthropic", "mistral", "llama", "grok", "chatgpt", "hugging face", "nvidia",
-                          "robot", "robô", "robotics", "agentic", "datacenter", "data center",
-                          "semiconductor", "semicondutor", "compute", "tokens", "fine-tun", "rag "]
-                KW_RE = ["\bai\b", "\bllm\b", "\bgpt\b", "\bgpu\b", "\bagi\b", "\basi\b"]
-                import re as _re
-                eh_ia = any(k in texto_tema for k in KW_SUB) or any(_re.search(k, texto_tema) for k in KW_RE)
-                if not eh_ia:
-                    print(f"[Filtro] Fora do escopo IA: '{titulo[:70]}' — pulando.")
-                    vistos.add(video_id)
-                    continue
                 videos_a_processar.append({
                     "id": video_id,
                     "titulo": titulo,
@@ -388,10 +353,7 @@ def main():
             continue
             
         try:
-            resultado = processar_video(vid)
-            if resultado is None:
-                continue  # sem transcrição real — não publica (gate 2026-08-06)
-            slug, md_en, md_pt, titulo_en, titulo_pt = resultado
+            slug, md_en, md_pt, titulo_en, titulo_pt = processar_video(vid)
             salvar_artigos(slug, md_en, md_pt)
             vistos.add(vid['id'])
             published_today += 1
