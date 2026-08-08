@@ -183,10 +183,6 @@ def processar_video(video):
 
     no_home_line = "noHome: true\n" if os.getenv("AIATOLAH_NO_HOME") == "1" else ""
 
-    # LEGENDA OBRIGATÓRIA (ordem Miguel 2026-08-06): thumbnail do YouTube também leva legenda
-    legenda_en = ("Official YouTube thumbnail — " + str(titulo_en)).replace('"', "'").replace("\n", " ")[:220]
-    legenda_pt = ("Thumbnail oficial do vídeo no YouTube — " + str(titulo_pt)).replace('"', "'").replace("\n", " ")[:220]
-
     conteudo_md_en = f"""---
 layout: ../../../layouts/PostLayout.astro
 title: {titulo_en_yaml}
@@ -195,7 +191,6 @@ category: 'YouTube'
 lang: "en"
 source: '{link_youtube}'
 heroImage: "{hero_image}"
-hero_legenda: "{legenda_en}"
 {no_home_line}---
 
 # {titulo_en}
@@ -213,7 +208,6 @@ category: 'YouTube'
 lang: "pt-br"
 source: '{link_youtube}'
 heroImage: "{hero_image}"
-hero_legenda: "{legenda_pt}"
 {no_home_line}---
 
 # {titulo_pt}
