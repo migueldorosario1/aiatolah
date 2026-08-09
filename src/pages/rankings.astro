@@ -2,7 +2,24 @@
 import Layout from '../layouts/Layout.astro';
 import ranking from '../data/ranking.json';
 
-const { models, updated_at, note } = ranking;
+// 🔗 JSON DINÂMICO do agente atualizador_precos_llm (Cafezinho Media Group).
+// Roda diariamente na Tencent e commita no repo cafezinhomediagroup/data/.
+// Em build-time: tenta buscar a versão fresca; se falhar, usa o JSON local.
+const DYNAMIC_URL = 'https://raw.githubusercontent.com/migueldorosario1/cafezinhomediagroup/main/data/ranking_aiatolah.json';
+let rankingData = ranking;
+try {
+  const resDyn = await fetch(DYNAMIC_URL);
+  if (resDyn.ok) {
+    const dyn = await resDyn.json();
+    if (dyn.models && dyn.models.length > 0) {
+      rankingData = dyn;
+    }
+  }
+} catch (e) {
+  console.error('Ranking dinâmico indisponível, usando local:', e);
+}
+
+const { models, updated_at, note } = rankingData;
 let usd_brl = 5.80;
 
 try {
