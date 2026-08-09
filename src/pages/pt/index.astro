@@ -57,6 +57,35 @@ function getYouTubeId(url: string) {
       <!-- News Feed (Left) -->
       <section class="news-area">
         
+        <h2 class="section-title-line">📡 Últimas Análises</h2>
+        
+        {posts.length === 0 ? (
+          <div class="glass-panel empty-news">
+            <p>Nenhuma análise publicada ainda. Volte em breve!</p>
+          </div>
+        ) : (
+          <div class="news-main-grid">
+            {posts.map((post, i) => (
+              <a href={post.url} class={`home-news-card glass-panel ${i === 0 ? 'card-hero' : 'card-grid'}`}>
+                <div class="card-image-wrapper">
+                  <img src={post.heroImage} alt={post.title} class="card-image" width="640" height="360" loading="lazy" />
+                </div>
+                <div class="card-content">
+                  <div class="card-meta">
+                    <span class="card-category">{post.category}</span>
+                    <span class="card-date">
+                      {new Date(post.date).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                  </div>
+                  <h3 class="card-title">{post.title}</h3>
+                  {i === 0 && post.excerpt && <p class="card-excerpt">{post.excerpt}</p>}
+                  <span class="card-read-more">Ler análise →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+
         <div class="video-showcase">
           <h2 class="section-title-line">🎥 Transmissões de Fronteira</h2>
           <div class="video-grid">
@@ -89,35 +118,6 @@ function getYouTubeId(url: string) {
             })}
           </div>
         </div>
-
-        <h2 class="section-title-line">📡 Últimas Análises</h2>
-        
-        {posts.length === 0 ? (
-          <div class="glass-panel empty-news">
-            <p>Nenhuma análise publicada ainda. Volte em breve!</p>
-          </div>
-        ) : (
-          <div class="news-main-grid">
-            {posts.map((post, i) => (
-              <a href={post.url} class={`home-news-card glass-panel ${i === 0 ? 'card-hero' : 'card-grid'}`}>
-                <div class="card-image-wrapper">
-                  <img src={post.heroImage} alt={post.title} class="card-image" width="640" height="360" loading="lazy" />
-                </div>
-                <div class="card-content">
-                  <div class="card-meta">
-                    <span class="card-category">{post.category}</span>
-                    <span class="card-date">
-                      {new Date(post.date).toLocaleDateString('pt-BR', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </span>
-                  </div>
-                  <h3 class="card-title">{post.title}</h3>
-                  {i === 0 && post.excerpt && <p class="card-excerpt">{post.excerpt}</p>}
-                  <span class="card-read-more">Ler análise →</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        )}
       </section>
 
       <!-- Sidebar Rankings (Right) -->
@@ -531,7 +531,7 @@ function getYouTubeId(url: string) {
 
   /* Video Showcase CSS */
   .video-showcase {
-    margin-bottom: 2rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
